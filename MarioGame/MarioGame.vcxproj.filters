@@ -157,19 +157,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\brick.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\cloud.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\coin.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\goomba.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\mario.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\mario-sample.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\platform.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\portal.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\scene01.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\scene02.txt" />
-    <Text Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\scene0005.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="..\..\new\gamedev-intro-tutorials\05-SceneManager\mario.ico">
       <Filter>Resource Files</Filter>
     </Image>
