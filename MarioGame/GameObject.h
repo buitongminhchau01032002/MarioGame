@@ -64,6 +64,10 @@ public:
 	
 	// Is this object blocking other object? If YES, collision framework will automatically push the other object
 	virtual int IsBlocking() { return 1; }
+	virtual int IsBlockingTop() { return 1; }
+	virtual int IsBlockingBottom() { return 1; }
+	virtual int IsBlockingLeft() { return 1; }
+	virtual int IsBlockingRight() { return 1; }
 
 	~CGameObject();
 

@@ -40,13 +40,18 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0 && e->obj->IsBlocking())
+	if (e->ny != 0)
 	{
-		vy = 0;
-		if (e->ny < 0) isOnPlatform = true;
+		if (e->ny == -1 && (e->obj->IsBlocking() || e->obj->IsBlockingTop())) {
+			vy = 0;
+			isOnPlatform = true;
+		}
+		if (e->ny == 1 && (e->obj->IsBlocking() || e->obj->IsBlockingBottom())) {
+			vy = 0;
+		}
 	}
 	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
+	if (e->nx != 0 && (e->obj->IsBlocking() || e->obj->IsBlockingLeft() || e->obj->IsBlockingRight()))
 	{
 		vx = 0;
 	}

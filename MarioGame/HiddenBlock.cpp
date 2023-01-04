@@ -1,7 +1,8 @@
 #include "HiddenBlock.h"
 #include "debug.h"
 
-CHiddenBlock::CHiddenBlock(int lCell, int tCell, int rCell, int bCell) {
+CHiddenBlock::CHiddenBlock(int lCell, int tCell, int rCell, int bCell, int isBlockingLeft, int isBlockingTop, int isBlockingRight, int isBlockingBottom
+) {
 	this->lCell = lCell;
 	this->tCell = tCell;
 	this->rCell = rCell;
@@ -12,8 +13,10 @@ CHiddenBlock::CHiddenBlock(int lCell, int tCell, int rCell, int bCell) {
 	float b = float(bCell * BLOCK_SIZE + BLOCK_SIZE);
 	x = l + (r - l) / 2;
 	y = t + (b - t) / 2;
-	DebugOut(L"x = %f, y = %f", x, y);
-	DebugOut(L"l = %f, t = %f, r = %f, b = %f", l, t, r, b);
+	this->isBlockingTop = isBlockingTop;
+	this->isBlockingBottom = isBlockingBottom;
+	this->isBlockingRight = isBlockingRight;
+	this->isBlockingLeft = isBlockingLeft;
 }
 
 void CHiddenBlock::GetBoundingBox(float& l, float& t, float& r, float& b)

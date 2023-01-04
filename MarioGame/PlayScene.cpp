@@ -156,7 +156,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int tCell = atof(tokens[2].c_str());
 		int rCell = atoi(tokens[3].c_str());
 		int bCell = atoi(tokens[4].c_str());
-		obj = new CHiddenBlock(lCell, tCell, rCell, bCell);
+		int isBlockingLeft = atoi(tokens[5].c_str());
+		int isBlockingTop = atoi(tokens[6].c_str());
+		int isBlockingRight = atoi(tokens[7].c_str());
+		int isBlockingBottom = atoi(tokens[8].c_str());
+		obj = new CHiddenBlock(lCell, tCell, rCell, bCell, isBlockingLeft, isBlockingTop, isBlockingRight, isBlockingBottom );
 		obj->GetPosition(x, y);
 	}
 
