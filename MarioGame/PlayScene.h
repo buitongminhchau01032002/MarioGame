@@ -21,11 +21,13 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 
 	void _ParseSection_ASSETS(string line);
+	void _ParseSection_MAP(string line);
+	void _ParseSection_INFOR(string line);
 	void _ParseSection_OBJECTS(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
 
-	int tileSize = 16; // HARD CODE
+	int tileSize = 16; // default value (not hard code)
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);

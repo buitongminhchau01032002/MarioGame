@@ -4,6 +4,13 @@ data\mario.txt
 data\brick.txt
 data\platform.txt
 
+[MAP]
+data\map01.txt
+
+[INFOR]
+#tile_size
+16
+
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

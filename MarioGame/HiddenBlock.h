@@ -2,8 +2,6 @@
 
 #include "GameObject.h"
 
-#define BLOCK_SIZE 16
-
 class CHiddenBlock : public CGameObject {
 private:
 	int lCell, tCell, rCell, bCell;
