@@ -174,6 +174,10 @@ void CGame::Draw(float x, float y, LPTEXTURE tex, RECT* rect, float alpha, int s
 	int spriteWidth = sprite_width;
 	int spriteHeight = sprite_height;
 
+	// fix blur
+	x = (FLOAT)floor(x);
+	y = (FLOAT)floor(y);
+
 	D3DX10_SPRITE sprite;
 
 	// Set the sprite’s shader resource view

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "Map.h"
 #include "GameObject.h"
 #include "Brick.h"
 #include "Mario.h"
@@ -28,6 +29,7 @@ protected:
 	void LoadAssets(LPCWSTR assetFile);
 
 	int tileSize = 16; // default value (not hard code)
+	LPMAP map;
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);

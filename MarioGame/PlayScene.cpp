@@ -28,6 +28,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
 #define SCENE_SECTION_INFOR 3
+#define SCENE_SECTION_MAP 4
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -92,13 +93,12 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 
 void CPlayScene::_ParseSection_MAP(string line)
 {
-	/*vector<string> tokens = split(line);
+	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1) return;
+	if (tokens.size() < 1 || tokens[0] == "") return;
 
-	wstring path = ToWSTR(tokens[0]);
-
-	LoadAssets(path.c_str());*/
+	LPCWSTR path = ToLPCWSTR(tokens[0]);
+	map = new CMap(path);
 }
 
 void CPlayScene::_ParseSection_INFOR(string line)
@@ -253,10 +253,8 @@ void CPlayScene::Load()
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
-		if (line == "[INFOR]") { 
-			
-			section = SCENE_SECTION_INFOR;
-			continue; }
+		if (line == "[INFOR]") { section = SCENE_SECTION_INFOR; continue; }
+		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -267,12 +265,16 @@ void CPlayScene::Load()
 			case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 			case SCENE_SECTION_INFOR: _ParseSection_INFOR(line); break;
+			case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 
 	f.close();
 
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
+	if (map != NULL) {
+		map->Load();
+	}
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -311,6 +313,9 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	if (map != NULL) {
+		map->Render();
+	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }

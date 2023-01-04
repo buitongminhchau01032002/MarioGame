@@ -147,6 +147,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="HiddenBlock.h" />
     <ClInclude Include="KeyEventHandler.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MyPortal.h" />
     <ClInclude Include="Platform.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HiddenBlock.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MyPortal.cpp" />
     <ClCompile Include="Platform.cpp" />
