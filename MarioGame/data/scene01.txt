@@ -21,11 +21,23 @@ data\map01.txt
 0	120	10
 
 #Platform             cell-w   cell-h  length  id_begin id_mid  id_end
-5	100	180	16	15	32	20001	20001	20001
+#5	100	180	16	15	32	20001	20001	20001
 
 # HIDDEN BLOCK
 #	lCell	tCell	rCell	bCell	lBlock	tBlock	rBlock	bBlock
-999	4	7	160	7	1	1	1	1
-999	12	8	14	8	0	1	0	0
+# Ground and limit
+999	1	0	1	25	1	1	1	1
+999	0	26	38	26	1	1	1	1
+999	39	25	67	26	1	1	1	1
 
+#pipe
+999	22	23	23	25	1	1	1	1
+
+#box top
+999	15	23	17	23	0	1	0	0
+999	17	21	19	21	0	1	0	0
+999	25	23	29	23	0	1	0	0
+999	29	21	32	21	0	1	0	0
+999	32	19	35	19	0	1	0	0
+999	32	24	37	24	0	1	0	0
 
