@@ -3,6 +3,7 @@
 data\mario.txt
 data\brick.txt
 data\platform.txt
+data\goomba.txt
 
 [MAP]
 data\map01.txt
@@ -27,10 +28,14 @@ data\map01.txt
 #Platform             cell-w   cell-h  length  id_begin id_mid  id_end
 #5	100	180	16	15	32	20001	20001	20001
 
+# GOOMBA
+2	200	300
+
 # HIDDEN BLOCK
 #	lCell	tCell	rCell	bCell	lBlock	tBlock	rBlock	bBlock
-# Ground and limit
--1	1	0	1	25	1	1	1	1
+# Limit
+-2	1	0	1	25	1	1	1	1
+# Ground
 -1	0	26	38	26	1	1	1	1
 -1	39	25	67	26	1	1	1	1
 

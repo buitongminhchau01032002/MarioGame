@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 class CHiddenBlock : public CGameObject {
-private:
+protected:
 	int lCell, tCell, rCell, bCell;
 	int isBlockingTop;
 	int isBlockingBottom;

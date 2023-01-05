@@ -29,7 +29,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	isOnPlatform = false;
 
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects, 0);
 }
 
 void CMario::OnNoCollision(DWORD dt)

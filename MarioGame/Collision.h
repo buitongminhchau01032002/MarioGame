@@ -79,9 +79,9 @@ public:
 		LPCOLLISIONEVENT &colY, 
 		int filterBlock,		
 		int filterX,
-		int filterY);
+		int filterY, int onlyBlockId);
 
-	void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects, int onlyBlockId = -9999);
 
 	static CCollision* GetInstance();
 };

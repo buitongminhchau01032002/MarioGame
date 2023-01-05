@@ -180,7 +180,7 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 	LPCOLLISIONEVENT &colY,
 	int filterBlock = 1,		// 1 = only filter block collisions, 0 = filter all collisions 
 	int filterX = 1,			// 1 = process events on X-axis, 0 = skip events on X 
-	int filterY = 1)			// 1 = process events on Y-axis, 0 = skip events on Y
+	int filterY = 1, int onlyBlockId = -9999)			// 1 = process events on Y-axis, 0 = skip events on Y
 {
 	float min_tx, min_ty;
 
@@ -196,6 +196,11 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		if (c->obj->IsDeleted()) continue;
 
 		// ignore collision event with object having IsBlocking = 0 and some blocking direction (like coin, mushroom, etc)
+
+		if (c->obj->IsOnlyBlockId() != -9999 && c->obj->IsOnlyBlockId() != onlyBlockId) {
+			continue;
+			DebugOut(L"Only block \n");
+		}
 
 		if (filterBlock == 1 && !c->obj->IsBlocking() && !c->obj->IsBlockingTop() && c->ny == -1) {
 			continue;
@@ -227,7 +232,7 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 *  Simple/Sample collision framework 
 *  NOTE: Student might need to improve this based on game logic 
 */
-void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects, int onlyBlockId)
 {
 	vector<LPCOLLISIONEVENT> coEvents;
 	LPCOLLISIONEVENT colX = NULL; 
@@ -247,7 +252,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	}
 	else
 	{
-		Filter(objSrc, coEvents, colX, colY);
+		Filter(objSrc, coEvents, colX, colY, 1, 1, 1, onlyBlockId);
 
 		float x, y, vx, vy, dx, dy;
 		objSrc->GetPosition(x, y);
@@ -278,7 +283,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 				coEvents.push_back(SweptAABB(objSrc, dt, colX->obj));
 
 				// re-filter on X only
-				Filter(objSrc, coEvents, colX_other, colY, /*filterBlock = */ 1, 1, /*filterY=*/0);
+				Filter(objSrc, coEvents, colX_other, colY, /*filterBlock = */ 1, 1, /*filterY=*/0, onlyBlockId);
 
 				if (colX_other != NULL)
 				{
@@ -311,7 +316,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 				coEvents.push_back(SweptAABB(objSrc, dt, colY->obj));
 
 				// re-filter on Y only
-				Filter(objSrc, coEvents, colX, colY_other, /*filterBlock = */ 1, /*filterX=*/0, /*filterY=*/1);
+				Filter(objSrc, coEvents, colX, colY_other, /*filterBlock = */ 1, /*filterX=*/0, /*filterY=*/1, onlyBlockId);
 
 				if (colY_other != NULL)
 				{

@@ -63,6 +63,7 @@ public:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e) {};
 	
 	// Is this object blocking other object? If YES, collision framework will automatically push the other object
+	virtual int IsOnlyBlockId() { return -9999; }
 	virtual int IsBlocking() { return 1; }
 	virtual int IsBlockingTop() { return 1; }
 	virtual int IsBlockingBottom() { return 1; }
