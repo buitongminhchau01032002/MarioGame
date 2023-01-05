@@ -16,7 +16,7 @@
 
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR filePath):
+CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	player = NULL;
@@ -29,6 +29,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_OBJECTS	2
 #define SCENE_SECTION_INFOR 3
 #define SCENE_SECTION_MAP 4
+#define SCENE_SECTION_CAMERA 5
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -53,7 +54,7 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	if (tex == NULL)
 	{
 		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-		return; 
+		return;
 	}
 
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
@@ -66,7 +67,7 @@ void CPlayScene::_ParseSection_ASSETS(string line)
 	if (tokens.size() < 1) return;
 
 	wstring path = ToWSTR(tokens[0]);
-	
+
 	LoadAssets(path.c_str());
 }
 
@@ -84,7 +85,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i+1].c_str());
+		int frame_time = atoi(tokens[i + 1].c_str());
 		ani->Add(sprite_id, frame_time);
 	}
 
@@ -110,8 +111,24 @@ void CPlayScene::_ParseSection_INFOR(string line)
 	this->tileSize = tileSize;
 }
 
+void CPlayScene::_ParseSection_CAMERA(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 6 || tokens[0] == "") return;
+	float xCam = (float)atof(tokens[0].c_str());
+	float yCam = (float)atof(tokens[1].c_str());
+	float offsetLeft = (float)atof(tokens[2].c_str());
+	float offsetTop = (float)atof(tokens[3].c_str());
+	float offsetRight = (float)atof(tokens[4].c_str());
+	float offsetBottom = (float)atof(tokens[5].c_str());
+	int w = CGame::GetInstance()->GetBackBufferWidth();
+	int h = CGame::GetInstance()->GetBackBufferHeight();
+	CGame::GetInstance()->SetCamera( new CCamera(xCam, yCam, w, h, this->player, offsetLeft, offsetTop, offsetRight, offsetBottom));
+}
+
 /*
-	Parse a line in section [OBJECTS] 
+	Parse a line in section [OBJECTS]
 */
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
@@ -124,23 +141,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float x = (float)atof(tokens[1].c_str());
 	float y = (float)atof(tokens[2].c_str());
 
-	CGameObject *obj = NULL;
+	CGameObject* obj = NULL;
 
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
-		if (player!=NULL) 
+		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
-		player = (CMario*)obj;  
+		obj = new CMario(x, y);
+		player = (CMario*)obj;
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
+	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 
 	case OBJECT_TYPE_PLATFORM:
@@ -173,7 +190,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case 999:
 	{
-		int lCell  = atof(tokens[1].c_str());
+		int lCell = atof(tokens[1].c_str());
 		int tCell = atof(tokens[2].c_str());
 		int rCell = atoi(tokens[3].c_str());
 		int bCell = atoi(tokens[4].c_str());
@@ -181,7 +198,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int isBlockingTop = atoi(tokens[6].c_str());
 		int isBlockingRight = atoi(tokens[7].c_str());
 		int isBlockingBottom = atoi(tokens[8].c_str());
-		obj = new CHiddenBlock(lCell, tCell, rCell, bCell, isBlockingLeft, isBlockingTop, isBlockingRight, isBlockingBottom );
+		obj = new CHiddenBlock(lCell, tCell, rCell, bCell, isBlockingLeft, isBlockingTop, isBlockingRight, isBlockingBottom);
 		obj->GetPosition(x, y);
 	}
 
@@ -243,7 +260,7 @@ void CPlayScene::Load()
 	f.open(sceneFilePath);
 
 	// current resource section flag
-	int section = SCENE_SECTION_UNKNOWN;					
+	int section = SCENE_SECTION_UNKNOWN;
 
 	char str[MAX_SCENE_LINE];
 	while (f.getline(str, MAX_SCENE_LINE))
@@ -255,26 +272,37 @@ void CPlayScene::Load()
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
 		if (line == "[INFOR]") { section = SCENE_SECTION_INFOR; continue; }
 		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; }
-		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
+		if (line == "[CAMERA]") { section = SCENE_SECTION_CAMERA; continue; }
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
 		// data section
 		//
 		switch (section)
-		{ 
-			case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
-			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
-			case SCENE_SECTION_INFOR: _ParseSection_INFOR(line); break;
-			case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+		{
+		case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
+		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_INFOR: _ParseSection_INFOR(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+			case SCENE_SECTION_CAMERA: _ParseSection_CAMERA(line); break;
 		}
 	}
 
 	f.close();
 
-	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 	if (map != NULL) {
 		map->Load();
 	}
+
+	LPCAMERA camera = CGame::GetInstance()->GetCamera();
+	float limitRight = float(map->GetWidth() * map->GetTileSize() + map->GetTileSize());
+	float limitBottom = float(map->GetHeight() * map->GetTileSize() + map->GetTileSize());
+	if (camera != NULL) {
+		camera->SetFollowing(this->player);
+		camera->SetLimit(0.0f, 0.0f, limitRight, limitBottom);
+	}
+
+	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -294,17 +322,22 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	if (player == NULL) return; 
+	if (player == NULL) return;
 
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	CGame *game = CGame::GetInstance();
+	CGame* game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
+
+	LPCAMERA camera = CGame::GetInstance()->GetCamera();
+	if (camera != NULL) {
+		camera->Update();
+	}
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 
@@ -336,7 +369,7 @@ void CPlayScene::Clear()
 /*
 	Unload scene
 
-	TODO: Beside objects, we need to clean up sprites, animations and textures as well 
+	TODO: Beside objects, we need to clean up sprites, animations and textures as well
 
 */
 void CPlayScene::Unload()

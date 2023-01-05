@@ -4,6 +4,7 @@
 #include "Sprites.h"
 
 #include "Textures.h"
+#include "Game.h"
 
 void CPlatform::RenderBoundingBox()
 {

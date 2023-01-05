@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Texture.h"
-#include "Game.h"
+
+
+class CGame;
 
 class CSprite
 {

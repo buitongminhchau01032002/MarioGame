@@ -28,16 +28,6 @@ HOW TO INSTALL Microsoft.DXSDK.D3DX
 
 #include "debug.h"
 #include "Game.h"
-#include "GameObject.h"
-#include "Textures.h"
-#include "Animation.h"
-#include "Animations.h"
-
-#include "Mario.h"
-#include "Brick.h"
-#include "Goomba.h"
-#include "Coin.h"
-#include "Platform.h"
 
 #include "SampleKeyEventHandler.h"
 

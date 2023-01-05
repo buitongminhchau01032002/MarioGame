@@ -9,6 +9,7 @@ using namespace std;
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
+#include "Camera.h"
 #include "Texture.h"
 #include "KeyEventHandler.h"
 #include "Scene.h"
@@ -17,8 +18,6 @@ using namespace std;
 #define MAX_FRAME_RATE 100
 #define KEYBOARD_BUFFER_SIZE 1024
 #define KEYBOARD_STATE_SIZE 256
-
-
 
 /*
 	Our simple game framework
@@ -48,6 +47,7 @@ class CGame
 
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
+	LPCAMERA camera;
 
 	HINSTANCE hInstance;
 
@@ -106,6 +106,12 @@ public:
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
+	void SetCamera(LPCAMERA cam) {
+		this->camera = cam;
+	}
+	LPCAMERA GetCamera() {
+		return camera;
+	}
 
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);

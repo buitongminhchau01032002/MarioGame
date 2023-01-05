@@ -32,6 +32,15 @@ public:
 	CMap (LPCWSTR mapFilePath) {
 		this->mapFilePath = mapFilePath;
 	};
+	int GetWidth() {
+		return width;
+	}
+	int GetHeight() {
+		return height;
+	}
+	int GetTileSize() {
+		return tileSize;
+	}
 	void Load();
 	void _ParseSection_INFOR(string line);
 	void _ParseSection_LAYERS(string line);

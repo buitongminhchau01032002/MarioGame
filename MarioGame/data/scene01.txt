@@ -7,6 +7,10 @@ data\platform.txt
 [MAP]
 data\map01.txt
 
+[CAMERA]
+#x y offsetLeft ...
+0	0	40	60	40	60
+
 [INFOR]
 #tile_size
 16
