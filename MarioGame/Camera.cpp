@@ -50,8 +50,6 @@ void CCamera::Update()
 	if (x + width > limitRight) x = limitRight - width;
 	if (y < limitTop) y = limitTop;
 	if (y + height > limitBottom) y = limitBottom - height;
-
-	DebugOut(L"camX = %f, camY = %f\n", x, y);
 }
 
 

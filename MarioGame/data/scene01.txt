@@ -6,6 +6,7 @@ data\platform.txt
 data\goomba.txt
 data\question_box.txt
 data\coin.txt
+data\mushroom.txt
 
 [MAP]
 data\map01.txt
@@ -31,7 +32,7 @@ data\map01.txt
 2	256	400
 
 # QUESTION BOX
-60001	184	360
+60002	184	360
 60001	200	360
 60001	232	312
 60002	248	312

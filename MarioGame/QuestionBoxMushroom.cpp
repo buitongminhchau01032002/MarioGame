@@ -1,6 +1,6 @@
 #include "QuestionBoxMushroom.h"
 #include "PlayScene.h"
-#include "Coin.h"
+#include "Mushroom.h"
 
 void CQuestionBoxMushroom::Unbox()
 {
@@ -20,7 +20,7 @@ void CQuestionBoxMushroom::Unbox()
 		}
 
 		if (index != -1) {
-			objects.insert(objects.begin() + index, new CCoin(x, y));
+			objects.insert(objects.begin() + index, new CMushroom(x, y));
 		}
 
 		//objects.push_back(new CCoinFlyUp(x, y));
