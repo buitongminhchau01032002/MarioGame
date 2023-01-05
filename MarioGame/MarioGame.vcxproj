@@ -157,6 +157,8 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />
+    <ClInclude Include="QuestionBoxCoin.h" />
+    <ClInclude Include="QuestionBoxMushroom.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />
@@ -187,6 +189,8 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
+    <ClCompile Include="QuestionBoxCoin.cpp" />
+    <ClCompile Include="QuestionBoxMushroom.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />

@@ -18,7 +18,7 @@
 
 class CQuestionBox : public CGameObject
 {
-private:
+protected:
 	ULONGLONG unbox_start;
 	float originY;
 public:
@@ -27,9 +27,9 @@ public:
 		unbox_start = -1;
 		originY = y;
 	}
-	void Unbox();
-	void Render();
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Unbox();
+	virtual void Render();
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };
 
