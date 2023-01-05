@@ -8,13 +8,27 @@
 #define QUESTION_BOX_WIDTH 16
 #define QUESTION_BOX_BBOX_WIDTH 16
 #define QUESTION_BOX_BBOX_HEIGHT 16
+#define QUESTION_BOX_STATE_ORIGIN 0
+#define QUESTION_BOX_STATE_UNBOXING 1
+#define QUESTION_BOX_STATE_UNBOXED 2
+#define QUESTION_BOX_UNBOX_SPEED 0.2f
+#define QUESTION_BOX_UNBOX_DURATION 150
+
 
 class CQuestionBox : public CGameObject
 {
+private:
+	ULONGLONG unbox_start;
+	float originY;
 public:
-	CQuestionBox(float x, float y) : CGameObject(x, y) {}
+	CQuestionBox(float x, float y) : CGameObject(x, y) {
+		state = QUESTION_BOX_STATE_ORIGIN;
+		unbox_start = -1;
+		originY = y;
+	}
+	void Unbox();
 	void Render();
-	void Update(DWORD dt) {}
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };
 

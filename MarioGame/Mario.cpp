@@ -12,6 +12,7 @@
 #include "MyPortal.h"
 #include "Scene.h"
 #include "PlayScene.h"
+#include "QuestionBox.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -62,6 +63,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CQuestionBox*>(e->obj))
+		OnCollisionWithQuestionBox(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -108,6 +111,12 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+}
+
+void CMario::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
+{
+	CQuestionBox* questionBox = (CQuestionBox*)(e->obj);
+	questionBox->Unbox();
 }
 
 //
