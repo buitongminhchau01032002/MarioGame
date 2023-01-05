@@ -30,6 +30,8 @@ public:
 	virtual void Unbox();
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	int IsBlocking() { return 1; }
+	int IsBlockingBottom() { return 1; }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };
 

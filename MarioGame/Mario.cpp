@@ -13,6 +13,7 @@
 #include "Scene.h"
 #include "PlayScene.h"
 #include "QuestionBox.h"
+#include "Mushroom.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -65,6 +66,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CQuestionBox*>(e->obj))
 		OnCollisionWithQuestionBox(e);
+	else if (dynamic_cast<CMushroom*>(e->obj))
+		OnCollisionWithMushroom(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -119,6 +122,11 @@ void CMario::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
 		CQuestionBox* questionBox = (CQuestionBox*)(e->obj);
 		questionBox->Unbox();
 	}
+}
+
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	if (level == MARIO_LEVEL_SMALL) SetLevel(MARIO_LEVEL_BIG);
 }
 
 //
@@ -260,7 +268,7 @@ void CMario::Render()
 
 	//RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	//DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)

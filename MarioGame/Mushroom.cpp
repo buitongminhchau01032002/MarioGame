@@ -6,7 +6,7 @@ void CMushroom::Render()
 	if (state == MUSHROOM_STAY_DELAYING) return;
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
