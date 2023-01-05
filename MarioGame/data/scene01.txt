@@ -5,6 +5,7 @@ data\brick.txt
 data\platform.txt
 data\goomba.txt
 data\question_box.txt
+data\coin.txt
 
 [MAP]
 data\map01.txt
@@ -34,6 +35,7 @@ data\map01.txt
 6	200	360
 6	232	312
 
+# COIN
 
 
 # HIDDEN BLOCK

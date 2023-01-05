@@ -115,8 +115,10 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
 {
-	CQuestionBox* questionBox = (CQuestionBox*)(e->obj);
-	questionBox->Unbox();
+	if (e->ny == 1) {
+		CQuestionBox* questionBox = (CQuestionBox*)(e->obj);
+		questionBox->Unbox();
+	}
 }
 
 //

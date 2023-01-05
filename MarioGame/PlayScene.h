@@ -49,6 +49,10 @@ public:
 
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+	
+	vector<LPGAMEOBJECT>& GetObjects() {
+		return objects;
+	}
 
 	void Clear();
 	void PurgeDeletedObjects();

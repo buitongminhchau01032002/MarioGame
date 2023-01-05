@@ -13,6 +13,7 @@
 #include "HiddenBlock.h"
 #include "HiddenBlockMario.h"
 #include "QuestionBox.h"
+#include "CoinFlyUp.h"
 
 #include "SampleKeyEventHandler.h"
 

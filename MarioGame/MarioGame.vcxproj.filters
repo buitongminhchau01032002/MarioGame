@@ -105,6 +105,9 @@
     <ClInclude Include="QuestionBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoinFlyUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -183,6 +186,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QuestionBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinFlyUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
