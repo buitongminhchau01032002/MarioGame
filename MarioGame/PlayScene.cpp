@@ -188,7 +188,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	break;
 
-	case 999:
+	case OBJECT_TYPE_HIDDEN_BLOCK:
 	{
 		int lCell = atof(tokens[1].c_str());
 		int tCell = atof(tokens[2].c_str());
