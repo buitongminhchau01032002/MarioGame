@@ -25,7 +25,7 @@ public:
 	void Update();
 	void GetPos(float& x, float& y) {
 		x = this->x;
-		y = this->x;
+		y = this->y;
 	}
 };
 

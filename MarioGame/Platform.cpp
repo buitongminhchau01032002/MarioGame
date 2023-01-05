@@ -22,7 +22,9 @@ void CPlatform::RenderBoundingBox()
 	rect.bottom = (int)b - (int)t;
 
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	//CGame::GetInstance()->GetCamPos(cx, cy);
+	CGame::GetInstance()->GetCamera()->GetPos(cx, cy);
+
 
 	float xx = x - this->cellWidth / 2 + rect.right / 2;
 

@@ -104,7 +104,8 @@ void CMap::Render()
 			rect.bottom = b;
 
 			float cx, cy;
-			CGame::GetInstance()->GetCamPos(cx, cy);
+			//CGame::GetInstance()->GetCamPos(cx, cy);
+			CGame::GetInstance()->GetCamera()->GetPos(cx, cy);
 			CGame::GetInstance()->Draw(x - cx, y - cy, tex, &rect);
 
 			
