@@ -35,6 +35,12 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 
 		}
 		break;
+
+	case DIK_A:
+		if (mario->GetLevel() == MARIO_LEVEL_CAT && !mario->GetIsFlying() && (mario->GetState() == MARIO_STATE_IDLE)) {
+			mario->SetState(MARIO_STATE_ACTTACK);
+		}
+		break;
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
 		break;

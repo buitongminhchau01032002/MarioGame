@@ -390,8 +390,12 @@ int CMario::GetAniIdCat()
 				aniId = ID_ANI_MARIO_CAT_FLYING_LEFT;
 		}
 	}
-	else
-		if (isSitting)
+	else {
+		if (GetTickCount64()- attackStart < MARIO_ATTACK_EFFECT_DURATION) {
+			if (nx > 0) aniId = ID_ANI_MARIO_ATTACK_RIGHT;
+			else aniId = ID_ANI_MARIO_ATTACK_LEFT;
+		}
+		else if (isSitting)
 		{
 			if (nx > 0)
 				aniId = ID_ANI_MARIO_CAT_SIT_RIGHT;
@@ -399,38 +403,41 @@ int CMario::GetAniIdCat()
 				aniId = ID_ANI_MARIO_CAT_SIT_LEFT;
 		}
 		else {
-				if (vx == 0)
-				{
-					if (nx > 0) aniId = ID_ANI_MARIO_CAT_IDLE_RIGHT;
-					else aniId = ID_ANI_MARIO_CAT_IDLE_LEFT;
-				}
-				else if (vx > 0)
-				{
-					if (ax < 0)
-						aniId = ID_ANI_MARIO_CAT_BRACE_RIGHT;
-					else if (ax == MARIO_ACCEL_RUN_X) {
-						aniId = ID_ANI_MARIO_CAT_WALKING_RIGHT;
-						if (canFly) {
-							aniId = ID_ANI_MARIO_CAN_FLY_RIGHT;
-						}
+			if (vx == 0)
+			{
+				if (nx > 0) aniId = ID_ANI_MARIO_CAT_IDLE_RIGHT;
+				else aniId = ID_ANI_MARIO_CAT_IDLE_LEFT;
+			}
+			else if (vx > 0)
+			{
+				if (ax < 0)
+					aniId = ID_ANI_MARIO_CAT_BRACE_RIGHT;
+				else if (ax == MARIO_ACCEL_RUN_X) {
+					aniId = ID_ANI_MARIO_CAT_WALKING_RIGHT;
+					if (canFly) {
+						aniId = ID_ANI_MARIO_CAN_FLY_RIGHT;
 					}
-					else if (ax == MARIO_ACCEL_WALK_X)
-						aniId = ID_ANI_MARIO_CAT_WALKING_RIGHT;
 				}
-				else // vx < 0
-				{
-					if (ax > 0)
-						aniId = ID_ANI_MARIO_CAT_BRACE_LEFT;
-					else if (ax == -MARIO_ACCEL_RUN_X) {
-						aniId = ID_ANI_MARIO_CAT_WALKING_LEFT;
-						if (canFly) {
-							aniId = ID_ANI_MARIO_CAN_FLY_LEFT;
-						}
+				else if (ax == MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_CAT_WALKING_RIGHT;
+			}
+			else // vx < 0
+			{
+				if (ax > 0)
+					aniId = ID_ANI_MARIO_CAT_BRACE_LEFT;
+				else if (ax == -MARIO_ACCEL_RUN_X) {
+					aniId = ID_ANI_MARIO_CAT_WALKING_LEFT;
+					if (canFly) {
+						aniId = ID_ANI_MARIO_CAN_FLY_LEFT;
 					}
-					else if (ax == -MARIO_ACCEL_WALK_X)
-						aniId = ID_ANI_MARIO_CAT_WALKING_LEFT;
 				}
+				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_CAT_WALKING_LEFT;
+			}
 		}
+	}
+
+		
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_CAT_IDLE_RIGHT;
 
@@ -530,6 +537,9 @@ void CMario::SetState(int state)
 		flyingBreakTimerStart = GetTickCount64();
 		canFly = false;
 		flyingDuration = MARIO_FLYING_DURATION;
+		break;
+	case MARIO_STATE_ACTTACK:
+		attackStart = GetTickCount64();
 		break;
 	}
 
