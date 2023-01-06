@@ -15,6 +15,7 @@
 #include "QuestionBox.h"
 #include "Mushroom.h"
 #include "Koopa.h"
+#include "GoombaPro.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -59,7 +60,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
+	if (dynamic_cast<CGoombaPro*>(e->obj))
+		OnCollisionWithGoombaPro(e);
+	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
@@ -83,6 +86,47 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0)
+		{
+			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
+
+void CMario::OnCollisionWithGoombaPro(LPCOLLISIONEVENT e)
+{
+	CGoombaPro* goomba = dynamic_cast<CGoombaPro*>(e->obj);
+
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		{
+			if (goomba->GetLevel() == GOOMBA_PRO_LEVEL_NORMAL) {
+
+			goomba->SetState(GOOMBA_STATE_DIE);
+			}
+			else {
+
+				goomba->SetLevel(GOOMBA_PRO_LEVEL_NORMAL);
+			}
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}

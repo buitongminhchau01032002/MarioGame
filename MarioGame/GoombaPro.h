@@ -26,5 +26,7 @@ public:
     void GetBoundingBox(float& left, float& top, float& right, float& bottom);
     void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
     void OnCollisionWith(LPCOLLISIONEVENT e);
+    int GetLevel() { return level; }
+    void SetLevel(int l) { level = l; }
 };
 
