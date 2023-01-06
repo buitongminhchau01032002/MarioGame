@@ -32,7 +32,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_FLY);
 			}
 			else {
-				mario->SetState(MARIO_STATE_RELEASE_JUMP);
+				mario->SetState(MARIO_STATE_JUMP);
 			}
 
 		}

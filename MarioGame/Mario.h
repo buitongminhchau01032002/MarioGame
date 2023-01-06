@@ -7,7 +7,7 @@
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.12f
-#define MARIO_RUNNING_SPEED		0.3f
+#define MARIO_RUNNING_SPEED		0.2f
 
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
@@ -103,6 +103,9 @@
 #define ID_ANI_MARIO_CAT_FLYING_RIGHT 2400
 #define ID_ANI_MARIO_CAT_FLYING_LEFT 2401
 
+#define ID_ANI_MARIO_CAN_FLY_RIGHT 2500
+#define ID_ANI_MARIO_CAN_FLY_LEFT 2501
+
 #pragma endregion
 
 
@@ -127,9 +130,9 @@
 
 // CAT
 #define MARIO_FLY_DURATION 5000
-#define MARIO_FLY_SPEED 0.12
-#define MARIO_FLY_STARTUP_DURATION 3000
-#define MARIO_FLY_BREAK_TIME 300
+#define MARIO_FLY_SPEED 0.15f
+#define MARIO_FLY_STARTUP_DURATION 1200
+#define MARIO_FLY_BREAK_TIME 500
 
 
 class CMario : public CGameObject
@@ -146,6 +149,7 @@ class CMario : public CGameObject
 	BOOLEAN isOnPlatform;
 	int coin;
 	ULONGLONG flyingBreakTimerStart;
+	int runningDuration;
 
 	bool canFly;
 
@@ -177,6 +181,7 @@ public:
 		isFlying = false;
 		canFly = true;
 		flyingBreakTimerStart = GetTickCount64();
+		runningDuration = -1;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
