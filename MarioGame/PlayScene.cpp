@@ -233,6 +233,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CHiddenBlockMario(lCell, tCell, rCell, bCell, isBlockingLeft, isBlockingTop, isBlockingRight, isBlockingBottom);
 		obj->GetPosition(x, y);
 	}
+	break;
+
 	case OBJECT_TYPE_HIDDEN_BLOCK_KOOPA:
 	{
 		int lCell = atof(tokens[1].c_str());
