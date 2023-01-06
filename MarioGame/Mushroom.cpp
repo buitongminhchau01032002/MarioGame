@@ -6,7 +6,7 @@ void CMushroom::Render()
 	if (state == MUSHROOM_STAY_DELAYING) return;
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -31,7 +31,7 @@ void CMushroom::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x - MUSHROOM_WIDTH / 2;
 	t = y - MUSHROOM_HEIGHT / 2;
 	r = l + MUSHROOM_WIDTH;
-	b = t + MUSHROOM_HEIGHT;
+	b = t + MUSHROOM_HEIGHT - 1;
 }
 
 void CMushroom::OnNoCollision(DWORD dt) {

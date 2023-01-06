@@ -35,5 +35,5 @@ void CHiddenBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CHiddenBlock::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

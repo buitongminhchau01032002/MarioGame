@@ -35,15 +35,15 @@ void CGoomba::OnNoCollision(DWORD dt)
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (dynamic_cast<CGoomba*>(e->obj)) return; 
-
+	
 	if (e->ny != 0 )
 	{
 		vy = 0;
 	}
-	/*else if (e->nx != 0)
-	{
+	else if (e->nx != 0)
+	{ 
 		vx = -vx;
-	}*/
+	}
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -57,7 +57,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		return;
 	}
 
-	CGameObject::Update(dt, coObjects);
+	
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -71,7 +71,7 @@ void CGoomba::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CGoomba::SetState(int state)

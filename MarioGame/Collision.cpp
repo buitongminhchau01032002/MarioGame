@@ -198,8 +198,8 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		// ignore collision event with object having IsBlocking = 0 and some blocking direction (like coin, mushroom, etc)
 
 		if (c->obj->IsOnlyBlockId() != -9999 && c->obj->IsOnlyBlockId() != onlyBlockId) {
-			continue;
 			DebugOut(L"Only block \n");
+			continue;
 		}
 
 		if (filterBlock == 1 && !c->obj->IsBlocking() && !c->obj->IsBlockingTop() && c->ny == -1) {
