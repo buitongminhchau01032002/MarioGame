@@ -19,6 +19,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	DebugOutTitle(L"ax = %f", ax);
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -409,29 +410,15 @@ void CMario::SetState(int state)
 
 	switch (state)
 	{
-	case MARIO_STATE_RUNNING_RIGHT:
+	case MARIO_STATE_RUNNING:
 		if (isSitting) break;
-		maxVx = MARIO_RUNNING_SPEED;
-		ax = MARIO_ACCEL_RUN_X;
-		nx = 1;
+		maxVx = nx*MARIO_RUNNING_SPEED;
+		ax = nx*MARIO_ACCEL_RUN_X;
 		break;
-	case MARIO_STATE_RUNNING_LEFT:
+	case MARIO_STATE_WALKING:
 		if (isSitting) break;
-		maxVx = -MARIO_RUNNING_SPEED;
-		ax = -MARIO_ACCEL_RUN_X;
-		nx = -1;
-		break;
-	case MARIO_STATE_WALKING_RIGHT:
-		if (isSitting) break;
-		maxVx = MARIO_WALKING_SPEED;
-		ax = MARIO_ACCEL_WALK_X;
-		nx = 1;
-		break;
-	case MARIO_STATE_WALKING_LEFT:
-		if (isSitting) break;
-		maxVx = -MARIO_WALKING_SPEED;
-		ax = -MARIO_ACCEL_WALK_X;
-		nx = -1;
+		maxVx = nx*MARIO_WALKING_SPEED;
+		ax = nx*MARIO_ACCEL_WALK_X;
 		break;
 	case MARIO_STATE_JUMP:
 		if (isSitting) break;
@@ -527,6 +514,7 @@ void CMario::IncreaseLevel() {
 
 void CMario::DecreaseLevel() {
 	if (level == MARIO_LEVEL_SMALL) SetState(MARIO_STATE_DIE);
+	if (state == MARIO_STATE_FLYING) SetState(MARIO_STATE_JUMP);
 	else if (level == MARIO_LEVEL_BIG) 
 	{
 		SetLevel(MARIO_LEVEL_SMALL);

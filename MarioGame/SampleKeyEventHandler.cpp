@@ -44,9 +44,24 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_S:
-		mario->SetState(MARIO_STATE_RELEASE_JUMP);
+	case DIK_S: {
+		if (mario->GetLevel() != MARIO_LEVEL_CAT) {
+			mario->SetState(MARIO_STATE_RELEASE_JUMP);
+		}
+		else {
+			// Handle press "S" when is Cat
+
+			if (mario->GetState() == MARIO_STATE_FLYING) {
+				mario->AddSpeedToFly();
+			}
+			else if (mario->GetCanFly()) {
+				mario->SetState(MARIO_STATE_FLYING);
+			}
+
+		}
 		break;
+	}
+		
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
@@ -60,17 +75,19 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
+		mario->Setnx(1);
 		if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+			mario->SetState(MARIO_STATE_RUNNING);
 		else
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+			mario->SetState(MARIO_STATE_WALKING);
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
+		mario->Setnx(-1);
 		if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_LEFT);
+			mario->SetState(MARIO_STATE_RUNNING);
 		else
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
+			mario->SetState(MARIO_STATE_WALKING);
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);

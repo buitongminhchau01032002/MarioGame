@@ -7,7 +7,7 @@
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.12f
-#define MARIO_RUNNING_SPEED		0.5f
+#define MARIO_RUNNING_SPEED		0.3f
 
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
@@ -21,17 +21,17 @@
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
-#define MARIO_STATE_WALKING_RIGHT	100
-#define MARIO_STATE_WALKING_LEFT	200
+#define MARIO_STATE_WALKING	100
 
 #define MARIO_STATE_JUMP			300
 #define MARIO_STATE_RELEASE_JUMP    301
 
-#define MARIO_STATE_RUNNING_RIGHT	400
-#define MARIO_STATE_RUNNING_LEFT	500
+#define MARIO_STATE_RUNNING	400
 
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
+
+#define MARIO_STATE_FLYING 700
 
 
 #pragma region ANIMATION_ID
@@ -122,6 +122,12 @@
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 
+// CAT
+#define MARIO_FLY_DURATION 5000
+#define MARIO_FLY_SPEED 0.5
+#define MARIO_FLY_STARTUP_DURATION 3000
+
+
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
@@ -133,7 +139,9 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	int coin; 
+	int coin;
+
+	bool canFly;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoombaPro(LPCOLLISIONEVENT e);
@@ -160,6 +168,7 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		canFly = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -182,4 +191,8 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void IncreaseLevel();
 	void DecreaseLevel();
+	int GetLevel() { return level; }
+	bool GetCanFly() { return canFly; }
+	void AddSpeedToFly() { vy = MARIO_FLY_SPEED; };
+	void Setnx(int n) { nx = n; }
 };
