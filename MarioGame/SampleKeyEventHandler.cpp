@@ -23,13 +23,11 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		else {
 			// Handle press "S" when is Cat
 
-			if (mario->GetIsFlying()) {
-				// boost to fly
+			if (mario->GetIsFlying() || mario->getFlyingDuration() > 0) {
 				mario->SetState(MARIO_STATE_FLY);
 			}
 			else if (mario->GetCanFly()) {
-				// Start fly
-				mario->SetState(MARIO_STATE_FLY);
+				mario->SetState(MARIO_STATE_START_FLY);
 			}
 			else {
 				mario->SetState(MARIO_STATE_JUMP);

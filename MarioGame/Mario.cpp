@@ -19,7 +19,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"state = %d, flying = %d", state, int(runningDuration));
+	DebugOutTitle(L"state = %d, flying = %d", state, flyingDuration);
 	if (state != MARIO_STATE_RUNNING) {
 		runningDuration = 0;
 	}
@@ -30,8 +30,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		canFly = true;
 	}
+	flyingDuration -= dt;
+	if (flyingDuration < 0) { flyingDuration = 0;  }
+	
 	if (!isFlying) {
-		vy += ay * dt;
+		if (flyingDuration > 0) {
+			vy = MARIO_FLY_SPEED;
+		}
+		else {
+
+			vy += ay * dt;
+		}
 	}
 	else {
 		vy = -MARIO_FLY_SPEED;
@@ -505,6 +514,12 @@ void CMario::SetState(int state)
 		isFlying = true;
 		flyingBreakTimerStart = GetTickCount64();
 		canFly = false;
+		break;
+	case MARIO_STATE_START_FLY:
+		isFlying = true;
+		flyingBreakTimerStart = GetTickCount64();
+		canFly = false;
+		flyingDuration = MARIO_FLYING_DURATION;
 		break;
 	}
 

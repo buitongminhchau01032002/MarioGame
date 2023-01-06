@@ -16,7 +16,6 @@
 #define MARIO_JUMP_RUN_SPEED_Y	0.65f
 
 #define MARIO_GRAVITY			0.002f
-#define MARIO_GRAVITY_FLYING_RELEASE 0.001f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
 
@@ -32,6 +31,7 @@
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
 #define MARIO_STATE_FLY 700
+#define MARIO_STATE_START_FLY 701
 
 
 #pragma region ANIMATION_ID
@@ -133,6 +133,7 @@
 #define MARIO_FLY_SPEED 0.15f
 #define MARIO_FLY_STARTUP_DURATION 1200
 #define MARIO_FLY_BREAK_TIME 500
+#define MARIO_FLYING_DURATION 5000
 
 
 class CMario : public CGameObject
@@ -150,6 +151,7 @@ class CMario : public CGameObject
 	int coin;
 	ULONGLONG flyingBreakTimerStart;
 	int runningDuration;
+	int flyingDuration;
 
 	bool canFly;
 
@@ -179,6 +181,7 @@ public:
 		isOnPlatform = false;
 		coin = 0;
 		isFlying = false;
+		flyingDuration = 0;
 		canFly = true;
 		flyingBreakTimerStart = GetTickCount64();
 		runningDuration = -1;
@@ -208,4 +211,5 @@ public:
 	bool GetCanFly() { return canFly; }
 	void Setnx(int n) { nx = n; }
 	bool GetIsFlying() { return isFlying; }
+	int getFlyingDuration() { return flyingDuration; }
 };
