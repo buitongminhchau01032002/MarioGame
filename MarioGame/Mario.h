@@ -182,7 +182,7 @@ public:
 		coin = 0;
 		isFlying = false;
 		flyingDuration = 0;
-		canFly = true;
+		canFly = false;
 		flyingBreakTimerStart = GetTickCount64();
 		runningDuration = -1;
 	}

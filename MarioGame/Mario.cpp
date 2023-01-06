@@ -16,6 +16,8 @@
 #include "Mushroom.h"
 #include "Koopa.h"
 #include "GoombaPro.h"
+#include "Chomper.h"
+#include "ChomperBullet.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -104,6 +106,13 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithMushroom(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CChomperBullet*>(e->obj)) {
+		if (untouchable == 0) DecreaseLevel();
+	}
+	else if (dynamic_cast<CChomper*>(e->obj)) {
+		if (untouchable == 0) DecreaseLevel();
+	}
+	
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)

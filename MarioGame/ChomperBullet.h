@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define CHOMPER_BULLET_BBOX_WIDTH 8
-#define CHOMPER_BULLET_BBOX_HEIGHT 8
+#define CHOMPER_BULLET_BBOX_WIDTH 6
+#define CHOMPER_BULLET_BBOX_HEIGHT 6
 #define CHOMPER_BULLET_SPEED 0.05f
 
 
@@ -17,5 +17,8 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
+
+	virtual int IsCollidable() { return 1; };
+	virtual int IsBlocking() { return 0; };
 };
 
