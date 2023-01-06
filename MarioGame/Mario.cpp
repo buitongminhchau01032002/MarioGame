@@ -14,6 +14,7 @@
 #include "PlayScene.h"
 #include "QuestionBox.h"
 #include "Mushroom.h"
+#include "Koopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -68,6 +69,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithQuestionBox(e);
 	else if (dynamic_cast<CMushroom*>(e->obj))
 		OnCollisionWithMushroom(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -129,6 +132,64 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	CMushroom* mushroom = (CMushroom*)(e->obj);
 	mushroom->Delete();
 	if (level == MARIO_LEVEL_SMALL) SetLevel(MARIO_LEVEL_BIG);
+}
+
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = (CKoopa*)(e->obj);
+	if (koopa->GetState() == KOOPA_STATE_WALKING) {
+		// jump on top >> sleeping koopa and deflect a bit 
+		if (e->ny < 0)
+		{
+			koopa->SetState(KOOPA_STATE_SLEEPING);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else // hit by koopa
+		{
+			if (untouchable == 0)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	} else if (koopa->GetState() == KOOPA_STATE_SLEEPING) {
+		float koopaX;
+		float koopaY;
+		koopa->GetPosition(koopaX, koopaY);
+		if (this->x < koopaX) {
+			koopa->MoveInSleep(1);
+		}
+		else {
+			koopa->MoveInSleep(-1);
+		}
+	}
+	else if (koopa->GetState() == KOOPA_STATE_SLEEP) {
+		if (e->nx != 0)
+		{
+			if (untouchable == 0)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+	
 }
 
 //

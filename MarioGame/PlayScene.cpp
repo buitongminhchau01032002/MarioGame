@@ -16,6 +16,7 @@
 #include "QuestionBoxCoin.h"
 #include "QuestionBoxMushroom.h"
 #include "CoinFlyUp.h"
+#include "Koopa.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -167,6 +168,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestionBox(x, y); break;
 	case OBJECT_TYPE_QUESTION_BOX_COIN: obj = new CQuestionBoxCoin(x, y); break;
 	case OBJECT_TYPE_QUESTION_BOX_MUSHROOM: obj = new CQuestionBoxMushroom(x, y); break;
+	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
 
 
 	case OBJECT_TYPE_PLATFORM:
