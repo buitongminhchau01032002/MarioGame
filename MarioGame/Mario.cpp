@@ -95,16 +95,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				DecreaseLevel();
 			}
 		}
 	}
@@ -136,16 +127,7 @@ void CMario::OnCollisionWithGoombaPro(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				DecreaseLevel();
 			}
 		}
 	}
@@ -175,7 +157,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
 	CMushroom* mushroom = (CMushroom*)(e->obj);
 	mushroom->Delete();
-	if (level == MARIO_LEVEL_SMALL) SetLevel(MARIO_LEVEL_BIG);
+	IncreaseLevel();
 }
 
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
@@ -192,16 +174,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			if (untouchable == 0)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				DecreaseLevel();
 			}
 		}
 	} else if (koopa->GetState() == KOOPA_STATE_SLEEPING) {
@@ -220,16 +193,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			if (untouchable == 0)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				DecreaseLevel();
 			}
 		}
 	}
@@ -433,7 +397,7 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	//DebugOutTitle(L"Coins: %d", coin);
 }
@@ -556,3 +520,21 @@ void CMario::SetLevel(int l)
 	level = l;
 }
 
+void CMario::IncreaseLevel() {
+	if (level == MARIO_LEVEL_SMALL) SetLevel(MARIO_LEVEL_BIG);
+	else if (level == MARIO_LEVEL_BIG) SetLevel(MARIO_LEVEL_CAT);
+}
+
+void CMario::DecreaseLevel() {
+	if (level == MARIO_LEVEL_SMALL) SetState(MARIO_STATE_DIE);
+	else if (level == MARIO_LEVEL_BIG) 
+	{
+		SetLevel(MARIO_LEVEL_SMALL);
+		StartUntouchable();
+	}
+	else 
+	{
+		SetLevel(MARIO_LEVEL_BIG);
+		StartUntouchable();
+	}
+}
