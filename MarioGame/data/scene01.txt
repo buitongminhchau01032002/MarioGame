@@ -8,6 +8,7 @@ data\question_box.txt
 data\coin.txt
 data\mushroom.txt
 data\koopa.txt
+data\chomper.txt
 
 [MAP]
 data\map01.txt
@@ -36,6 +37,9 @@ data\map01.txt
 2	872	376
 2	936	376
 20001	1032	376
+
+# CHOMPER
+8	368	400
 
 # KOOPA
 3	568	360
