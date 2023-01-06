@@ -1,4 +1,5 @@
 #include "Goomba.h"
+#include "PlayScene.h"
 
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
@@ -48,6 +49,8 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	if (!s->IsInScreenBounding(x, y)) return;
 	vy += ay * dt;
 	vx += ax * dt;
 

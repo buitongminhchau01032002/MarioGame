@@ -17,8 +17,8 @@ data\map01.txt
 0	0	20	100	20	40
 
 [INFOR]
-#tile_size
-16
+#tile_size	marginScreen
+16	80
 
 #
 [OBJECTS]
@@ -32,6 +32,9 @@ data\map01.txt
 # GOOMBA
 2	256	400
 2	536	405
+
+2	872	376
+2	904	376
 
 # KOOPA
 3	568	360

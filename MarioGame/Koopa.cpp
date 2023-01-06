@@ -3,6 +3,7 @@
 #include "QuestionBox.h"
 #include "QuestionBoxMushroom.h"
 #include "QuestionBoxCoin.h"
+#include "PlayScene.h"
 
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -59,6 +60,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	if (!s->IsInScreenBounding(x, y)) return;
+
 	vy += ay * dt;
 
 	if (state == KOOPA_STATE_SLEEPING) {

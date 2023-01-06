@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define GOOMBA_GRAVITY 0.002f
-#define GOOMBA_WALKING_SPEED 0.05f
+#define GOOMBA_WALKING_SPEED 0.04f
 
 
 #define GOOMBA_BBOX_WIDTH 16
@@ -22,7 +22,7 @@ class CGoomba : public CGameObject
 protected:
 	float ax;				
 	float ay; 
-
+	
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

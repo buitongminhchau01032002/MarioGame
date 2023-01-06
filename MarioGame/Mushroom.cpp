@@ -1,5 +1,6 @@
 #include "Mushroom.h"
 #include "debug.h"
+#include "PlayScene.h"
 
 void CMushroom::Render()
 {
@@ -11,6 +12,9 @@ void CMushroom::Render()
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	if (!s->IsInScreenBounding(x, y)) return;
+
 	if (GetTickCount64() - startDelay < MUSHROOM_STARTUP_DELAY) return;
 	if (state == MUSHROOM_STAY_DELAYING) state = MUSHROOM_STATE_STARTUP;
 	if (state == MUSHROOM_STATE_STARTUP) {

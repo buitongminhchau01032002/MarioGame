@@ -116,6 +116,8 @@ void CPlayScene::_ParseSection_INFOR(string line)
 	if (tokens.size() < 1 || tokens[0] == "") return;
 	int tileSize = atof(tokens[0].c_str());
 	this->tileSize = tileSize;
+	int marginScreen = atof(tokens[1].c_str());
+	this->marginScreen = marginScreen;
 }
 
 void CPlayScene::_ParseSection_CAMERA(string line)
@@ -423,6 +425,26 @@ void CPlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
+
+bool CPlayScene::IsInScreenBounding(float x, float y)
+{
+	LPCAMERA camera = CGame::GetInstance()->GetCamera();
+	if (camera == NULL) {
+		return false;
+	}
+	float xCam, yCam;
+	camera->GetPos(xCam, yCam);
+	int wScreen = CGame::GetInstance()->GetBackBufferWidth();
+	int hScreen = CGame::GetInstance()->GetBackBufferHeight();
+	if (x < xCam - marginScreen || x > xCam + wScreen + marginScreen) {
+		return false;
+	}
+	if (y < yCam - marginScreen || y > yCam + hScreen + marginScreen) {
+		return false;
+	}
+	return true;
+}
+
 
 bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; }
 

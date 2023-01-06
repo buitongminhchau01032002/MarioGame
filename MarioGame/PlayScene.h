@@ -30,6 +30,7 @@ protected:
 	void LoadAssets(LPCWSTR assetFile);
 
 	int tileSize = 16; // default value (not hard code)
+	int marginScreen = 32; //
 	LPMAP map;
 	
 public: 
@@ -42,6 +43,10 @@ public:
 	int GetTileSize() {
 		return tileSize;
 	}
+	int GetMarginScreen() {
+		return marginScreen;
+	}
+	bool IsInScreenBounding(float x, float y);
 	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
 		x = float(xTile * tileSize + tileSize / 2);
 		y = float(yTile * tileSize + tileSize / 2);
