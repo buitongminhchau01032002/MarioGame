@@ -132,6 +132,12 @@
     <ClInclude Include="ChomperBullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AttackBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenBlockGoomba.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -237,6 +243,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ChomperBullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenBlockGoomba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

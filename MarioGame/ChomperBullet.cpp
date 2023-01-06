@@ -20,6 +20,6 @@ void CChomperBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CChomperBullet::Render()
 {
     CAnimations::GetInstance()->Get(ID_ANI_CHOMPER_BULLET)->Render(x, y);
-    RenderBoundingBox();
+    //RenderBoundingBox();
 }
 

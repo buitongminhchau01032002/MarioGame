@@ -138,6 +138,7 @@
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
+    <ClInclude Include="AttackBlock.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chomper.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="GoombaPro.h" />
     <ClInclude Include="HiddenBlock.h" />
+    <ClInclude Include="HiddenBlockGoomba.h" />
     <ClInclude Include="HiddenBlockKoopa.h" />
     <ClInclude Include="HiddenBlockMario.h" />
     <ClInclude Include="KeyEventHandler.h" />
@@ -176,6 +178,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="AttackBlock.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chomper.cpp" />
@@ -189,6 +192,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="GoombaPro.cpp" />
     <ClCompile Include="HiddenBlock.cpp" />
+    <ClCompile Include="HiddenBlockGoomba.cpp" />
     <ClCompile Include="HiddenBlockKoopa.cpp" />
     <ClCompile Include="HiddenBlockMario.cpp" />
     <ClCompile Include="Koopa.cpp" />

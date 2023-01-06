@@ -1,5 +1,6 @@
 #include "Goomba.h"
 #include "PlayScene.h"
+#include "AttackBlock.h"
 
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
@@ -31,11 +32,30 @@ void CGoomba::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
+
+	// Check overlap attack block, NOT collision
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+
+	// Find and insert mushroom before box
+	int index = -1;
+	for (int i = 0; i < objects.size(); i++) {
+		if (dynamic_cast<CAttackBlock*>(objects[i])) {
+			float attack_l, attack_t, attack_r, attack_b;
+			float goomba_l, goomba_t, goomba_r, goomba_b;
+			this->GetBoundingBox(goomba_l, goomba_t, goomba_r, goomba_b);
+			objects[i]->GetBoundingBox(attack_l, attack_t, attack_r, attack_b);
+			if (attack_l < goomba_r && attack_r > goomba_l && attack_b > goomba_t && attack_t < goomba_b) {
+				this->SetState(GOOMBA_STATE_DIE);
+			break;
+			}
+		}
+	}
 };
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (dynamic_cast<CGoomba*>(e->obj)) return; 
+	if (dynamic_cast<CGoomba*>(e->obj)) return;
 	
 	if (e->ny != 0 )
 	{
@@ -61,7 +81,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects, 2);
 }
 
 

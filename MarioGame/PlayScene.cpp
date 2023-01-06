@@ -13,6 +13,7 @@
 #include "HiddenBlock.h"
 #include "HiddenBlockMario.h"
 #include "HiddenBlockKoopa.h"
+#include "HiddenBlockGoomba.h"
 #include "QuestionBox.h"
 #include "QuestionBoxCoin.h"
 #include "QuestionBoxMushroom.h"
@@ -236,7 +237,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->GetPosition(x, y);
 	}
 	break;
-
 	case OBJECT_TYPE_HIDDEN_BLOCK_KOOPA:
 	{
 		int lCell = atof(tokens[1].c_str());
@@ -250,7 +250,21 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CHiddenBlockKoopa(lCell, tCell, rCell, bCell, isBlockingLeft, isBlockingTop, isBlockingRight, isBlockingBottom);
 		obj->GetPosition(x, y);
 	}
+	break;
 
+	case OBJECT_TYPE_HIDDEN_BLOCK_GOOMBA:
+	{
+		int lCell = atof(tokens[1].c_str());
+		int tCell = atof(tokens[2].c_str());
+		int rCell = atoi(tokens[3].c_str());
+		int bCell = atoi(tokens[4].c_str());
+		int isBlockingLeft = atoi(tokens[5].c_str());
+		int isBlockingTop = atoi(tokens[6].c_str());
+		int isBlockingRight = atoi(tokens[7].c_str());
+		int isBlockingBottom = atoi(tokens[8].c_str());
+		obj = new CHiddenBlockGoomba(lCell, tCell, rCell, bCell, isBlockingLeft, isBlockingTop, isBlockingRight, isBlockingBottom);
+		obj->GetPosition(x, y);
+	}
 	break;
 
 

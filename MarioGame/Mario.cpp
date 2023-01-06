@@ -18,6 +18,8 @@
 #include "GoombaPro.h"
 #include "Chomper.h"
 #include "ChomperBullet.h"
+#include "PlayScene.h"
+#include "AttackBlock.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -540,6 +542,9 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_ACTTACK:
 		attackStart = GetTickCount64();
+		LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+		vector<LPGAMEOBJECT>& objects = s->GetObjects();
+		objects.push_back(new CAttackBlock(x + nx*(MARIO_BIG_BBOX_WIDTH), y));
 		break;
 	}
 
