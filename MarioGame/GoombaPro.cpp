@@ -46,7 +46,7 @@ void CGoombaPro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGoomba::Update(dt, coObjects);
 	if (state != GOOMBA_STATE_DIE) {
-		if (GetTickCount64() - lastFlying > GOOMBA_PRO_TIME_TO_FLY) {
+		if (GetTickCount64() - lastFlying > GOOMBA_PRO_TIME_TO_FLY && level == GOOMBA_PRO_LEVEL_PRO) {
 			lastFlying = GetTickCount64();
 			vy = -GOOMBA_PRO_FLY_SPEED;
 			state = GOOMBA_STATE_FLYING;
