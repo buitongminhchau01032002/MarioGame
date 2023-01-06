@@ -123,6 +123,9 @@
     <ClInclude Include="HiddenBlockKoopa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GoombaPro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -219,6 +222,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HiddenBlockKoopa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GoombaPro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
