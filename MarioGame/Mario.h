@@ -16,6 +16,7 @@
 #define MARIO_JUMP_RUN_SPEED_Y	0.65f
 
 #define MARIO_GRAVITY			0.002f
+#define MARIO_GRAVITY_FLYING_RELEASE 0.001f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
 
@@ -30,8 +31,7 @@
 
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
-
-#define MARIO_STATE_FLYING 700
+#define MARIO_STATE_FLY 700
 
 
 #pragma region ANIMATION_ID
@@ -100,6 +100,9 @@
 #define ID_ANI_MARIO_CAT_BRACE_RIGHT 2300
 #define ID_ANI_MARIO_CAT_BRACE_LEFT 2301
 
+#define ID_ANI_MARIO_CAT_FLYING_RIGHT 2400
+#define ID_ANI_MARIO_CAT_FLYING_LEFT 2401
+
 #pragma endregion
 
 
@@ -124,13 +127,15 @@
 
 // CAT
 #define MARIO_FLY_DURATION 5000
-#define MARIO_FLY_SPEED 0.5
+#define MARIO_FLY_SPEED 0.12
 #define MARIO_FLY_STARTUP_DURATION 3000
+#define MARIO_FLY_BREAK_TIME 300
 
 
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
+	bool isFlying;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -140,6 +145,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin;
+	ULONGLONG flyingBreakTimerStart;
 
 	bool canFly;
 
@@ -168,7 +174,9 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
-		canFly = false;
+		isFlying = false;
+		canFly = true;
+		flyingBreakTimerStart = GetTickCount64();
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -193,6 +201,6 @@ public:
 	void DecreaseLevel();
 	int GetLevel() { return level; }
 	bool GetCanFly() { return canFly; }
-	void AddSpeedToFly() { vy = MARIO_FLY_SPEED; };
 	void Setnx(int n) { nx = n; }
+	bool GetIsFlying() { return isFlying; }
 };

@@ -14,7 +14,7 @@ data\map01.txt
 
 [CAMERA]
 #x y offsetLeft ...
-0	0	20	100	20	40
+0	0	20	80	20	40
 
 [INFOR]
 #tile_size	marginScreen

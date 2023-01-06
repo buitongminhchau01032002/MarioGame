@@ -19,9 +19,14 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"ax = %f", ax);
-	vy += ay * dt;
-	vx += ax * dt;
+	DebugOutTitle(L"state = %d, flying = %d", state, int(isFlying));
+	if (!isFlying) {
+		vy += ay * dt;
+	}
+	else {
+		vy = -MARIO_FLY_SPEED;
+	}
+		vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
@@ -30,6 +35,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+	}
+
+	if (GetTickCount64() - flyingBreakTimerStart > MARIO_FLY_BREAK_TIME) {
+		isFlying = false;
 	}
 
 	isOnPlatform = false;
@@ -329,19 +338,27 @@ int CMario::GetAniIdCat()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
-		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_CAT_JUMP_RUN_RIGHT;
+		if (!isFlying) {
+			if (abs(ax) == MARIO_ACCEL_RUN_X)
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_CAT_JUMP_RUN_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_CAT_JUMP_RUN_LEFT;
+			}
 			else
-				aniId = ID_ANI_MARIO_CAT_JUMP_RUN_LEFT;
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_CAT_JUMP_WALK_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_CAT_JUMP_WALK_LEFT;
+			}
 		}
-		else
-		{
+		else {
 			if (nx >= 0)
-				aniId = ID_ANI_MARIO_CAT_JUMP_WALK_RIGHT;
+				aniId = ID_ANI_MARIO_CAT_FLYING_RIGHT;
 			else
-				aniId = ID_ANI_MARIO_CAT_JUMP_WALK_LEFT;
+				aniId = ID_ANI_MARIO_CAT_FLYING_LEFT;
 		}
 	}
 	else
@@ -352,30 +369,31 @@ int CMario::GetAniIdCat()
 			else
 				aniId = ID_ANI_MARIO_CAT_SIT_LEFT;
 		}
-		else
-			if (vx == 0)
-			{
-				if (nx > 0) aniId = ID_ANI_MARIO_CAT_IDLE_RIGHT;
-				else aniId = ID_ANI_MARIO_CAT_IDLE_LEFT;
-			}
-			else if (vx > 0)
-			{
-				if (ax < 0)
-					aniId = ID_ANI_MARIO_CAT_BRACE_RIGHT;
-				else if (ax == MARIO_ACCEL_RUN_X)
-					aniId = ID_ANI_MARIO_CAT_RUNNING_RIGHT;
-				else if (ax == MARIO_ACCEL_WALK_X)
-					aniId = ID_ANI_MARIO_CAT_WALKING_RIGHT;
-			}
-			else // vx < 0
-			{
-				if (ax > 0)
-					aniId = ID_ANI_MARIO_CAT_BRACE_LEFT;
-				else if (ax == -MARIO_ACCEL_RUN_X)
-					aniId = ID_ANI_MARIO_CAT_RUNNING_LEFT;
-				else if (ax == -MARIO_ACCEL_WALK_X)
-					aniId = ID_ANI_MARIO_CAT_WALKING_LEFT;
-			}
+		else {
+				if (vx == 0)
+				{
+					if (nx > 0) aniId = ID_ANI_MARIO_CAT_IDLE_RIGHT;
+					else aniId = ID_ANI_MARIO_CAT_IDLE_LEFT;
+				}
+				else if (vx > 0)
+				{
+					if (ax < 0)
+						aniId = ID_ANI_MARIO_CAT_BRACE_RIGHT;
+					else if (ax == MARIO_ACCEL_RUN_X)
+						aniId = ID_ANI_MARIO_CAT_RUNNING_RIGHT;
+					else if (ax == MARIO_ACCEL_WALK_X)
+						aniId = ID_ANI_MARIO_CAT_WALKING_RIGHT;
+				}
+				else // vx < 0
+				{
+					if (ax > 0)
+						aniId = ID_ANI_MARIO_CAT_BRACE_LEFT;
+					else if (ax == -MARIO_ACCEL_RUN_X)
+						aniId = ID_ANI_MARIO_CAT_RUNNING_LEFT;
+					else if (ax == -MARIO_ACCEL_WALK_X)
+						aniId = ID_ANI_MARIO_CAT_WALKING_LEFT;
+				}
+		}
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_CAT_IDLE_RIGHT;
 
@@ -398,7 +416,7 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	
 	//DebugOutTitle(L"Coins: %d", coin);
 }
@@ -456,6 +474,7 @@ void CMario::SetState(int state)
 
 	case MARIO_STATE_IDLE:
 		ax = 0.0f;
+		ay = MARIO_GRAVITY;
 		vx = 0.0f;
 		break;
 
@@ -463,6 +482,10 @@ void CMario::SetState(int state)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
 		ax = 0;
+		break;
+	case MARIO_STATE_FLY:
+		isFlying = true;
+		flyingBreakTimerStart = GetTickCount64();
 		break;
 	}
 
@@ -513,8 +536,8 @@ void CMario::IncreaseLevel() {
 }
 
 void CMario::DecreaseLevel() {
+	isFlying = false;
 	if (level == MARIO_LEVEL_SMALL) SetState(MARIO_STATE_DIE);
-	if (state == MARIO_STATE_FLYING) SetState(MARIO_STATE_JUMP);
 	else if (level == MARIO_LEVEL_BIG) 
 	{
 		SetLevel(MARIO_LEVEL_SMALL);
