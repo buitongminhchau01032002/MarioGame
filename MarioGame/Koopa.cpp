@@ -1,4 +1,8 @@
 #include "Koopa.h"
+#include "Goomba.h"
+#include "QuestionBox.h"
+#include "QuestionBoxMushroom.h"
+#include "QuestionBoxCoin.h"
 
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
@@ -47,6 +51,10 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+	if (dynamic_cast<CGoomba*>(e->obj))
+		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CQuestionBox*>(e->obj))
+		OnCollisionWithQuestionBox(e);
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -57,8 +65,11 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx = 0;
 	}
 
+	if (state == KOOPA_STATE_WALKING)
+		CCollision::GetInstance()->Process(this, dt, coObjects, 3);
+	else
+		CCollision::GetInstance()->Process(this, dt, coObjects);
 
-	CCollision::GetInstance()->Process(this, dt, coObjects, 3);
 }
 
 
@@ -74,5 +85,29 @@ void CKoopa::Render()
 		aniId = ID_ANI_KOOPA_SLEEPING;
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
+}
+
+/////////////
+
+void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SLEEP) {
+		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+		goomba->SetState(GOOMBA_STATE_DIE);
+	}
+}
+
+void CKoopa::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SLEEP) {
+		CQuestionBox* questionBox = dynamic_cast<CQuestionBoxMushroom*>(e->obj);
+		if (questionBox) {
+			questionBox->Unbox();
+		}
+		questionBox = dynamic_cast<CQuestionBoxCoin*>(e->obj);
+		if (questionBox) {
+			questionBox->Unbox();
+		}
+	}
 }

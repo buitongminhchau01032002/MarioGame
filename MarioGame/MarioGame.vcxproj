@@ -148,6 +148,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="HiddenBlock.h" />
+    <ClInclude Include="HiddenBlockKoopa.h" />
     <ClInclude Include="HiddenBlockMario.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopa.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HiddenBlock.cpp" />
+    <ClCompile Include="HiddenBlockKoopa.cpp" />
     <ClCompile Include="HiddenBlockMario.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />

@@ -15,9 +15,9 @@ void CQuestionBox::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	if (state == QUESTION_BOX_STATE_ORIGIN)
-		animations->Get(ID_ANI_QUESTION_BOX)->Render(x, y);
+		animations->Get(ID_ANI_QUESTION_BOX)->Render(x, y-1);
 	else
-		animations->Get(ID_ANI_QUESTION_BOX+1)->Render(x, y);
+		animations->Get(ID_ANI_QUESTION_BOX+1)->Render(x, y-1);
 	//RenderBoundingBox();
 }
 
