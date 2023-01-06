@@ -43,6 +43,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 	else {
+		maxVx = nx * MARIO_WALKING_SPEED;
 		vy = -MARIO_FLY_SPEED;
 	}
 		vx += ax * dt;
