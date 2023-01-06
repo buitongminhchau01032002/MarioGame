@@ -14,7 +14,7 @@ public:
 	void Render();
 	void Update(DWORD dt) {};
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-	int IsBlocking() { return isBlockingBottom&& isBlockingTop&& isBlockingLeft&& isBlockingRight; }
+	int IsBlocking() { return (isBlockingBottom && isBlockingTop && isBlockingLeft && isBlockingRight); }
 	int IsBlockingTop() { return isBlockingTop; }
 	int IsBlockingBottom() { return isBlockingBottom; }
 	int IsBlockingLeft() { return isBlockingLeft; }

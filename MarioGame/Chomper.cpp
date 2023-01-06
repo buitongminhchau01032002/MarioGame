@@ -1,5 +1,6 @@
 #include "Chomper.h"
 #include "PlayScene.h"
+#include "ChomperBullet.h"
 
 
 CChomper::CChomper(float x, float y) :CGameObject(x, y)
@@ -9,9 +10,9 @@ CChomper::CChomper(float x, float y) :CGameObject(x, y)
 	pushTimerStart = GetTickCount64();
 	shootingTimerStart = 0;
 }
-float CChomper::GetGunX()
+float CChomper::GetGunY()
 {
-	return x + CHOMPER_GUN_X_OFFSET;
+	return y + CHOMPER_GUN_X_OFFSET;
 }
 
 void CChomper::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -49,8 +50,19 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else {
 		if (GetTickCount64() - shootingTimerStart > CHOMPER_SHOOTING_DURATION) {
+			LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+			LPGAMEOBJECT player = s->GetPlayer();
 
-		// SHOOT
+			float playerX, playerY;
+			player->GetPosition(playerX, playerY);
+			
+			if (abs(playerX - x) < CHOMPER_SHORT_DISTANCE) {
+
+				vector<LPGAMEOBJECT>& objects = s->GetObjects();
+				objects.push_back(new CChomperBullet(x, GetGunY(), playerX - x, playerY - GetGunY()));
+			}
+
+
 			state = CHOMPER_STATE_HIDDEN;
 			pushTimerStart = GetTickCount64();
 		}
@@ -67,8 +79,8 @@ void CChomper::Render()
 	float playerX, playerY;
 	player->GetPosition(playerX, playerY);
 	int aniId;
-	if (playerY < y) {
-		if (playerX < GetGunX()) {
+	if (playerY < GetGunY()) {
+		if (playerX < x) {
 			aniId = ID_ANI_CHOMPER_LEFT_TOP;
 			if (state == CHOMPER_STATE_SHOOTING) {
 				aniId = ID_ANI_CHOMPER_LEFT_TOP_SHOOTING;
@@ -81,7 +93,7 @@ void CChomper::Render()
 			}
 		}
 	} else {
-		if (playerX < GetGunX()) {
+		if (playerX < x) {
 			aniId = ID_ANI_CHOMPER_LEFT_BOTTOM;
 			if (state == CHOMPER_STATE_SHOOTING) {
 				aniId = ID_ANI_CHOMPER_LEFT_BOTTOM_SHOOTING;
@@ -97,5 +109,5 @@ void CChomper::Render()
 
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

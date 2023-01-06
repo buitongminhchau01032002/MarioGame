@@ -129,6 +129,9 @@
     <ClInclude Include="Chomper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChomperBullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -231,6 +234,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Chomper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChomperBullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

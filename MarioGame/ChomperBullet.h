@@ -1,13 +1,21 @@
 #pragma once
 #include "GameObject.h"
 
-#define CHOMPER_BULLET_BBOX_WIDTH 16
-#define CHOMPER_BULLET_BBOX_HEIGHT 32
+#define CHOMPER_BULLET_BBOX_WIDTH 8
+#define CHOMPER_BULLET_BBOX_HEIGHT 8
+#define CHOMPER_BULLET_SPEED 0.05f
+
 
 #define ID_ANI_CHOMPER_BULLET 88000
 
 class CChomperBullet :
     public CGameObject
 {
+public:
+    CChomperBullet(float x, float y, float dx, float dy);
+
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Render();
 };
 

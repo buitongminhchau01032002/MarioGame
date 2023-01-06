@@ -7,8 +7,9 @@
 #define CHOMPER_GUN_X_OFFSET -8
 
 #define CHOMPER_SHOW_SPEED 0.03f
-#define CHOMPER_HIDDEN_TIME 2500
+#define CHOMPER_HIDDEN_TIME 3000
 #define CHOMPER_SHOOTING_DURATION 800
+#define CHOMPER_SHORT_DISTANCE	100
 
 #define CHOMPER_STATE_HIDDEN 0
 #define CHOMPER_STATE_SHOW 1
@@ -33,7 +34,7 @@ class CChomper :
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; };
 	float originY;
-	float GetGunX();
+	float GetGunY();
 	ULONGLONG pushTimerStart;
 	ULONGLONG shootingTimerStart;
 
