@@ -24,6 +24,8 @@
 #define ID_ANI_CHOMPER_RIGHT_BOTTOM 83000
 #define ID_ANI_CHOMPER_RIGHT_BOTTOM_SHOOTING 83001
 
+#define ID_ANI_CHOMPER_PIPE 84000
+
 class CChomper :
     public CGameObject
 {

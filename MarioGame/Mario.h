@@ -159,6 +159,7 @@ class CMario : public CGameObject
 
 	bool canFly;
 
+
 	ULONGLONG attackStart;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);

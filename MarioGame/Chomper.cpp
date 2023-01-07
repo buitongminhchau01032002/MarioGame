@@ -109,5 +109,6 @@ void CChomper::Render()
 
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	CAnimations::GetInstance()->Get(ID_ANI_CHOMPER_PIPE)->Render(x-1, originY-8);
 	//RenderBoundingBox();
 }

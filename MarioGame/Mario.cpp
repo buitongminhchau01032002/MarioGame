@@ -20,10 +20,11 @@
 #include "ChomperBullet.h"
 #include "PlayScene.h"
 #include "AttackBlock.h"
+#include "DieBlock.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"state = %d, flying = %d", state, flyingDuration);
+	DebugOutTitle(L"Coin: %d", coin);
 	if (state != MARIO_STATE_RUNNING) {
 		runningDuration = 0;
 	}
@@ -66,6 +67,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	isOnPlatform = false;
+
+	if (state == MARIO_STATE_DIE) {
+		CGame::GetInstance()->GetCamera()->SetFollowing(NULL);
+	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects, 0);
 }
@@ -114,6 +119,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CChomper*>(e->obj)) {
 		if (untouchable == 0) DecreaseLevel();
 	}
+	else if (dynamic_cast<CDieBlock*>(e->obj)) {
+		SetState(MARIO_STATE_DIE);
+	}
 	
 }
 
@@ -151,6 +159,7 @@ void CMario::OnCollisionWithGoombaPro(LPCOLLISIONEVENT e)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
+			coin += 100;
 			if (goomba->GetLevel() == GOOMBA_PRO_LEVEL_NORMAL) {
 
 			goomba->SetState(GOOMBA_STATE_DIE);
@@ -177,7 +186,7 @@ void CMario::OnCollisionWithGoombaPro(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
-	coin++;
+	coin += 100;
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -191,6 +200,7 @@ void CMario::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
 	if (e->ny == 1) {
 		CQuestionBox* questionBox = (CQuestionBox*)(e->obj);
 		questionBox->Unbox();
+		coin += 100;
 	}
 }
 
