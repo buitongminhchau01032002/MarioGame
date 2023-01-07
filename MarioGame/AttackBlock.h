@@ -1,9 +1,9 @@
 #pragma once
 #include "GameObject.h"
 
-#define ATTACK_BLOCK_WIDTH 8
+#define ATTACK_BLOCK_WIDTH 12
 #define ATTACK_BLOCK_HEIGHT 24
-#define	ATTACK_BLOCK_DURATION 100
+#define	ATTACK_BLOCK_DURATION 300
 
 class CAttackBlock :
     public CGameObject

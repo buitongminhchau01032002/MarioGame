@@ -1,6 +1,12 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 70000	300	189	315	204	20
+
+#leaf
+71000	300	208	315	221	20
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 70000	70000	10000
+
+#leaf
+71000	71000	1000

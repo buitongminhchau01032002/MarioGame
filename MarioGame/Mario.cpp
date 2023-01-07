@@ -21,6 +21,7 @@
 #include "PlayScene.h"
 #include "AttackBlock.h"
 #include "DieBlock.h"
+#include "Leaf.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -110,6 +111,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CQuestionBox*>(e->obj))
 		OnCollisionWithQuestionBox(e);
 	else if (dynamic_cast<CMushroom*>(e->obj))
+		OnCollisionWithMushroom(e);
+	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithMushroom(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
@@ -208,6 +211,13 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
 	CMushroom* mushroom = (CMushroom*)(e->obj);
 	mushroom->Delete();
+	IncreaseLevel();
+}
+
+void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
+{
+	CLeaf* leaf = (CLeaf*)(e->obj);
+	leaf->Delete();
 	IncreaseLevel();
 }
 
