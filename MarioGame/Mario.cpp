@@ -25,7 +25,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"Coin: %d", coin);
+	DebugOutTitle(L"state: %d, vy: %f, y: %f", state, vy, y);
 	if (state != MARIO_STATE_RUNNING) {
 		runningDuration = 0;
 	}
