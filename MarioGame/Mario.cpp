@@ -62,7 +62,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				SetStateX(MARIO_STATE_X_IDLE);
 			}
 		}
-	} else {
+	}
+	else {
 		vx += ax * dt;
 	}
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
@@ -124,7 +125,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->nx != 0 && (e->obj->IsBlocking() || e->obj->IsBlockingLeft() || e->obj->IsBlockingRight()))
 	{
 		vx = 0;
-		SetStateX(MARIO_STATE_IDLE);
+		SetStateX(MARIO_STATE_X_IDLE);
 	}
 
 	if (dynamic_cast<CGoombaPro*>(e->obj))
@@ -456,82 +457,6 @@ void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
 	if (this->state == MARIO_STATE_DIE) return; 
-
-	switch (state)
-	{
-	case MARIO_STATE_RUNNING:
-		if (isSitting) break;
-		maxVx = nx*MARIO_RUNNING_SPEED;
-		ax = nx*MARIO_ACCEL_RUN_X;
-		break;
-	case MARIO_STATE_WALKING:
-		if (isSitting) break;
-		maxVx = nx*MARIO_WALKING_SPEED;
-		ax = nx*MARIO_ACCEL_WALK_X;
-		break;
-	case MARIO_STATE_JUMP:
-		if (isSitting) break;
-		if (isOnPlatform)
-		{
-			if (abs(this->vx) == MARIO_RUNNING_SPEED)
-				vy = -MARIO_JUMP_RUN_SPEED_Y;
-			else
-				vy = -MARIO_JUMP_SPEED_Y;
-		}
-		break;
-
-	case MARIO_STATE_RELEASE_JUMP:
-		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
-		break;
-
-	case MARIO_STATE_SIT:
-		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
-		{
-			state = MARIO_STATE_IDLE;
-			isSitting = true;
-			vx = 0; vy = 0.0f;
-			y +=MARIO_SIT_HEIGHT_ADJUST;
-		}
-		break;
-
-	case MARIO_STATE_SIT_RELEASE:
-		if (isSitting)
-		{
-			isSitting = false;
-			state = MARIO_STATE_IDLE;
-			y -= MARIO_SIT_HEIGHT_ADJUST;
-		}
-		break;
-
-	case MARIO_STATE_IDLE:
-		ax = 0.0f;
-		ay = MARIO_GRAVITY;
-		break;
-
-	case MARIO_STATE_DIE:
-		vy = -MARIO_JUMP_DEFLECT_SPEED;
-		vx = 0;
-		ax = 0;
-		break;
-	case MARIO_STATE_FLY:
-		isFlying = true;
-		flyingBreakTimerStart = GetTickCount64();
-		canFly = false;
-		break;
-	case MARIO_STATE_START_FLY:
-		isFlying = true;
-		flyingBreakTimerStart = GetTickCount64();
-		canFly = false;
-		flyingDuration = MARIO_FLYING_DURATION;
-		break;
-	case MARIO_STATE_ACTTACK:
-		attackStart = GetTickCount64();
-		LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
-		vector<LPGAMEOBJECT>& objects = s->GetObjects();
-		objects.push_back(new CAttackBlock(x + nx*(MARIO_BIG_BBOX_WIDTH), y));
-		break;
-	}
-
 	CGameObject::SetState(state);
 }
 
