@@ -96,27 +96,32 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	if (game->IsKeyDown(DIK_RIGHT))	{
 		mario->Setnx(1);
 		if (
-			((mario->GetStateX() == MARIO_STATE_X_WALKING || mario->GetStateX() == MARIO_STATE_X_WALK_STOPPING) && vx < 0) ||
+			((mario->GetStateX() == MARIO_STATE_X_WALKING || mario->GetStateX() == MARIO_STATE_X_RUNNING || mario->GetStateX() == MARIO_STATE_X_WALK_STOPPING) && vx < 0) ||
 			(mario->GetStateX() == MARIO_STATE_X_BRACING && vx < 0)
 		) {
 			mario->SetStateX(MARIO_STATE_X_BRACING);
 		}
 		else {
 			mario->SetStateX(MARIO_STATE_X_WALKING);
+			if (game->IsKeyDown(DIK_A)) {
+				mario->SetStateX(MARIO_STATE_X_RUNNING);
+			}
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
 		mario->Setnx(-1);
 		if (
-			((mario->GetStateX() == MARIO_STATE_X_WALKING || mario->GetStateX() == MARIO_STATE_X_WALK_STOPPING) && vx > 0) ||
+			((mario->GetStateX() == MARIO_STATE_X_WALKING || mario->GetStateX() == MARIO_STATE_X_RUNNING || mario->GetStateX() == MARIO_STATE_X_WALK_STOPPING) && vx > 0) ||
 			(mario->GetStateX() == MARIO_STATE_X_BRACING && vx > 0)
 			) {
 			mario->SetStateX(MARIO_STATE_X_BRACING);
 		}
 		else {
-			mario->Setnx(-1);
 			mario->SetStateX(MARIO_STATE_X_WALKING);
+			if (game->IsKeyDown(DIK_A)) {
+				mario->SetStateX(MARIO_STATE_X_RUNNING);
+			}
 		}
 	}
 	
