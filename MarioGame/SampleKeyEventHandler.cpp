@@ -17,12 +17,18 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_SIT);
 		break;
 	case DIK_S: {
-		if (mario->GetStateY() == MARIO_STATE_Y_GROUND) {
-			mario->SetStateY(MARIO_STATE_Y_JUMPING);
-		}
-		else if (mario->GetLevel() == MARIO_LEVEL_CAT) {
+		
+		if (mario->GetLevel() == MARIO_LEVEL_CAT && mario->GetStateY() == MARIO_STATE_Y_FLYING) {
+			mario->BoostFly();
+		} else if (mario->GetLevel() == MARIO_LEVEL_CAT && !mario->IsCanFly()) {
 			if (mario->GetStateY() == MARIO_STATE_Y_FALLING || mario->GetStateY() == MARIO_STATE_Y_SLOWFALLING)
 				mario->SetStateY(MARIO_STATE_Y_SLOWFALLING);
+			else
+				mario->SetStateY(MARIO_STATE_Y_JUMPING);
+		} else if (mario->GetLevel() == MARIO_LEVEL_CAT && mario->IsCanFly()) {
+			mario->SetStateY(MARIO_STATE_Y_FLYING);
+		} else if (mario->GetStateY() == MARIO_STATE_Y_GROUND) {
+			mario->SetStateY(MARIO_STATE_Y_JUMPING);
 		}
 		break;
 	}

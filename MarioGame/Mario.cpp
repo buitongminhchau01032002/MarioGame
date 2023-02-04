@@ -84,6 +84,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
+	// flying timer
+	if (stateY == MARIO_STATE_Y_FLYING) {
+		if (GetTickCount64() - flyingStart > MARIO_FLYING_DURATION)
+		{
+			flyingStart = 0;
+			SetStateY(MARIO_STATE_Y_FALLING);
+		}
+	}
+
 	if (state == MARIO_STATE_DIE) {
 		CGame::GetInstance()->GetCamera()->SetFollowing(NULL);
 	}
@@ -95,7 +104,7 @@ void CMario::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
-	if (vy > MARIO_SPEED_TO_FALL)
+	if (vy > MARIO_SPEED_TO_FALL && (level != MARIO_LEVEL_CAT || stateY != MARIO_STATE_Y_FLYING ))
 		SetStateY(MARIO_STATE_Y_FALLING);
 }
 
@@ -386,9 +395,15 @@ int CMario::GetAniIdCat()
 		if (nx > 0) return ID_ANI_MARIO_CAT_JUMP_WALK_RIGHT;
 		else return ID_ANI_MARIO_CAT_JUMP_WALK_LEFT;
 	}
+	// falling show
 	if (stateY == MARIO_STATE_Y_SLOWFALLING) {
 		if (nx > 0) return ID_ANI_MARIO_CAT_IDLE_RIGHT;
 		else return ID_ANI_MARIO_CAT_IDLE_LEFT;
+	}
+	// flying
+	if (stateY == MARIO_STATE_Y_FLYING) {
+		if (nx > 0) return ID_ANI_MARIO_CAT_FLYING_RIGHT;
+		else return ID_ANI_MARIO_CAT_FLYING_LEFT;
 	}
 
 	// GROUNDING
@@ -595,7 +610,7 @@ void CMario::SetStateX(int state)
 		maxVx = nx * MARIO_RUNNING_SPEED;
 		break;
 	case MARIO_STATE_X_WALK_STOPPING:
-		ax = nx * MARIO_ACCEL_WALK_X;
+		ax = nx * MARIO_ACCEL_WALK_X/2;
 		break;
 	case MARIO_STATE_X_BRACING:
 		ax = nx * MARIO_ACCEL_BRACE;
@@ -619,11 +634,19 @@ void CMario::SetStateY(int state)
 		vy = -MARIO_JUMP_SPEED_Y;
 		break;
 	case MARIO_STATE_Y_FALLING:
+		ay = MARIO_GRAVITY;
 		maxVy = MARIO_SPEED_Y_MAX;
 		break;
 	case MARIO_STATE_Y_SLOWFALLING:
+		ay = MARIO_GRAVITY;
 		maxVy = MARIO_SPEED_Y_SLOW_MAX;
 		slowFallingStart = GetTickCount64();
+		break;
+	case MARIO_STATE_Y_FLYING:
+		vy = -MARIO_JUMP_SPEED_Y;
+		maxVy = MARIO_SPEED_Y_MAX;
+		ay = MARIO_GRAVITY_FLYING;
+		flyingStart = GetTickCount64();
 		break;
 	default:
 		break;

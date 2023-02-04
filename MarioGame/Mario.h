@@ -15,16 +15,19 @@
 
 #define MARIO_JUMP_SPEED_Y		0.38f
 #define MARIO_JUMP_RUN_SPEED_Y	0.65f
+#define MARIO_SPEED_BOOST_FLY 0.2f
 
 #define MARIO_GRAVITY			0.0009f
+#define MARIO_GRAVITY_FLYING	0.0007f
 #define MARIO_SPEED_TO_FALL 0.05f // speed min to anim fall
 #define MARIO_SPEED_Y_MAX 0.38f
-#define MARIO_SPEED_Y_SLOW_MAX 0.032f
+#define MARIO_SPEED_Y_SLOW_MAX 0.036f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.24f
-#define MARIO_RUNNING_DURATION_MAX 1500
+#define MARIO_RUNNING_DURATION_MAX 1300
 
 #define MARIO_SLOWFALLING_BREAK_TIME 400
+#define MARIO_FLYING_DURATION 5000
 
 // STATE
 #define MARIO_STATE_DIE				-10
@@ -58,6 +61,7 @@
 #define MARIO_STATE_Y_SITTING 300
 
 #define MARIO_STATE_Y_SLOWFALLING 201
+#define MARIO_STATE_Y_FLYING 400
 
 
 #pragma region ANIMATION_ID
@@ -162,7 +166,6 @@
 #define MARIO_FLY_SPEED 0.15f
 #define MARIO_FLY_STARTUP_DURATION 1200
 #define MARIO_FLY_BREAK_TIME 500
-#define MARIO_FLYING_DURATION 5000
 #define MARIO_ATTACK_EFFECT_DURATION 200
 
 class CMario : public CGameObject
@@ -184,6 +187,7 @@ class CMario : public CGameObject
 	int flyingDuration;
 
 	ULONGLONG slowFallingStart;
+	ULONGLONG flyingStart;
 
 	bool canFly;
 
@@ -268,5 +272,11 @@ public:
 	void BreakJump() {
 		vy = 0;
 		SetStateY(MARIO_STATE_Y_FALLING);
+	}
+
+	void BoostFly() {
+		if (vy > -MARIO_SPEED_BOOST_FLY) {
+			vy = -MARIO_SPEED_BOOST_FLY;
+		}
 	}
 };
