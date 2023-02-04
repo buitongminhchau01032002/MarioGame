@@ -13,12 +13,13 @@
 #define MARIO_ACCEL_BRACE 0.0005f
 #define MARIO_ACCEL_RUN_X	0.0002f
 
-#define MARIO_JUMP_SPEED_Y		0.55f
+#define MARIO_JUMP_SPEED_Y		0.38f
 #define MARIO_JUMP_RUN_SPEED_Y	0.65f
 
-#define MARIO_GRAVITY			0.0018f
+#define MARIO_GRAVITY			0.0009f
+#define MARIO_SPEED_TO_FALL 0.05f // speed min to anim fall
 
-#define MARIO_JUMP_DEFLECT_SPEED  0.4f
+#define MARIO_JUMP_DEFLECT_SPEED  0.24f
 #define MARIO_RUNNING_DURATION_MAX 1500
 
 // STATE
@@ -46,6 +47,11 @@
 #define MARIO_STATE_X_RUNNING 101
 #define MARIO_STATE_X_WALK_STOPPING 200
 #define MARIO_STATE_X_BRACING 300
+
+#define MARIO_STATE_Y_GROUND 0
+#define MARIO_STATE_Y_JUMPING 100
+#define MARIO_STATE_Y_FALLING 200
+#define MARIO_STATE_Y_SITTING 300
 
 
 #pragma region ANIMATION_ID
@@ -173,6 +179,7 @@ class CMario : public CGameObject
 	bool canFly;
 
 	int stateX;
+	int stateY;
 
 	ULONGLONG attackStart;
 	
@@ -198,6 +205,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 		stateX = MARIO_STATE_X_IDLE;
+		stateY = MARIO_STATE_Y_GROUND;
 
 		level = MARIO_LEVEL_BIG;
 		untouchable = 0;
@@ -237,11 +245,17 @@ public:
 	void Setnx(int n) { nx = n; }
 	int Getnx() { return nx; }
 	int GetStateX() { return stateX; }
+	int GetStateY() { return stateY; }
 	void SetStateX(int state);
+	void SetStateY(int state);
 	bool GetIsFlying() { return isFlying; }
 	int getFlyingDuration() { return flyingDuration; }
 	bool IsCanFly() { return runningDuration >= MARIO_RUNNING_DURATION_MAX; }
 	int GetPowerProgress() {
 		return runningDuration * 7 / MARIO_RUNNING_DURATION_MAX;
+	}
+	void BreakJump() {
+		vy = 0;
+		SetStateY(MARIO_STATE_Y_FALLING);
 	}
 };

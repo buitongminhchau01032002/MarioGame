@@ -17,23 +17,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_SIT);
 		break;
 	case DIK_S:
-		if (mario->GetLevel() != MARIO_LEVEL_CAT) {
-			mario->SetState(MARIO_STATE_JUMP);
-		}
-		else {
-			// Handle press "S" when is Cat
-
-			if (mario->GetIsFlying() || mario->getFlyingDuration() > 0) {
-				mario->SetState(MARIO_STATE_FLY);
-			}
-			else if (mario->GetCanFly()) {
-				mario->SetState(MARIO_STATE_START_FLY);
-			}
-			else {
-				mario->SetState(MARIO_STATE_JUMP);
-			}
-
-		}
+		if (mario->GetStateY() == MARIO_STATE_Y_GROUND)
+			mario->SetStateY(MARIO_STATE_Y_JUMPING);
 		break;
 
 	case DIK_A:
@@ -66,17 +51,11 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_S: {
-		if (mario->GetLevel() != MARIO_LEVEL_CAT) {
-			mario->SetState(MARIO_STATE_RELEASE_JUMP);
-		}
-		else { // Cat
-			if (!mario->GetIsFlying()) {
-				mario->SetState(MARIO_STATE_RELEASE_JUMP);
-			}
+	case DIK_S:
+		if (mario->GetStateY() == MARIO_STATE_Y_JUMPING) {
+			mario->BreakJump();
 		}
 		break;
-	}
 		
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
@@ -90,9 +69,8 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	float vx, vy;
 	mario->GetSpeed(vx, vy);
-	if (mario->GetStateX() != MARIO_STATE_X_IDLE)
-		mario->SetStateX(MARIO_STATE_X_WALK_STOPPING);
 
+	// handle x direction
 	if (game->IsKeyDown(DIK_RIGHT))	{
 		mario->Setnx(1);
 		if (
@@ -124,5 +102,10 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			}
 		}
 	}
+	else if (mario->GetStateX() != MARIO_STATE_X_IDLE)
+		mario->SetStateX(MARIO_STATE_X_WALK_STOPPING);
+
+	// handle y direaction
+
 	
 }
