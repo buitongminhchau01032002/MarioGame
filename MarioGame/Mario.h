@@ -18,9 +18,13 @@
 
 #define MARIO_GRAVITY			0.0009f
 #define MARIO_SPEED_TO_FALL 0.05f // speed min to anim fall
+#define MARIO_SPEED_Y_MAX 0.38f
+#define MARIO_SPEED_Y_SLOW_MAX 0.032f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.24f
 #define MARIO_RUNNING_DURATION_MAX 1500
+
+#define MARIO_SLOWFALLING_BREAK_TIME 400
 
 // STATE
 #define MARIO_STATE_DIE				-10
@@ -52,6 +56,8 @@
 #define MARIO_STATE_Y_JUMPING 100
 #define MARIO_STATE_Y_FALLING 200
 #define MARIO_STATE_Y_SITTING 300
+
+#define MARIO_STATE_Y_SLOWFALLING 201
 
 
 #pragma region ANIMATION_ID
@@ -164,6 +170,7 @@ class CMario : public CGameObject
 	BOOLEAN isSitting;
 	bool isFlying;
 	float maxVx;
+	float maxVy;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 
@@ -175,6 +182,8 @@ class CMario : public CGameObject
 	ULONGLONG flyingBreakTimerStart;
 	int runningDuration;
 	int flyingDuration;
+
+	ULONGLONG slowFallingStart;
 
 	bool canFly;
 
@@ -202,6 +211,7 @@ public:
 	{
 		isSitting = false;
 		maxVx = 0.0f;
+		maxVy = MARIO_SPEED_Y_MAX;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 		stateX = MARIO_STATE_X_IDLE;
@@ -218,6 +228,7 @@ public:
 		flyingBreakTimerStart = GetTickCount64();
 		runningDuration = -1;
 		attackStart = 0;
+		slowFallingStart = GetTickCount64();
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

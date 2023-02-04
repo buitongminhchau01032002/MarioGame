@@ -40,6 +40,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// HANDLE vy
 	vy += ay * dt;
+	if (vy > maxVy) vy = maxVy;
 	if (stateY == MARIO_STATE_Y_JUMPING && vy >= 0) {
 		SetStateY(MARIO_STATE_Y_FALLING);
 	}
@@ -72,6 +73,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+	}
+
+	// Slow falling timer
+	if (stateY == MARIO_STATE_Y_SLOWFALLING) {
+		if (GetTickCount64() - slowFallingStart > MARIO_SLOWFALLING_BREAK_TIME)
+		{
+			slowFallingStart = 0;
+			SetStateY(MARIO_STATE_Y_FALLING);
+		}
 	}
 
 	if (state == MARIO_STATE_DIE) {
@@ -376,6 +386,10 @@ int CMario::GetAniIdCat()
 		if (nx > 0) return ID_ANI_MARIO_CAT_JUMP_WALK_RIGHT;
 		else return ID_ANI_MARIO_CAT_JUMP_WALK_LEFT;
 	}
+	if (stateY == MARIO_STATE_Y_SLOWFALLING) {
+		if (nx > 0) return ID_ANI_MARIO_CAT_IDLE_RIGHT;
+		else return ID_ANI_MARIO_CAT_IDLE_LEFT;
+	}
 
 	// GROUNDING
 	// idle
@@ -603,6 +617,13 @@ void CMario::SetStateY(int state)
 	case MARIO_STATE_Y_JUMPING:
 		ay = MARIO_GRAVITY;
 		vy = -MARIO_JUMP_SPEED_Y;
+		break;
+	case MARIO_STATE_Y_FALLING:
+		maxVy = MARIO_SPEED_Y_MAX;
+		break;
+	case MARIO_STATE_Y_SLOWFALLING:
+		maxVy = MARIO_SPEED_Y_SLOW_MAX;
+		slowFallingStart = GetTickCount64();
 		break;
 	default:
 		break;
