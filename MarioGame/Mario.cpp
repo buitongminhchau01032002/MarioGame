@@ -94,6 +94,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
+	// attack timer
+	if (state == MARIO_STATE_ATTACK) {
+		if (GetTickCount64() - attackStart > MARIO_STATE_ATTACK)
+		{
+			attackStart = 0;
+			SetState(MARIO_STATE_NONE);
+		}
+	}
+
 	if (state == MARIO_STATE_DIE) {
 		CGame::GetInstance()->GetCamera()->SetFollowing(NULL);
 	}
@@ -388,10 +397,17 @@ int CMario::GetAniIdBig()
 int CMario::GetAniIdCat()
 {
 	// STATE
+	//sitting
 	if (state == MARIO_STATE_SITTING) {
 		if (nx > 0) return ID_ANI_MARIO_SIT_RIGHT;
 		else return ID_ANI_MARIO_SIT_LEFT;
 	}
+	//attacking
+	if (state == MARIO_STATE_ATTACK) {
+		if (nx > 0) return ID_ANI_MARIO_ATTACK_RIGHT;
+		else return ID_ANI_MARIO_ATTACK_LEFT;
+	}
+
 
 	// IN AIR
 	// jumping
@@ -465,17 +481,6 @@ void CMario::Render()
 	//DebugOutTitle(L"Coins: %d", coin);
 }
 
-void CMario::SetState(int state)
-{
-	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
-	if (this->state == MARIO_STATE_SITTING && state != MARIO_STATE_SITTING)
-	{
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_SITTING_BBOX_HEIGHT) / 2;
-	}
-	CGameObject::SetState(state);
-}
-
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	if (level==MARIO_LEVEL_BIG || level==MARIO_LEVEL_CAT)
@@ -534,6 +539,24 @@ void CMario::DecreaseLevel() {
 		SetLevel(MARIO_LEVEL_BIG);
 		StartUntouchable();
 	}
+}
+
+void CMario::SetState(int state)
+{
+	// DIE is the end state, cannot be changed! 
+	if (this->state == MARIO_STATE_DIE) return;
+
+	if (this->state == MARIO_STATE_SITTING && state != MARIO_STATE_SITTING)
+	{
+		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_SITTING_BBOX_HEIGHT) / 2;
+	}
+	if (state == MARIO_STATE_ATTACK) {
+		attackStart = GetTickCount64();
+		LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+		vector<LPGAMEOBJECT>& objects = s->GetObjects();
+		objects.push_back(new CAttackBlock(x + nx * (MARIO_BIG_BBOX_WIDTH), y));
+	}
+	CGameObject::SetState(state);
 }
 
 void CMario::SetStateX(int state)
