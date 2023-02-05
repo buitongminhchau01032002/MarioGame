@@ -399,8 +399,8 @@ int CMario::GetAniIdCat()
 	// STATE
 	//sitting
 	if (state == MARIO_STATE_SITTING) {
-		if (nx > 0) return ID_ANI_MARIO_SIT_RIGHT;
-		else return ID_ANI_MARIO_SIT_LEFT;
+		if (nx > 0) return ID_ANI_MARIO_CAT_SIT_RIGHT;
+		else return ID_ANI_MARIO_CAT_SIT_LEFT;
 	}
 	//attacking
 	if (state == MARIO_STATE_ATTACK) {
@@ -421,13 +421,13 @@ int CMario::GetAniIdCat()
 	}
 	// falling
 	if (stateY == MARIO_STATE_Y_FALLING) {
-		if (nx > 0) return ID_ANI_MARIO_CAT_JUMP_WALK_RIGHT;
-		else return ID_ANI_MARIO_CAT_JUMP_WALK_LEFT;
+		if (nx > 0) return ID_ANI_MARIO_CAT_FALL_RIGHT;
+		else return ID_ANI_MARIO_CAT_FALL_LEFT;
 	}
-	// falling show
+	// slow falling
 	if (stateY == MARIO_STATE_Y_SLOWFALLING) {
-		if (nx > 0) return ID_ANI_MARIO_CAT_IDLE_RIGHT;
-		else return ID_ANI_MARIO_CAT_IDLE_LEFT;
+		if (nx > 0) return ID_ANI_MARIO_CAT_SLOWFALL_RIGHT;
+		else return ID_ANI_MARIO_CAT_SLOWFALL_LEFT;
 	}
 	// flying
 	if (stateY == MARIO_STATE_Y_FLYING) {
@@ -476,7 +476,7 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	
 	//DebugOutTitle(L"Coins: %d", coin);
 }
@@ -487,14 +487,14 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		if (state == MARIO_STATE_SITTING)
 		{
-			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2;
+			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2 + 1;
 			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT + 1;
 		}
 		else 
 		{
-			left = x - MARIO_BIG_BBOX_WIDTH/2;
+			left = x - MARIO_BIG_BBOX_WIDTH/2 + 1;
 			top = y - MARIO_BIG_BBOX_HEIGHT/2;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT + 1;
@@ -502,7 +502,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 	else
 	{
-		left = x - MARIO_SMALL_BBOX_WIDTH/2;
+		left = x - MARIO_SMALL_BBOX_WIDTH/2 + 1;
 		top = y - MARIO_SMALL_BBOX_HEIGHT/2 + 1;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT + 1;
