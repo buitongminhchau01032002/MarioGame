@@ -365,8 +365,8 @@ int CMario::GetAniIdBig()
 	}
 	// falling
 	if (stateY == MARIO_STATE_Y_FALLING) {
-		if (nx > 0) return ID_ANI_MARIO_JUMP_WALK_RIGHT;
-		else return ID_ANI_MARIO_JUMP_WALK_LEFT;
+		if (nx > 0) return ID_ANI_MARIO_FALL_RIGHT;
+		else return ID_ANI_MARIO_FALL_LEFT;
 	}
 
 	// GROUNDING
