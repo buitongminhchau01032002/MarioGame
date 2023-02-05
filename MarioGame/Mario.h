@@ -28,10 +28,10 @@
 #define MARIO_FLYING_DURATION 5000
 
 // STATE
-#define MARIO_STATE_DIE				-10
-#define MARIO_STATE_SIT				600
-#define MARIO_STATE_SIT_RELEASE		601
-#define MARIO_STATE_ACTTACK 800
+#define MARIO_STATE_DIE -10
+#define MARIO_STATE_NONE 1
+#define MARIO_STATE_SITTING 100
+#define MARIO_STATE_ACTTACK 200
 
 // STATE X
 #define MARIO_STATE_X_IDLE 0
@@ -156,8 +156,6 @@
 
 class CMario : public CGameObject
 {
-	BOOLEAN isSitting;
-	bool isFlying;
 	float maxVx;
 	float maxVy;
 	float ax;				// acceleration on x 
@@ -166,16 +164,13 @@ class CMario : public CGameObject
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
-	BOOLEAN isOnPlatform;
 	int coin;
-	ULONGLONG flyingBreakTimerStart;
 	int runningDuration;
 	int flyingDuration;
 
 	ULONGLONG slowFallingStart;
 	ULONGLONG flyingStart;
 
-	bool canFly;
 
 	int stateX;
 	int stateY;
@@ -199,23 +194,19 @@ class CMario : public CGameObject
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
-		isSitting = false;
 		maxVx = 0.0f;
 		maxVy = MARIO_SPEED_Y_MAX;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
+		state = MARIO_STATE_NONE;
 		stateX = MARIO_STATE_X_IDLE;
 		stateY = MARIO_STATE_Y_GROUND;
 
 		level = MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
-		isOnPlatform = false;
 		coin = 0;
-		isFlying = false;
 		flyingDuration = 0;
-		canFly = false;
-		flyingBreakTimerStart = GetTickCount64();
 		runningDuration = -1;
 		attackStart = 0;
 		slowFallingStart = GetTickCount64();
@@ -242,15 +233,12 @@ public:
 	void IncreaseLevel();
 	void DecreaseLevel();
 	int GetLevel() { return level; }
-	bool GetCanFly() { return canFly; }
 	void Setnx(int n) { nx = n; }
 	int Getnx() { return nx; }
 	int GetStateX() { return stateX; }
 	int GetStateY() { return stateY; }
 	void SetStateX(int state);
 	void SetStateY(int state);
-	bool GetIsFlying() { return isFlying; }
-	int getFlyingDuration() { return flyingDuration; }
 	bool IsCanFly() { return runningDuration >= MARIO_RUNNING_DURATION_MAX; }
 	int GetPowerProgress() {
 		return runningDuration * 7 / MARIO_RUNNING_DURATION_MAX;

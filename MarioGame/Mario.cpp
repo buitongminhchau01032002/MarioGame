@@ -25,7 +25,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"stateY: %d, vy: %f", stateY, vy);
+	DebugOutTitle(L"state: %d, stateX: %d, stateY: %d", state, stateX, stateY);
 
 	// HANDLE running duration
 	if (stateX == MARIO_STATE_X_RUNNING) {
@@ -338,6 +338,12 @@ int CMario::GetAniIdSmall()
 
 int CMario::GetAniIdBig()
 {
+	// STATE
+	if (state == MARIO_STATE_SITTING) {
+		if (nx > 0) return ID_ANI_MARIO_SIT_RIGHT;
+		else return ID_ANI_MARIO_SIT_LEFT;
+	}
+
 	// IN AIR
 	// jumping
 	if (stateY == MARIO_STATE_Y_JUMPING) {
@@ -381,6 +387,12 @@ int CMario::GetAniIdBig()
 
 int CMario::GetAniIdCat()
 {
+	// STATE
+	if (state == MARIO_STATE_SITTING) {
+		if (nx > 0) return ID_ANI_MARIO_SIT_RIGHT;
+		else return ID_ANI_MARIO_SIT_LEFT;
+	}
+
 	// IN AIR
 	// jumping
 	if (stateY == MARIO_STATE_Y_JUMPING) {
@@ -448,7 +460,7 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	//DebugOutTitle(L"Coins: %d", coin);
 }
@@ -457,6 +469,10 @@ void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
 	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_SITTING && state != MARIO_STATE_SITTING)
+	{
+		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_SITTING_BBOX_HEIGHT) / 2;
+	}
 	CGameObject::SetState(state);
 }
 
@@ -464,7 +480,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 {
 	if (level==MARIO_LEVEL_BIG || level==MARIO_LEVEL_CAT)
 	{
-		if (isSitting)
+		if (state == MARIO_STATE_SITTING)
 		{
 			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2;
 			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
@@ -504,7 +520,9 @@ void CMario::IncreaseLevel() {
 }
 
 void CMario::DecreaseLevel() {
-	isFlying = false;
+	if (stateY == MARIO_STATE_Y_FLYING || stateY == MARIO_STATE_Y_SLOWFALLING) {
+		SetStateY(MARIO_STATE_Y_FALLING);
+	}
 	if (level == MARIO_LEVEL_SMALL) SetState(MARIO_STATE_DIE);
 	else if (level == MARIO_LEVEL_BIG) 
 	{
