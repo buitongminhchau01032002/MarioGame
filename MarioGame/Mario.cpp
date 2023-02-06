@@ -25,7 +25,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"state: %d, stateX: %d, stateY: %d", state, stateX, stateY);
+	//DebugOutTitle(L"state: %d, stateX: %d, stateY: %d", state, stateX, stateY);
 
 	// HANDLE running duration
 	if (stateX == MARIO_STATE_X_RUNNING) {

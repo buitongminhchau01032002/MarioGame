@@ -1,7 +1,17 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#bg
 -10000	0	194	265	241	-10
+
+# power arrow black and white
+-10100	91	162	98	169	-10
+-10101	64	162	71	169	-10
+
+#power p black and white
+-10110	100	162	115	169	-10
+-10111	73	162	88	169	-10
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+-10100	-10111	300	-10110	300
