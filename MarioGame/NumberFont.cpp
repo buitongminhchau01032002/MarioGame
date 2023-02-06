@@ -76,6 +76,24 @@ void CNumberFont::Render(int number)
 		}
 	}
 	else {
-		;
+		
+		int numberTemp = number;
+		if (numberTemp == 0) {
+			sprites->Get(getSpriteIdNum(0))->Draw(x + NUMBER_FONT_WIDTH * 0, y, true);
+		}
+		int index = 0;
+		while (numberTemp != 0) {
+			int num = numberTemp % 10;
+
+			sprites->Get(getSpriteIdNum(num))->Draw(x + NUMBER_FONT_WIDTH * (-index), y, true);
+
+			numberTemp /= 10;
+			index++;
+		}
+		if (size > digit) {
+			for (int i = index; i < size - digit + index; i++) {
+				sprites->Get(ID_SPRITE_NUMBER_FONT_0)->Draw(x + NUMBER_FONT_WIDTH * (- i), y, true);
+			}
+		}
 	}
 }

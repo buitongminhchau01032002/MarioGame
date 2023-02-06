@@ -179,6 +179,8 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			CGame* g = CGame::GetInstance();
+			g->IncreaseCoinValue(100);
 		}
 	}
 	else // hit by Goomba
@@ -202,7 +204,8 @@ void CMario::OnCollisionWithGoombaPro(LPCOLLISIONEVENT e)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
-			coin += 100;
+			CGame* g = CGame::GetInstance();
+			g->IncreaseCoinValue(100);
 			if (goomba->GetLevel() == GOOMBA_PRO_LEVEL_NORMAL) {
 
 			goomba->SetState(GOOMBA_STATE_DIE);
@@ -229,7 +232,9 @@ void CMario::OnCollisionWithGoombaPro(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
-	coin += 100;
+	CGame* g = CGame::GetInstance();
+	g->IncreaseCoin(1);
+	g->IncreaseCoinValue(100);
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -243,7 +248,6 @@ void CMario::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
 	if (e->ny == 1) {
 		CQuestionBox* questionBox = (CQuestionBox*)(e->obj);
 		questionBox->Unbox();
-		coin += 100;
 	}
 }
 
@@ -252,6 +256,8 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	CMushroom* mushroom = (CMushroom*)(e->obj);
 	mushroom->Delete();
 	IncreaseLevel();
+	CGame* g = CGame::GetInstance();
+	g->IncreaseCoinValue(1000);
 }
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
@@ -259,6 +265,8 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 	CLeaf* leaf = (CLeaf*)(e->obj);
 	leaf->Delete();
 	IncreaseLevel();
+	CGame* g = CGame::GetInstance();
+	g->IncreaseCoinValue(1000);
 }
 
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
@@ -270,6 +278,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		{
 			koopa->SetState(KOOPA_STATE_SLEEPING);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			CGame* g = CGame::GetInstance();
+			g->IncreaseCoinValue(100);
 		}
 		else // hit by koopa
 		{

@@ -1,4 +1,5 @@
 #include "CoinFlyUp.h"
+#include "Game.h"
 
 void CCoinFlyUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -7,5 +8,8 @@ void CCoinFlyUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else {
 		this->Delete();
+		CGame* g = CGame::GetInstance();
+		g->IncreaseCoinValue(100);
+		g->IncreaseCoin(1);
 	}
 }

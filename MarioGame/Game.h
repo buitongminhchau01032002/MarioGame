@@ -60,6 +60,9 @@ class CGame
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 
+	int coin = 0;
+	int coinValue = 0;
+
 public:
 	// Init DirectX, Sprite Handler
 	void Init(HWND hWnd, HINSTANCE hInstance);
@@ -120,7 +123,12 @@ public:
 
 	void _ParseSection_TEXTURES(string line);
 
-
+	int GetCoin() { return coin; }
+	int GetCoinValue() { return coinValue; }
+	void SetCoin(int c) { coin = c; }
+	void SetCoinValue(int c) { coinValue = c; }
+	void IncreaseCoin(int c) { coin += c; }
+	void IncreaseCoinValue(int c) { coinValue += c; }
 	~CGame();
 };
 typedef CGame* LPGAME;

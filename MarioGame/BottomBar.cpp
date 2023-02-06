@@ -12,7 +12,9 @@ CBottomBar::CBottomBar()
 
 	x = g->GetBackBufferWidth() / 2;
 	y = g->GetBackBufferHeight() - BOTTOM_BAR_HEIGHT / 2;
-	timeText = new CNumberFont(x + BOTTOM_BAR_TIME_X, y + BOTTOM_BAR_TIME_Y, 1, 3);
+	timeText = new CNumberFont(x + BOTTOM_BAR_TIME_X, y + BOTTOM_BAR_TIME_Y, BOTTOM_BAR_TIME_ALIGN, BOTTOM_BAR_TIME_SIZE);
+	coinText = new CNumberFont(x + BOTTOM_BAR_COIN_X, y + BOTTOM_BAR_COIN_Y, BOTTOM_BAR_COIN_ALIGN, BOTTOM_BAR_COIN_SIZE);
+	coinValueText = new CNumberFont(x + BOTTOM_BAR_COIN_VALUE_X, y + BOTTOM_BAR_COIN_VALUE_Y, BOTTOM_BAR_COIN_VALUE_ALIGN, BOTTOM_BAR_COIN_VALUE_SIZE);
 }
 
 void CBottomBar::Render() {
@@ -61,6 +63,9 @@ void CBottomBar::Render() {
 		}
 	}
 	timeText->Render(time);
+
+	coinText->Render(g->GetCoin());
+	coinValueText->Render(g->GetCoinValue());
 
 	DebugOutTitle(L"power: %d", powerProgress);
 }
