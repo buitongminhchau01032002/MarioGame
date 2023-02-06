@@ -22,6 +22,7 @@
 #include "Koopa.h"
 #include "GoombaPro.h"
 #include "Chomper.h"
+#include "BottomBar.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -38,6 +39,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_UIS	-10
 #define SCENE_SECTION_INFOR 3
 #define SCENE_SECTION_MAP 4
 #define SCENE_SECTION_CAMERA 5
@@ -128,16 +130,26 @@ void CPlayScene::_ParseSection_CAMERA(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 6 || tokens[0] == "") return;
+	if (tokens.size() < 12 || tokens[0] == "") return;
 	float xCam = (float)atof(tokens[0].c_str());
 	float yCam = (float)atof(tokens[1].c_str());
 	float offsetLeft = (float)atof(tokens[2].c_str());
 	float offsetTop = (float)atof(tokens[3].c_str());
 	float offsetRight = (float)atof(tokens[4].c_str());
 	float offsetBottom = (float)atof(tokens[5].c_str());
+	float limitLeft = (float)atof(tokens[6].c_str());
+	float limitTop = (float)atof(tokens[7].c_str());
+	float limitRight = (float)atof(tokens[8].c_str());
+	float limitBottom = (float)atof(tokens[9].c_str());
+	float centerOffsetX = (float)atof(tokens[10].c_str());
+	float centerOffsetY = (float)atof(tokens[11].c_str());
 	int w = CGame::GetInstance()->GetBackBufferWidth();
 	int h = CGame::GetInstance()->GetBackBufferHeight();
-	CGame::GetInstance()->SetCamera( new CCamera(xCam, yCam, w, h, this->player, offsetLeft, offsetTop, offsetRight, offsetBottom));
+	CGame::GetInstance()->SetCamera( 
+		new CCamera(xCam, yCam, w, h, this->player, 
+			offsetLeft, offsetTop, offsetRight, offsetBottom, 
+			limitLeft, limitTop, limitRight, limitBottom,
+			centerOffsetX, centerOffsetY));
 }
 
 /*
@@ -296,6 +308,34 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	objects.push_back(obj);
 }
 
+
+/*
+	Parse a line in section [UIS]
+*/
+void CPlayScene::_ParseSection_UIS(string line)
+{
+	vector<string> tokens = split(line);
+
+	// skip invalid lines - an object set must have at least id, x, y
+	if (tokens.size() < 1) return;
+
+	int object_type = atoi(tokens[0].c_str());
+
+	CGameObject* obj = NULL;
+
+	switch (object_type)
+	{
+	case OBJECT_TYPE_BOTTOM_BAR: {
+		obj = new CBottomBar();
+		break;
+	}
+	default:
+		DebugOut(L"[ERROR] Invalid object type (ui): %d\n", object_type);
+		return;
+	}
+	uis.push_back(obj);
+}
+
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
 {
 	DebugOut(L"[INFO] Start loading assets from : %s \n", assetFile);
@@ -349,6 +389,7 @@ void CPlayScene::Load()
 		if (line[0] == '#') continue;	// skip comment lines	
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
+		if (line == "[UIS]") { section = SCENE_SECTION_UIS; continue; };
 		if (line == "[INFOR]") { section = SCENE_SECTION_INFOR; continue; }
 		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; }
 		if (line == "[CAMERA]") { section = SCENE_SECTION_CAMERA; continue; }
@@ -361,6 +402,7 @@ void CPlayScene::Load()
 		{
 		case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_UIS: _ParseSection_UIS(line); break;
 		case SCENE_SECTION_INFOR: _ParseSection_INFOR(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 			case SCENE_SECTION_CAMERA: _ParseSection_CAMERA(line); break;
@@ -374,11 +416,8 @@ void CPlayScene::Load()
 	}
 
 	LPCAMERA camera = CGame::GetInstance()->GetCamera();
-	float limitRight = float(map->GetWidth() * map->GetTileSize() + map->GetTileSize());
-	float limitBottom = float(map->GetHeight() * map->GetTileSize() + map->GetTileSize());
 	if (camera != NULL) {
 		camera->SetFollowing(this->player);
-		camera->SetLimit(0.0f, 0.0f, limitRight, limitBottom);
 	}
 
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
@@ -430,6 +469,8 @@ void CPlayScene::Render()
 	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	for (int i = 0; i < uis.size(); i++)
+		uis[i]->Render();
 }
 
 /*
@@ -443,6 +484,12 @@ void CPlayScene::Clear()
 		delete (*it);
 	}
 	objects.clear();
+
+	for (it = uis.begin(); it != uis.end(); it++)
+	{
+		delete (*it);
+	}
+	uis.clear();
 }
 
 /*
@@ -455,8 +502,12 @@ void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
-
 	objects.clear();
+
+	for (int i = 0; i < uis.size(); i++)
+		delete uis[i];
+	uis.clear();
+
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
@@ -502,4 +553,21 @@ void CPlayScene::PurgeDeletedObjects()
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+
+
+	for (it = uis.begin(); it != uis.end(); it++)
+	{
+		LPGAMEOBJECT o = *it;
+		if (o->IsDeleted())
+		{
+			delete o;
+			*it = NULL;
+		}
+	}
+
+	// NOTE: remove_if will swap all deleted items to the end of the vector
+	// then simply trim the vector, this is much more efficient than deleting individual items
+	uis.erase(
+		std::remove_if(uis.begin(), uis.end(), CPlayScene::IsGameObjectDeleted),
+		uis.end());
 }

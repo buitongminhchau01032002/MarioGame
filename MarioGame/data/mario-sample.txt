@@ -19,3 +19,4 @@ height	240
 11	textures\enemies2.png
 20	textures\misc.png
 30	textures\tilemap.png
+-10	textures\ui.png

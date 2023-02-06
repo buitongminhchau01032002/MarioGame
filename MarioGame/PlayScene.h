@@ -17,6 +17,7 @@ protected:
 	LPGAMEOBJECT player;					
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> uis;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -25,6 +26,7 @@ protected:
 	void _ParseSection_MAP(string line);
 	void _ParseSection_INFOR(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_UIS(string line);
 	void _ParseSection_CAMERA(string line);
 
 	void LoadAssets(LPCWSTR assetFile);

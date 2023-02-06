@@ -1,7 +1,10 @@
 #include "Camera.h"
 #include "debug.h"
 
-CCamera::CCamera(float x, float y, int w, int h, LPGAMEOBJECT following, float followingOffsetLeft, float followingOffsetTop, float followingOffsetRight, float followingOffsetBottom) {
+CCamera::CCamera(float x, float y, int w, int h, LPGAMEOBJECT following,
+	float followingOffsetLeft, float followingOffsetTop, float followingOffsetRight, float followingOffsetBottom,
+	float limitLeft, float limitTop, float limitRight, float limitBottom,
+	float centerOffsetX, float centerOffsetY) {
 	this->following = following;
 	this->x = x;
 	this->y = y;
@@ -11,6 +14,12 @@ CCamera::CCamera(float x, float y, int w, int h, LPGAMEOBJECT following, float f
 	this->followingOffsetTop = followingOffsetTop;
 	this->followingOffsetRight = followingOffsetRight;
 	this->followingOffsetBottom = followingOffsetBottom;
+	this->limitLeft = limitLeft;
+	this->limitTop = limitTop;
+	this->limitRight = limitRight;
+	this->limitBottom = limitBottom;
+	this->centerOffsetX = centerOffsetX;
+	this->centerOffsetY = centerOffsetY;
 }
 
 void CCamera::SetLimit(float limitLeft, float limitTop, float limitRight, float limitBottom)
@@ -27,8 +36,8 @@ void CCamera::Update()
 		return;
 	}
 	float followingX, followingY;
-	float centerCamX = (float)width / 2 + x;
-	float centerCamY = (float)height / 2 + y;
+	float centerCamX = (float)width / 2 + x + centerOffsetX;
+	float centerCamY = (float)height / 2 + y + centerOffsetY;
 	following->GetPosition(followingX, followingY);
 
 	// Check following offset

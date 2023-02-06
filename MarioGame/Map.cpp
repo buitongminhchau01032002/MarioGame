@@ -106,6 +106,8 @@ void CMap::Render()
 			float cx, cy;
 			//CGame::GetInstance()->GetCamPos(cx, cy);
 			CGame::GetInstance()->GetCamera()->GetPos(cx, cy);
+			cx = (FLOAT)floor(cx);
+			cy = (FLOAT)floor(cy);
 			CGame::GetInstance()->Draw(x - cx, y - cy, tex, &rect);
 
 			

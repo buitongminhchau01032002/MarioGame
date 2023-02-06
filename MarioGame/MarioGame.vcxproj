@@ -139,6 +139,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="AttackBlock.h" />
+    <ClInclude Include="BottomBar.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chomper.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="AttackBlock.cpp" />
+    <ClCompile Include="BottomBar.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chomper.cpp" />

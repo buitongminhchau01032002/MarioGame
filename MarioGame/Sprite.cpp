@@ -31,7 +31,7 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex
 	D3DXMatrixScaling(&this->matScaling, (FLOAT)spriteWidth, (FLOAT)spriteHeight, 1.0f);
 }
 
-void CSprite::Draw(float x, float y)
+void CSprite::Draw(float x, float y, bool isFloating)
 {
 	CGame* g = CGame::GetInstance();
 
@@ -46,8 +46,12 @@ void CSprite::Draw(float x, float y)
 	
 	x = (FLOAT)floor(x);
 	y = (FLOAT)floor(y);
-
-	D3DXMatrixTranslation(&matTranslation, x - cx, g->GetBackBufferHeight() - y + cy, 0.1f);
+	if (!isFloating) {
+		D3DXMatrixTranslation(&matTranslation, x - cx - 1, g->GetBackBufferHeight() - y + cy - 1, 0.1f);
+	}
+	else {
+		D3DXMatrixTranslation(&matTranslation, x, g->GetBackBufferHeight() - y, 0.1f);
+	}
 	if (this != NULL) {
 		this->sprite.matWorld = (this->matScaling * matTranslation);
 
