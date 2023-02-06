@@ -173,6 +173,9 @@ class CMario : public CGameObject
 	int stateX;
 	int stateY;
 
+	int time;
+	ULONGLONG timeStart;
+
 	ULONGLONG attackStart;
 	
 
@@ -208,6 +211,8 @@ public:
 		runningDuration = -1;
 		attackStart = 0;
 		slowFallingStart = GetTickCount64();
+		timeStart = GetTickCount64();
+		time = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -250,5 +255,9 @@ public:
 		if (vy > -MARIO_SPEED_BOOST_FLY) {
 			vy = -MARIO_SPEED_BOOST_FLY;
 		}
+	}
+
+	int GetTime() {
+		return time/1000;
 	}
 };

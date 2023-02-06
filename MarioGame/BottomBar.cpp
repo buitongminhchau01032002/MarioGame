@@ -12,6 +12,7 @@ CBottomBar::CBottomBar()
 
 	x = g->GetBackBufferWidth() / 2;
 	y = g->GetBackBufferHeight() - BOTTOM_BAR_HEIGHT / 2;
+	timeText = new CNumberFont(x + BOTTOM_BAR_TIME_X, y + BOTTOM_BAR_TIME_Y, 1, 3);
 }
 
 void CBottomBar::Render() {
@@ -50,5 +51,16 @@ void CBottomBar::Render() {
 		LPANIMATION ani = CAnimations::GetInstance()->Get(ID_ANI_BOTTOM_BAR_POWER_P);
 		ani->Render(x + BOTTOM_BAR_POWER_ARROW_WIDTH * 5.5 + BOTTOM_BAR_POWER_P_WIDTH / 2 + BOTTOM_BAR_POWER_X, y + BOTTOM_BAR_POWER_Y, true);
 	}
+
+	// time
+	int time = 0;
+	if (scene) {
+		CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
+		if (mario) {
+			time = mario->GetTime();
+		}
+	}
+	timeText->Render(time);
+
 	DebugOutTitle(L"power: %d", powerProgress);
 }
