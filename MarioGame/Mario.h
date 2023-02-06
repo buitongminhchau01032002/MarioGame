@@ -28,6 +28,7 @@
 #define MARIO_FLYING_DURATION 5000
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_ATTACK_EFFECT_DURATION 200
+#define MARIO_TIME 300
 
 // STATE
 #define MARIO_STATE_DIE -10
@@ -258,6 +259,6 @@ public:
 	}
 
 	int GetTime() {
-		return time/1000;
+		return MARIO_TIME - time/1000 > 0 ? MARIO_TIME - time / 1000:0;
 	}
 };
