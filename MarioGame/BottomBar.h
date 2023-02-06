@@ -24,6 +24,16 @@
 #define BOTTOM_BAR_COIN_VALUE_SIZE 7
 #define BOTTOM_BAR_COIN_VALUE_ALIGN 1
 
+#define BOTTOM_BAR_HEART_X -76.0f
+#define BOTTOM_BAR_HEART_Y -0.0f
+#define BOTTOM_BAR_HEART_SIZE -1
+#define BOTTOM_BAR_HEART_ALIGN 1
+
+#define BOTTOM_BAR_WORLD_X -76.0f
+#define BOTTOM_BAR_WORLD_Y -8.0f
+#define BOTTOM_BAR_WORLD_SIZE -1
+#define BOTTOM_BAR_WORLD_ALIGN -1
+
 #define ID_SPRITE_BOTTOM_BAR_BG -10000
 #define ID_SPRITE_BOTTOM_BAR_POWER_ARROW_BLACK -10100
 #define ID_SPRITE_BOTTOM_BAR_POWER_ARROW_WHITE -10101
@@ -36,6 +46,8 @@ private:
 	CNumberFont* timeText;
 	CNumberFont* coinText;
 	CNumberFont* coinValueText;
+	CNumberFont* heartText;
+	CNumberFont* worldText;
 public:
 	CBottomBar();
 	void Render();

@@ -15,6 +15,8 @@ CBottomBar::CBottomBar()
 	timeText = new CNumberFont(x + BOTTOM_BAR_TIME_X, y + BOTTOM_BAR_TIME_Y, BOTTOM_BAR_TIME_ALIGN, BOTTOM_BAR_TIME_SIZE);
 	coinText = new CNumberFont(x + BOTTOM_BAR_COIN_X, y + BOTTOM_BAR_COIN_Y, BOTTOM_BAR_COIN_ALIGN, BOTTOM_BAR_COIN_SIZE);
 	coinValueText = new CNumberFont(x + BOTTOM_BAR_COIN_VALUE_X, y + BOTTOM_BAR_COIN_VALUE_Y, BOTTOM_BAR_COIN_VALUE_ALIGN, BOTTOM_BAR_COIN_VALUE_SIZE);
+	heartText = new CNumberFont(x + BOTTOM_BAR_HEART_X, y + BOTTOM_BAR_HEART_Y, BOTTOM_BAR_HEART_ALIGN, BOTTOM_BAR_HEART_SIZE);
+	worldText = new CNumberFont(x + BOTTOM_BAR_WORLD_X, y + BOTTOM_BAR_WORLD_Y, BOTTOM_BAR_WORLD_ALIGN, BOTTOM_BAR_WORLD_SIZE);
 }
 
 void CBottomBar::Render() {
@@ -66,6 +68,9 @@ void CBottomBar::Render() {
 
 	coinText->Render(g->GetCoin());
 	coinValueText->Render(g->GetCoinValue());
+
+	heartText->Render(g->GetHeart());
+	worldText->Render(1);
 
 	DebugOutTitle(L"power: %d", powerProgress);
 }

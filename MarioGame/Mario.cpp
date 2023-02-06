@@ -541,7 +541,11 @@ void CMario::DecreaseLevel() {
 	if (stateY == MARIO_STATE_Y_FLYING || stateY == MARIO_STATE_Y_SLOWFALLING) {
 		SetStateY(MARIO_STATE_Y_FALLING);
 	}
-	if (level == MARIO_LEVEL_SMALL) SetState(MARIO_STATE_DIE);
+	if (level == MARIO_LEVEL_SMALL)
+	{
+		CGame* g = CGame::GetInstance();
+		SetState(MARIO_STATE_DIE);
+	}
 	else if (level == MARIO_LEVEL_BIG) 
 	{
 		SetLevel(MARIO_LEVEL_SMALL);
@@ -568,6 +572,10 @@ void CMario::SetState(int state)
 		LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 		vector<LPGAMEOBJECT>& objects = s->GetObjects();
 		objects.push_back(new CAttackBlock(x + nx * (MARIO_BIG_BBOX_WIDTH), y));
+	}
+	if (state == MARIO_STATE_DIE) {
+		CGame* g = CGame::GetInstance();
+		g->IncreaseHeart(-1);
 	}
 	CGameObject::SetState(state);
 }
