@@ -1,0 +1,17 @@
+# list of object assets to load in this scene
+[ASSETS]
+data\bottom_bar.txt
+
+[MAP]
+data\map01.txt
+
+[INFOR]
+#tile_size	marginScreen
+16
+
+[OBJECTS]
+
+[UIS]
+-10
+
+

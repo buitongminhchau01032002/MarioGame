@@ -64,6 +64,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		if (mario->GetStateY() == MARIO_STATE_Y_JUMPING) {
 			mario->BreakJump();
 		}
+		break;
 	case DIK_DOWN:
 		if (mario->GetState() == MARIO_STATE_SITTING) {
 			mario->SetState(MARIO_STATE_NONE);

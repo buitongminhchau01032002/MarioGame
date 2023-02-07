@@ -10,8 +10,8 @@ CBottomBar::CBottomBar()
 {
 	CGame* g = CGame::GetInstance();
 
-	x = g->GetBackBufferWidth() / 2;
-	y = g->GetBackBufferHeight() - BOTTOM_BAR_HEIGHT / 2;
+	x = g->GetBackBufferWidth() / 2.0f;
+	y = g->GetBackBufferHeight() - BOTTOM_BAR_HEIGHT / 2.0f;
 	timeText = new CNumberFont(x + BOTTOM_BAR_TIME_X, y + BOTTOM_BAR_TIME_Y, BOTTOM_BAR_TIME_ALIGN, BOTTOM_BAR_TIME_SIZE);
 	coinText = new CNumberFont(x + BOTTOM_BAR_COIN_X, y + BOTTOM_BAR_COIN_Y, BOTTOM_BAR_COIN_ALIGN, BOTTOM_BAR_COIN_SIZE);
 	coinValueText = new CNumberFont(x + BOTTOM_BAR_COIN_VALUE_X, y + BOTTOM_BAR_COIN_VALUE_Y, BOTTOM_BAR_COIN_VALUE_ALIGN, BOTTOM_BAR_COIN_VALUE_SIZE);
@@ -66,10 +66,16 @@ void CBottomBar::Render() {
 	}
 	timeText->Render(time);
 
+	// coin
 	coinText->Render(g->GetCoin());
+
+	// coin value
 	coinValueText->Render(g->GetCoinValue());
 
+	//  heart
 	heartText->Render(g->GetHeart());
+
+	// world
 	worldText->Render(1);
 
 	DebugOutTitle(L"power: %d", powerProgress);
