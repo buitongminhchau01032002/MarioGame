@@ -3,7 +3,7 @@
 data\bottom_bar.txt
 
 [MAP]
-data\map01.txt
+data\map_world01.txt
 
 [INFOR]
 #tile_size	marginScreen
