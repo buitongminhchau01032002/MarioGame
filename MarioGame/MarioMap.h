@@ -41,3 +41,25 @@ public:
 	int GetYCell() { return yCell; }
 };
 
+class CGateConnection {
+	int xCell;
+	int yCell;
+	bool isBlocking;
+	bool isNode;
+	int tileSize = 16;
+public:
+	CGateConnection(int xCell, int yCell, bool isBlocking, bool isNode) {
+		this->xCell = xCell;
+		this->yCell = yCell;
+		this->isBlocking = isBlocking;
+		this->isNode = isNode;
+	}
+	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
+		x = float(xTile * tileSize + tileSize / 2);
+		y = float(yTile * tileSize + tileSize / 2);
+	}
+	int GetXCell() { return xCell; }
+	int GetYCell() { return yCell; }
+	bool IsBlocking() { return isBlocking; }
+	bool IsNode() { return isNode; }
+};
