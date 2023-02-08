@@ -3,18 +3,30 @@
 #include "debug.h"
 #include "Game.h"
 
-#include "PlayScene.h"
+#include "WorldMapScene.h"
 
 void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	//CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	CMarioMap* mario = (CMarioMap*)((CWorldMapScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	switch (KeyCode)
 	{
-	case DIK_S: {
-
-		
+	
+	case DIK_DOWN: {
+		mario->GoToCell(mario->GetXCell(), mario->GetYCell() + 1);
+		break;
+	}
+	case DIK_UP: {
+		mario->GoToCell(mario->GetXCell(), mario->GetYCell() - 1);
+		break;
+	}
+	case DIK_LEFT: {
+		mario->GoToCell(mario->GetXCell() - 1, mario->GetYCell());
+		break;
+	}
+	case DIK_RIGHT: {
+		mario->GoToCell(mario->GetXCell() + 1, mario->GetYCell());
 		break;
 	}
 
@@ -40,7 +52,7 @@ void CWorldMapKeyHandler::OnKeyUp(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
-	//CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	//CMarioMap* mario = (CMarioMap*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	switch (KeyCode)
 	{
 	case DIK_S:

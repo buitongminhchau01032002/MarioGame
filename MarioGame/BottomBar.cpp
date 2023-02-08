@@ -78,5 +78,4 @@ void CBottomBar::Render() {
 	// world
 	worldText->Render(1);
 
-	DebugOutTitle(L"power: %d", powerProgress);
 }

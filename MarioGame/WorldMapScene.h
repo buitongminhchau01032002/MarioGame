@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Map.h"
+#include "MarioMap.h"
 class CWorldMapScene: public CScene
 {
 protected:
@@ -23,6 +24,7 @@ protected:
 
 	int tileSize = 16; // default value (not hard code)
 	LPMAP map;
+	LPGAMEOBJECT player;
 
 public:
 	CWorldMapScene(int id, LPCWSTR filePath);
@@ -31,6 +33,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	LPGAMEOBJECT GetPlayer() { return player; }
 	int GetTileSize() {
 		return tileSize;
 	}

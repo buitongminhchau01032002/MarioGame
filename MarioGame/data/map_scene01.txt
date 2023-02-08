@@ -1,6 +1,7 @@
 # list of object assets to load in this scene
 [ASSETS]
 data\bottom_bar.txt
+data\mario.txt
 
 [MAP]
 data\map_world01.txt

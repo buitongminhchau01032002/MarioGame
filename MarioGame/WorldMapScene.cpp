@@ -246,6 +246,9 @@ void CWorldMapScene::Load()
 			0, 0, w, h,
 			0, 0));
 
+	player = new CMarioMap(2, 4);
+	objects.push_back(player);
+
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
