@@ -16,6 +16,15 @@ using namespace std;
 CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath):CScene(id, filePath)
 {
 	key_handler = new CWorldMapKeyHandler(this);
+	gateConnections.push_back(new CGateConnection(2, 4, false, false)); //
+	gateConnections.push_back(new CGateConnection(3, 4, false, false));
+	gateConnections.push_back(new CGateConnection(4, 4, false, false));
+	gateConnections.push_back(new CGateConnection(4, 3, false, false));
+	gateConnections.push_back(new CGateConnection(4, 2, false, false)); //
+	gateConnections.push_back(new CGateConnection(5, 2, false, false));
+	gateConnections.push_back(new CGateConnection(6, 2, false, true));
+	gateConnections.push_back(new CGateConnection(7, 2, false, false));
+	gateConnections.push_back(new CGateConnection(8, 2, false, false)); //
 }
 
 

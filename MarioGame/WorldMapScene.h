@@ -3,6 +3,10 @@
 #include "GameObject.h"
 #include "Map.h"
 #include "MarioMap.h"
+
+#include <vector>
+using namespace std;
+
 class CWorldMapScene: public CScene
 {
 protected:
@@ -25,6 +29,7 @@ protected:
 	int tileSize = 16; // default value (not hard code)
 	LPMAP map;
 	LPGAMEOBJECT player;
+	vector<CGateConnection*> gateConnections;
 
 public:
 	CWorldMapScene(int id, LPCWSTR filePath);
@@ -45,6 +50,7 @@ public:
 	vector<LPGAMEOBJECT>& GetObjects() {
 		return objects;
 	}
+	vector<CGateConnection*> GetGateConnection() { return gateConnections; }
 
 	void Clear();
 	void PurgeDeletedObjects();

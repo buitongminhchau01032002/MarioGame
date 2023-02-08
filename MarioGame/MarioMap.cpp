@@ -2,6 +2,10 @@
 #include "Animations.h"
 #include "Map.h"
 #include "debug.h"
+#include "Game.h"
+#include "WorldMapScene.h"
+#include <vector>
+using namespace std;
 
 CMarioMap::CMarioMap(int xCell, int yCell) 
 	{
@@ -104,4 +108,144 @@ void CMarioMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isDone == 2) {
 		state = MARIO_MAP_STATE_NONE;
 	}
+}
+
+void CMarioMap::GoRight()
+{
+	CGame* g = CGame::GetInstance();
+	CWorldMapScene* scene = dynamic_cast<CWorldMapScene*>(g->GetCurrentScene());
+	if (!scene)
+	{ 
+		return;
+	}
+	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
+
+
+	int xCellTo = xCell;
+	while(true) {
+		// check xCell + 1
+		CGateConnection* gateConnection = NULL;
+		for (int i = 0; i < gateConnections.size(); i++) {
+			if (gateConnections[i]->GetXCell() == xCellTo + 1 && gateConnections[i]->GetYCell() == yCell) {
+				gateConnection = gateConnections[i];
+				break;
+			}
+		}
+		if (!gateConnection) {
+			break;
+		}
+		if (gateConnection->IsBlocking()) {
+			break;
+		}
+		xCellTo++;
+		if (gateConnection->IsNode()) {
+			break;
+		}
+	}
+	GoToCell(xCellTo, yCell);
+}
+
+void CMarioMap::GoDown()
+{
+	CGame* g = CGame::GetInstance();
+	CWorldMapScene* scene = dynamic_cast<CWorldMapScene*>(g->GetCurrentScene());
+	if (!scene)
+	{
+		return;
+	}
+	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
+
+
+	int yCellTo = yCell;
+	while (true) {
+		// check yCell + 1
+		CGateConnection* gateConnection = NULL;
+		for (int i = 0; i < gateConnections.size(); i++) {
+			if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo + 1) {
+				gateConnection = gateConnections[i];
+				break;
+			}
+		}
+		if (!gateConnection) {
+			break;
+		}
+		if (gateConnection->IsBlocking()) {
+			break;
+		}
+		yCellTo++;
+		if (gateConnection->IsNode()) {
+			break;
+		}
+	}
+	GoToCell(xCell, yCellTo);
+}
+
+void CMarioMap::GoLeft()
+{
+	CGame* g = CGame::GetInstance();
+	CWorldMapScene* scene = dynamic_cast<CWorldMapScene*>(g->GetCurrentScene());
+	if (!scene)
+	{
+		return;
+	}
+	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
+
+
+	int xCellTo = xCell;
+	while (true) {
+		// check xCell - 1
+		CGateConnection* gateConnection = NULL;
+		for (int i = 0; i < gateConnections.size(); i++) {
+			if (gateConnections[i]->GetXCell() == xCellTo - 1 && gateConnections[i]->GetYCell() == yCell) {
+				gateConnection = gateConnections[i];
+				break;
+			}
+		}
+		if (!gateConnection) {
+			break;
+		}
+		if (gateConnection->IsBlocking()) {
+			break;
+		}
+		xCellTo--;
+		if (gateConnection->IsNode()) {
+			break;
+		}
+	}
+	GoToCell(xCellTo, yCell);
+}
+
+void CMarioMap::GoUp()
+{
+	CGame* g = CGame::GetInstance();
+	CWorldMapScene* scene = dynamic_cast<CWorldMapScene*>(g->GetCurrentScene());
+	if (!scene)
+	{
+		return;
+	}
+	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
+
+
+	int yCellTo = yCell;
+	while (true) {
+		// check yCell - 1
+		CGateConnection* gateConnection = NULL;
+		for (int i = 0; i < gateConnections.size(); i++) {
+			if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo - 1) {
+				gateConnection = gateConnections[i];
+				break;
+			}
+		}
+		if (!gateConnection) {
+			break;
+		}
+		if (gateConnection->IsBlocking()) {
+			break;
+		}
+		yCellTo--;
+		if (gateConnection->IsNode()) {
+			break;
+		}
+	}
+	GoToCell(xCell, yCellTo);
 }

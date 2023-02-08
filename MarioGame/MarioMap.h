@@ -1,19 +1,46 @@
 #pragma once
 #include "GameObject.h"
+#include <vector>
+using namespace std;
 
 #define MARIO_MAP_STATE_NONE 0
 #define MARIO_MAP_STATE_MOVING 1
+
+
+class CGateConnection {
+	int xCell;
+	int yCell;
+	bool isBlocking;
+	bool isNode;
+	int tileSize = 16;
+public:
+	CGateConnection(int xCell, int yCell, bool isBlocking, bool isNode) {
+		this->xCell = xCell;
+		this->yCell = yCell;
+		this->isBlocking = isBlocking;
+		this->isNode = isNode;
+	}
+	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
+		x = float(xTile * tileSize + tileSize / 2);
+		y = float(yTile * tileSize + tileSize / 2);
+	}
+	int GetXCell() { return xCell; }
+	int GetYCell() { return yCell; }
+	bool IsBlocking() { return isBlocking; }
+	bool IsNode() { return isNode; }
+};
 
 class CMarioMap : public CGameObject
 {
 	int xCell;
 	int yCell;
 	int tileSize = 16;
-	float v = 0.1f;
+	float v = 0.2f;
 	int state = MARIO_MAP_STATE_NONE;
 
 	int xCellTo;
 	int yCellTo;
+
 public: 
 	CMarioMap(int xCell, int yCell);
 	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
@@ -37,29 +64,10 @@ public:
 		this->xCellTo = xCellTo;
 		this->yCellTo = yCellTo;
 	}
+	void GoRight();
+	void GoLeft();
+	void GoDown();
+	void GoUp();
 	int GetXCell() { return xCell; }
 	int GetYCell() { return yCell; }
-};
-
-class CGateConnection {
-	int xCell;
-	int yCell;
-	bool isBlocking;
-	bool isNode;
-	int tileSize = 16;
-public:
-	CGateConnection(int xCell, int yCell, bool isBlocking, bool isNode) {
-		this->xCell = xCell;
-		this->yCell = yCell;
-		this->isBlocking = isBlocking;
-		this->isNode = isNode;
-	}
-	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
-		x = float(xTile * tileSize + tileSize / 2);
-		y = float(yTile * tileSize + tileSize / 2);
-	}
-	int GetXCell() { return xCell; }
-	int GetYCell() { return yCell; }
-	bool IsBlocking() { return isBlocking; }
-	bool IsNode() { return isNode; }
 };

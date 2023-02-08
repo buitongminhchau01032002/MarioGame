@@ -14,19 +14,19 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 	{
 	
 	case DIK_DOWN: {
-		mario->GoToCell(mario->GetXCell(), mario->GetYCell() + 1);
+		mario->GoDown();
 		break;
 	}
 	case DIK_UP: {
-		mario->GoToCell(mario->GetXCell(), mario->GetYCell() - 1);
+		mario->GoUp();
 		break;
 	}
 	case DIK_LEFT: {
-		mario->GoToCell(mario->GetXCell() - 1, mario->GetYCell());
+		mario->GoLeft();
 		break;
 	}
 	case DIK_RIGHT: {
-		mario->GoToCell(mario->GetXCell() + 1, mario->GetYCell());
+		mario->GoRight();
 		break;
 	}
 
