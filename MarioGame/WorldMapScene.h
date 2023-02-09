@@ -5,6 +5,25 @@
 #include "MarioMap.h"
 
 #include <vector>
+
+
+#define SCENE_SECTION_UNKNOWN -1
+#define SCENE_SECTION_ASSETS	1
+#define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_UIS	-10
+#define SCENE_SECTION_INFOR 3
+#define SCENE_SECTION_MAP 4
+#define SCENE_SECTION_CAMERA 5
+#define SCENE_SECTION_GATE_CONNECTIONS 6
+#define SCENE_SECTION_GATES 7
+#define SCENE_SECTION_PLAYER 10
+
+#define ASSETS_SECTION_UNKNOWN -1
+#define ASSETS_SECTION_SPRITES 1
+#define ASSETS_SECTION_ANIMATIONS 2
+
+#define MAX_SCENE_LINE 1024
+
 using namespace std;
 
 class CWorldMapScene: public CScene

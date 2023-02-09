@@ -194,6 +194,7 @@ class CMario : public CGameObject
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdCat();
+	void SaveToFile();
 
 public:
 	CMario(float x, float y) : CGameObject(x, y)

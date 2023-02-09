@@ -35,6 +35,7 @@ public:
 	int GetXCell() { return xCell; }
 	int GetYCell() { return yCell; }
 	bool IsCompleted() { return isCompleted; }
+	void SetCompleted(bool completed) { isCompleted = completed; }
 	int GetSceneId() { return sceneId; }
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {};

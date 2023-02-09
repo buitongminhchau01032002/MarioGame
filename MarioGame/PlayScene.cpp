@@ -119,11 +119,14 @@ void CPlayScene::_ParseSection_INFOR(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1 || tokens[0] == "") return;
+	if (tokens.size() < 3 || tokens[0] == "") return;
 	int tileSize = atof(tokens[0].c_str());
 	this->tileSize = tileSize;
 	int marginScreen = atof(tokens[1].c_str());
 	this->marginScreen = marginScreen;
+	LPCWSTR saveFile = ToLPCWSTR(tokens[2]);
+	this->saveFile = saveFile;
+
 }
 
 void CPlayScene::_ParseSection_CAMERA(string line)

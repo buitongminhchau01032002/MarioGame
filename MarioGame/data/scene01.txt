@@ -18,8 +18,8 @@ data\map01.txt
 0	0	20	60	20	10	0	0	2816	480	0	40
 
 [INFOR]
-#tile_size	marginScreen
-16	80
+#tile_size	marginScreen	saveFile
+16	80	data\save_map01.txt
 
 #
 [OBJECTS]

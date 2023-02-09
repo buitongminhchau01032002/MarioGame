@@ -34,6 +34,7 @@ protected:
 	int tileSize = 16; // default value (not hard code)
 	int marginScreen = 32; //
 	LPMAP map;
+	LPCWSTR saveFile;
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
@@ -65,6 +66,7 @@ public:
 	void PurgeDeletedObjects();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+	LPCWSTR GetSaveFile() { return saveFile; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;

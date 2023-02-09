@@ -1,6 +1,7 @@
 #include <algorithm>
+#include <fstream>
 #include "debug.h"
-
+#include "Utils.h"
 #include "Mario.h"
 #include "Game.h"
 
@@ -12,6 +13,7 @@
 #include "MyPortal.h"
 #include "Scene.h"
 #include "PlayScene.h"
+#include "WorldMapScene.h"
 #include "QuestionBox.h"
 #include "Mushroom.h"
 #include "Koopa.h"
@@ -110,6 +112,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state == MARIO_STATE_DIE) {
 		if (GetTickCount64() - dieStart > MARIO_DIE_DURATION)
 		{
+			SaveToFile();
 			CGame::GetInstance()->InitiateSwitchScene(0);
 		}
 	}
@@ -651,4 +654,118 @@ void CMario::SetStateY(int state)
 		break;
 	}
 	stateY = state;
+}
+
+void CMario::SaveToFile() {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	LPCWSTR saveFile = s->GetSaveFile();
+
+	LPGAMEOBJECT marioMap = new CMarioMap(0, 0);
+	vector<CGateConnection*> gateConnections;
+	vector<CGate*> gates;
+
+	ifstream inputf;
+	inputf.open(saveFile);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (inputf.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines	
+		if (line == "[GATE_CONNECTIONS]") { section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
+		if (line == "[GATES]") { section = SCENE_SECTION_GATES; continue; }
+		if (line == "[PLAYER]") { section = SCENE_SECTION_PLAYER; continue; }
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case SCENE_SECTION_GATE_CONNECTIONS: {
+			vector<string> tokens = split(line);
+
+			if (tokens.size() < 4 || tokens[0] == "") break;
+			int blockingLeft = 0;
+			int blockingTop = 0;
+			int blockingRight = 0;
+			int blockingBottom = 0;
+			int xCell = atof(tokens[0].c_str());
+			int yCell = atof(tokens[1].c_str());
+			int isBlocking = atof(tokens[2].c_str());
+			int isNode = atof(tokens[3].c_str());
+
+			if (tokens.size() == 8) {
+				blockingLeft = atof(tokens[4].c_str());
+				blockingTop = atof(tokens[5].c_str());
+				blockingRight = atof(tokens[6].c_str());
+				blockingBottom = atof(tokens[7].c_str());
+			}
+			gateConnections.push_back(new CGateConnection(xCell, yCell, isBlocking, isNode, blockingLeft, blockingTop, blockingRight, blockingBottom));
+			break;
+		}
+		case SCENE_SECTION_GATES: {
+			vector<string> tokens = split(line);
+
+			if (tokens.size() < 4 || tokens[0] == "") break;
+			int xCell = atof(tokens[0].c_str());
+			int yCell = atof(tokens[1].c_str());
+			int isCompleted = atof(tokens[2].c_str());
+			int sceneId = atof(tokens[3].c_str());
+			gates.push_back(new CGate(xCell, yCell, isCompleted, sceneId));
+			break;
+		}
+		case SCENE_SECTION_PLAYER: {
+			vector<string> tokens = split(line);
+
+			if (tokens.size() < 2 || tokens[0] == "") break;
+			int xCell = atof(tokens[0].c_str());
+			int yCell = atof(tokens[1].c_str());
+			delete marioMap;
+			marioMap = new CMarioMap(xCell, yCell);
+			break;
+		}
+		}
+	}
+
+	inputf.close();
+
+	// Complete gate
+	for (int i = 0; i < gates.size(); i++) {
+		if (gates[i]->GetSceneId() == s->GetId()) {
+			gates[i]->SetCompleted(true);
+			break;
+		}
+	}
+
+
+
+	// Create and open a text file
+	ofstream f(saveFile);
+
+	// Write gate connection
+	f << "[GATE_CONNECTIONS]" << endl;
+	for (int i = 0; i < gateConnections.size(); i++) {
+		CGateConnection* gc = gateConnections[i];
+		f << gc->GetXCell() << "\t" << gc->GetYCell() << "\t" << gc->IsBlocking() << "\t" << gc->IsNode() << "\t" <<
+			gc->IsBlockingLeft() << "\t" << gc->IsBlockingTop() << "\t" << gc->IsBlockingRight() << "\t" << gc->IsBlockingBottom() << endl;
+	}
+
+	// Write gate
+	f << "[GATES]" << endl;
+	for (int i = 0; i < gates.size(); i++) {
+		CGate* gate = gates[i];
+		f << gate->GetXCell() << "\t" << gate->GetYCell() << "\t" << gate->IsCompleted() << "\t" << gate->GetSceneId() << endl;
+	}
+
+	// Write marioMap
+	f << "[PLAYER]" << endl;
+	f << ((CMarioMap*)marioMap)->GetXCell() << "\t" << ((CMarioMap*)marioMap)->GetYCell() << endl;
+
+	// Close the file
+	f.close();
 }
