@@ -30,6 +30,7 @@ protected:
 	LPMAP map;
 	LPGAMEOBJECT player;
 	vector<CGateConnection*> gateConnections;
+	vector<CGate*> gates;
 
 public:
 	CWorldMapScene(int id, LPCWSTR filePath);
@@ -51,6 +52,7 @@ public:
 		return objects;
 	}
 	vector<CGateConnection*> GetGateConnection() { return gateConnections; }
+	vector<CGate*> GetGate() { return gates; }
 
 	void Clear();
 	void PurgeDeletedObjects();

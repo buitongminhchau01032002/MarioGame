@@ -12,7 +12,22 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 
 	switch (KeyCode)
 	{
-	
+	case DIK_S: {
+		CGame* g = CGame::GetInstance();
+		CWorldMapScene* scene = dynamic_cast<CWorldMapScene*>(g->GetCurrentScene());
+		vector<CGate*> gates = scene->GetGate();
+		CGate* gate = NULL;
+		for (int i = 0; i < gates.size(); i++) {
+			if (gates[i]->GetXCell() == mario->GetXCell() && gates[i]->GetYCell() == mario->GetYCell()) {
+				gate = gates[i];
+				break;
+			}
+		}
+		if (gate) {
+			g->InitiateSwitchScene(100);
+		}
+		break;
+	}
 	case DIK_DOWN: {
 		mario->GoDown();
 		break;

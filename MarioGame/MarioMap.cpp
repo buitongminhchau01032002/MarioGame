@@ -119,6 +119,7 @@ void CMarioMap::GoRight()
 		return;
 	}
 	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
+	vector<CGate*> gates = scene->GetGate();
 
 
 	int xCellTo = xCell;
@@ -134,7 +135,20 @@ void CMarioMap::GoRight()
 		return;
 	}
 	while(true) {
-		// check xCell + 1
+		// check xCell + 1 gate
+		CGate* gate = NULL;
+		for (int i = 0; i < gates.size(); i++) {
+			if (gates[i]->GetXCell() == xCellTo + 1 && gates[i]->GetYCell() == yCell) {
+				gate = gates[i];
+				break;
+			}
+		}
+		if (gate) {
+			xCellTo++;
+			break;
+		}
+
+		// check xCell + 1 gateconnection
 		gateConnection = NULL;
 		for (int i = 0; i < gateConnections.size(); i++) {
 			if (gateConnections[i]->GetXCell() == xCellTo + 1 && gateConnections[i]->GetYCell() == yCell) {
@@ -165,7 +179,7 @@ void CMarioMap::GoDown()
 		return;
 	}
 	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
-
+	vector<CGate*> gates = scene->GetGate();
 
 	int yCellTo = yCell;
 	CGateConnection* gateConnection = NULL;
@@ -180,6 +194,19 @@ void CMarioMap::GoDown()
 		return;
 	}
 	while (true) {
+		// check yCell + 1 gate
+		CGate* gate = NULL;
+		for (int i = 0; i < gates.size(); i++) {
+			if (gates[i]->GetXCell() == xCell && gates[i]->GetYCell() == yCellTo + 1) {
+				gate = gates[i];
+				break;
+			}
+		}
+		if (gate) {
+			yCellTo++;
+			break;
+		}
+
 		// check yCell + 1
 		gateConnection = NULL;
 		for (int i = 0; i < gateConnections.size(); i++) {
@@ -211,7 +238,7 @@ void CMarioMap::GoLeft()
 		return;
 	}
 	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
-
+	vector<CGate*> gates = scene->GetGate();
 
 	int xCellTo = xCell;
 	CGateConnection* gateConnection = NULL;
@@ -226,6 +253,20 @@ void CMarioMap::GoLeft()
 		return;
 	}
 	while (true) {
+		// check xCell - 1 gate
+		CGate* gate = NULL;
+		for (int i = 0; i < gates.size(); i++) {
+			if (gates[i]->GetXCell() == xCellTo - 1 && gates[i]->GetYCell() == yCell) {
+				gate = gates[i];
+				break;
+			}
+		}
+		if (gate) {
+			xCellTo--;
+			break;
+		}
+
+
 		// check xCell - 1
 		gateConnection = NULL;
 		for (int i = 0; i < gateConnections.size(); i++) {
@@ -257,7 +298,7 @@ void CMarioMap::GoUp()
 		return;
 	}
 	vector<CGateConnection*> gateConnections = scene->GetGateConnection();
-
+	vector<CGate*> gates = scene->GetGate();
 
 	int yCellTo = yCell;
 	CGateConnection* gateConnection = NULL;
@@ -272,8 +313,22 @@ void CMarioMap::GoUp()
 		return;
 	}
 	while (true) {
+		// check yCell - 1 gate
+		CGate* gate = NULL;
+		for (int i = 0; i < gates.size(); i++) {
+			if (gates[i]->GetXCell() == xCell && gates[i]->GetYCell() == yCellTo - 1) {
+				gate = gates[i];
+				break;
+			}
+		}
+		if (gate) {
+			yCellTo--;
+			break;
+		}
+
+
 		// check yCell - 1
-		CGateConnection* gateConnection = NULL;
+		gateConnection = NULL;
 		for (int i = 0; i < gateConnections.size(); i++) {
 			if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo - 1) {
 				gateConnection = gateConnections[i];

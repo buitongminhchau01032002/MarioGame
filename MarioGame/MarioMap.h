@@ -3,6 +3,8 @@
 #include <vector>
 using namespace std;
 
+#define MARIO_MAP_SPEED 0.15f
+
 #define MARIO_MAP_STATE_NONE 0
 #define MARIO_MAP_STATE_MOVING 1
 
@@ -45,12 +47,32 @@ public:
 	bool IsNode() { return isNode; }
 };
 
+class CGate {
+	int xCell;
+	int yCell;
+	bool isCompleted;
+	int tileSize = 16;
+public:
+	CGate(int xCell, int yCell, bool isCompleted) {
+		this->xCell = xCell;
+		this->yCell = yCell;
+		this->isCompleted = isCompleted;
+	}
+	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
+		x = float(xTile * tileSize + tileSize / 2);
+		y = float(yTile * tileSize + tileSize / 2);
+	}
+	int GetXCell() { return xCell; }
+	int GetYCell() { return yCell; }
+	bool IsCompleted() { return isCompleted; }
+};
+
 class CMarioMap : public CGameObject
 {
 	int xCell;
 	int yCell;
 	int tileSize = 16;
-	float v = 0.2f;
+	float v = MARIO_MAP_SPEED;
 	int state = MARIO_MAP_STATE_NONE;
 
 	int xCellTo;
