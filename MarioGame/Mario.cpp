@@ -99,10 +99,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// attack timer
 	if (state == MARIO_STATE_ATTACK) {
-		if (GetTickCount64() - attackStart > MARIO_STATE_ATTACK)
+		if (GetTickCount64() - attackStart > MARIO_ATTACK_EFFECT_DURATION)
 		{
 			attackStart = 0;
 			SetState(MARIO_STATE_NONE);
+		}
+	}
+
+	// die
+	if (state == MARIO_STATE_DIE) {
+		if (GetTickCount64() - dieStart > MARIO_DIE_DURATION)
+		{
+			CGame::GetInstance()->InitiateSwitchScene(0);
 		}
 	}
 
@@ -576,6 +584,8 @@ void CMario::SetState(int state)
 	if (state == MARIO_STATE_DIE) {
 		CGame* g = CGame::GetInstance();
 		g->IncreaseHeart(-1);
+		vy = -MARIO_JUMP_SPEED_Y;
+		dieStart = GetTickCount64();
 	}
 	CGameObject::SetState(state);
 }

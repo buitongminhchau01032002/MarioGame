@@ -20,49 +20,49 @@ CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath):CScene(id, filePath)
 	gateConnections.push_back(new CGateConnection(3, 4, false, false));
 	gateConnections.push_back(new CGateConnection(4, 4, false, true, 0, 0, 0, 1));
 	gateConnections.push_back(new CGateConnection(4, 3, false, false));
-	gates.push_back(new CGate(4, 2, false)); //
+	gates.push_back(new CGate(4, 2, false, 100)); //
 	gateConnections.push_back(new CGateConnection(5, 2, false, false));
 	gateConnections.push_back(new CGateConnection(6, 2, false, true));
 	gateConnections.push_back(new CGateConnection(7, 2, false, false));
-	gates.push_back(new CGate(8, 2, false)); //
+	gates.push_back(new CGate(8, 2, false, 100)); //
 	gateConnections.push_back(new CGateConnection(9, 2, false, false));
-	gates.push_back(new CGate(10, 2, false)); //
+	gates.push_back(new CGate(10, 2, false, 100)); //
 	gateConnections.push_back(new CGateConnection(11, 2, false, false));
 	gateConnections.push_back(new CGateConnection(12, 2, false, true));
 	gateConnections.push_back(new CGateConnection(12, 3, false, false));
-	gates.push_back(new CGate(12, 4, false)); //
+	gates.push_back(new CGate(12, 4, false, 100)); //
 	gateConnections.push_back(new CGateConnection(11, 4, false, false));
-	gates.push_back(new CGate(10, 4, false)); //
+	gates.push_back(new CGate(10, 4, false, 100)); //
 	gateConnections.push_back(new CGateConnection(9, 4, false, false));
 
 
 	gateConnections.push_back(new CGateConnection(8, 3, false, false));
 	gateConnections.push_back(new CGateConnection(8, 4, false, true));
 	gateConnections.push_back(new CGateConnection(8, 5, false, false));
-	gates.push_back(new CGate(8, 6, false)); //
+	gates.push_back(new CGate(8, 6, false, 100)); //
 	gateConnections.push_back(new CGateConnection(7, 6, false, false));
-	gates.push_back(new CGate(6, 6, false)); //
+	gates.push_back(new CGate(6, 6, false, 100)); //
 	gateConnections.push_back(new CGateConnection(5, 6, false, false));
 	gateConnections.push_back(new CGateConnection(4, 6, false, true));
-	gates.push_back(new CGate(4, 5, false)); //
+	gates.push_back(new CGate(4, 5, false, 100)); //
 
 	gateConnections.push_back(new CGateConnection(4, 7, false, false));
 	gateConnections.push_back(new CGateConnection(4, 8, false, true));
 	gateConnections.push_back(new CGateConnection(4, 9, false, false));
-	gates.push_back(new CGate(4, 10, false)); //
+	gates.push_back(new CGate(4, 10, false, 100)); //
 	gateConnections.push_back(new CGateConnection(5, 10, false, false));
 	gateConnections.push_back(new CGateConnection(6, 10, false, true));
 	gateConnections.push_back(new CGateConnection(7, 10, false, false));
-	gates.push_back(new CGate(8, 10, false)); //
+	gates.push_back(new CGate(8, 10, false, 100)); //
 	gateConnections.push_back(new CGateConnection(8, 9, false, false));
 	gateConnections.push_back(new CGateConnection(8, 8, false, true));
 	gateConnections.push_back(new CGateConnection(7, 8, false, false));
-	gates.push_back(new CGate(6, 8, false)); //
+	gates.push_back(new CGate(6, 8, false, 100)); //
 
 	gateConnections.push_back(new CGateConnection(9, 8, false, false));
 	gateConnections.push_back(new CGateConnection(10, 8, false, true));
 	gateConnections.push_back(new CGateConnection(11, 8, false, false));
-	gates.push_back(new CGate(12, 8, false)); // 
+	gates.push_back(new CGate(12, 8, false, 100)); // 
 
 }
 

@@ -29,6 +29,7 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_ATTACK_EFFECT_DURATION 200
 #define MARIO_TIME 300
+#define MARIO_DIE_DURATION 2500
 
 // STATE
 #define MARIO_STATE_DIE -10
@@ -178,6 +179,7 @@ class CMario : public CGameObject
 	ULONGLONG timeStart;
 
 	ULONGLONG attackStart;
+	ULONGLONG dieStart;
 	
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
