@@ -34,6 +34,8 @@ protected:
 	LPGAMEOBJECT player;
 	vector<CGateConnection*> gateConnections;
 	vector<CGate*> gates;
+	LPCWSTR saveFile;
+	bool isInit = true;
 
 public:
 	CWorldMapScene(int id, LPCWSTR filePath);
@@ -56,6 +58,8 @@ public:
 	}
 	vector<CGateConnection*> GetGateConnection() { return gateConnections; }
 	vector<CGate*> GetGate() { return gates; }
+
+	void SaveToFile();
 
 	void Clear();
 	void PurgeDeletedObjects();

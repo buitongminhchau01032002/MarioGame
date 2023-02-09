@@ -586,6 +586,7 @@ void CMario::SetState(int state)
 		g->IncreaseHeart(-1);
 		vy = -MARIO_JUMP_SPEED_Y;
 		vx = 0.0f;
+		ax = 0.0f;
 		dieStart = GetTickCount64();
 	}
 	CGameObject::SetState(state);

@@ -106,9 +106,41 @@ void CWorldMapScene::_ParseSection_INFOR(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1 || tokens[0] == "") return;
+	if (tokens.size() < 2 || tokens[0] == "") return;
 	int tileSize = atof(tokens[0].c_str());
+	LPCWSTR saveFile = ToLPCWSTR(tokens[1]);
 	this->tileSize = tileSize;
+	this->saveFile = saveFile;
+
+	ifstream f;
+	f.open(saveFile);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines	
+		if (line == "[GATE_CONNECTIONS]") { section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
+		if (line == "[GATES]") { section = SCENE_SECTION_GATES; continue; }
+		if (line == "[PLAYER]") { section = SCENE_SECTION_PLAYER; continue; }
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case SCENE_SECTION_GATE_CONNECTIONS: _ParseSection_GATE_CONNECTIONS(line); isInit = false; break;
+		case SCENE_SECTION_GATES: _ParseSection_GATES(line); isInit = false; break;
+		case SCENE_SECTION_PLAYER: _ParseSection_PLAYER(line); isInit = false; break;
+		}
+	}
+
+	f.close();
 }
 
 void CWorldMapScene::_ParseSection_GATE_CONNECTIONS(string line)
@@ -283,9 +315,9 @@ void CWorldMapScene::Load()
 		case SCENE_SECTION_UIS: _ParseSection_UIS(line); break;
 		case SCENE_SECTION_INFOR: _ParseSection_INFOR(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
-		case SCENE_SECTION_GATE_CONNECTIONS: _ParseSection_GATE_CONNECTIONS(line); break;
-		case SCENE_SECTION_GATES: _ParseSection_GATES(line); break;
-		case SCENE_SECTION_PLAYER: _ParseSection_PLAYER(line); break;
+		case SCENE_SECTION_GATE_CONNECTIONS: if (isInit) _ParseSection_GATE_CONNECTIONS(line); break;
+		case SCENE_SECTION_GATES: if (isInit) _ParseSection_GATES(line); break;
+		case SCENE_SECTION_PLAYER: if (isInit) _ParseSection_PLAYER(line); break;
 		}
 	}
 
@@ -416,4 +448,17 @@ void CWorldMapScene::PurgeDeletedObjects()
 	uis.erase(
 		std::remove_if(uis.begin(), uis.end(), CWorldMapScene::IsGameObjectDeleted),
 		uis.end());
+}
+
+void CWorldMapScene::SaveToFile() {
+	// Create and open a text file
+	ofstream MyFile(saveFile);
+
+	// Write to the file
+	MyFile << "Files can be tricky, but it is fun enough!";
+	MyFile << "Files can be tricky, but it is fun enough!";
+	MyFile << "Files can be tricky, but it is fun enough!";
+
+	// Close the file
+	MyFile.close();
 }

@@ -24,6 +24,7 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 			}
 		}
 		if (gate) {
+			scene->SaveToFile();
 			g->InitiateSwitchScene(gate->GetSceneId());
 		}
 		break;

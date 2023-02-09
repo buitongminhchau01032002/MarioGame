@@ -12,6 +12,29 @@ using namespace std;
 #define ID_ANI_MARIO_MAP_BIG 91000
 #define ID_ANI_MARIO_MAP_CAT 92000
 
+class CGate {
+	int xCell;
+	int yCell;
+	bool isCompleted;
+	int sceneId;
+	int tileSize = 16;
+public:
+	CGate(int xCell, int yCell, bool isCompleted, int sceneId) {
+		this->xCell = xCell;
+		this->yCell = yCell;
+		this->isCompleted = isCompleted;
+		this->sceneId = sceneId;
+	}
+	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
+		x = float(xTile * tileSize + tileSize / 2);
+		y = float(yTile * tileSize + tileSize / 2);
+	}
+	int GetXCell() { return xCell; }
+	int GetYCell() { return yCell; }
+	bool IsCompleted() { return isCompleted; }
+	int GetSceneId() { return sceneId; }
+};
+
 class CGateConnection {
 	int xCell;
 	int yCell;
@@ -47,28 +70,7 @@ public:
 	bool IsNode() { return isNode; }
 };
 
-class CGate {
-	int xCell;
-	int yCell;
-	bool isCompleted;
-	int sceneId;
-	int tileSize = 16;
-public:
-	CGate(int xCell, int yCell, bool isCompleted, int sceneId) {
-		this->xCell = xCell;
-		this->yCell = yCell;
-		this->isCompleted = isCompleted;
-		this->sceneId = sceneId;
-	}
-	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
-		x = float(xTile * tileSize + tileSize / 2);
-		y = float(yTile * tileSize + tileSize / 2);
-	}
-	int GetXCell() { return xCell; }
-	int GetYCell() { return yCell; }
-	bool IsCompleted() { return isCompleted; }
-	int GetSceneId() { return sceneId; }
-};
+
 
 class CMarioMap : public CGameObject
 {
