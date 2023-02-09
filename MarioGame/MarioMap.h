@@ -12,13 +12,21 @@ class CGateConnection {
 	int yCell;
 	bool isBlocking;
 	bool isNode;
+	bool blockingLeft;
+	bool blockingRight;
+	bool blockingTop;
+	bool blockingBottom;
 	int tileSize = 16;
 public:
-	CGateConnection(int xCell, int yCell, bool isBlocking, bool isNode) {
+	CGateConnection(int xCell, int yCell, bool isBlocking, bool isNode, bool blockingLeft = false, bool blockingTop = false, bool blockingRight = false, bool blockinBottom = false) {
 		this->xCell = xCell;
 		this->yCell = yCell;
 		this->isBlocking = isBlocking;
 		this->isNode = isNode;
+		this->blockingBottom = blockinBottom;
+		this->blockingLeft = blockingLeft;
+		this->blockingRight = blockingRight;
+		this->blockingTop = blockingTop;
 	}
 	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
 		x = float(xTile * tileSize + tileSize / 2);
@@ -27,6 +35,10 @@ public:
 	int GetXCell() { return xCell; }
 	int GetYCell() { return yCell; }
 	bool IsBlocking() { return isBlocking; }
+	bool IsBlockingLeft() { return blockingLeft; }
+	bool IsBlockingRight() { return blockingRight; }
+	bool IsBlockingTop() { return blockingTop; }
+	bool IsBlockingBottom() { return blockingBottom; }
 	bool IsNode() { return isNode; }
 };
 

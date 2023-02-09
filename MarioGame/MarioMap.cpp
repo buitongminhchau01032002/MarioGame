@@ -122,9 +122,20 @@ void CMarioMap::GoRight()
 
 
 	int xCellTo = xCell;
+	CGateConnection* gateConnection = NULL;
+	// check yCell
+	for (int i = 0; i < gateConnections.size(); i++) {
+		if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo) {
+			gateConnection = gateConnections[i];
+			break;
+		}
+	}
+	if (gateConnection && gateConnection->IsBlockingRight()) {
+		return;
+	}
 	while(true) {
 		// check xCell + 1
-		CGateConnection* gateConnection = NULL;
+		gateConnection = NULL;
 		for (int i = 0; i < gateConnections.size(); i++) {
 			if (gateConnections[i]->GetXCell() == xCellTo + 1 && gateConnections[i]->GetYCell() == yCell) {
 				gateConnection = gateConnections[i];
@@ -134,7 +145,7 @@ void CMarioMap::GoRight()
 		if (!gateConnection) {
 			break;
 		}
-		if (gateConnection->IsBlocking()) {
+		if (gateConnection->IsBlocking() || gateConnection->IsBlockingLeft()) {
 			break;
 		}
 		xCellTo++;
@@ -157,9 +168,20 @@ void CMarioMap::GoDown()
 
 
 	int yCellTo = yCell;
+	CGateConnection* gateConnection = NULL;
+	// check yCell
+	for (int i = 0; i < gateConnections.size(); i++) {
+		if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo) {
+			gateConnection = gateConnections[i];
+			break;
+		}
+	}
+	if (gateConnection && gateConnection->IsBlockingBottom()) {
+		return;
+	}
 	while (true) {
 		// check yCell + 1
-		CGateConnection* gateConnection = NULL;
+		gateConnection = NULL;
 		for (int i = 0; i < gateConnections.size(); i++) {
 			if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo + 1) {
 				gateConnection = gateConnections[i];
@@ -169,7 +191,7 @@ void CMarioMap::GoDown()
 		if (!gateConnection) {
 			break;
 		}
-		if (gateConnection->IsBlocking()) {
+		if (gateConnection->IsBlocking() || gateConnection->IsBlockingTop()) {
 			break;
 		}
 		yCellTo++;
@@ -192,9 +214,20 @@ void CMarioMap::GoLeft()
 
 
 	int xCellTo = xCell;
+	CGateConnection* gateConnection = NULL;
+	// check yCell
+	for (int i = 0; i < gateConnections.size(); i++) {
+		if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo) {
+			gateConnection = gateConnections[i];
+			break;
+		}
+	}
+	if (gateConnection && gateConnection->IsBlockingLeft()) {
+		return;
+	}
 	while (true) {
 		// check xCell - 1
-		CGateConnection* gateConnection = NULL;
+		gateConnection = NULL;
 		for (int i = 0; i < gateConnections.size(); i++) {
 			if (gateConnections[i]->GetXCell() == xCellTo - 1 && gateConnections[i]->GetYCell() == yCell) {
 				gateConnection = gateConnections[i];
@@ -204,7 +237,7 @@ void CMarioMap::GoLeft()
 		if (!gateConnection) {
 			break;
 		}
-		if (gateConnection->IsBlocking()) {
+		if (gateConnection->IsBlocking() || gateConnection->IsBlockingRight()) {
 			break;
 		}
 		xCellTo--;
@@ -227,6 +260,17 @@ void CMarioMap::GoUp()
 
 
 	int yCellTo = yCell;
+	CGateConnection* gateConnection = NULL;
+	// check yCell
+	for (int i = 0; i < gateConnections.size(); i++) {
+		if (gateConnections[i]->GetXCell() == xCell && gateConnections[i]->GetYCell() == yCellTo) {
+			gateConnection = gateConnections[i];
+			break;
+		}
+	}
+	if (gateConnection && gateConnection->IsBlockingTop()) {
+		return;
+	}
 	while (true) {
 		// check yCell - 1
 		CGateConnection* gateConnection = NULL;
@@ -239,7 +283,7 @@ void CMarioMap::GoUp()
 		if (!gateConnection) {
 			break;
 		}
-		if (gateConnection->IsBlocking()) {
+		if (gateConnection->IsBlocking() || gateConnection->IsBlockingBottom()) {
 			break;
 		}
 		yCellTo--;
