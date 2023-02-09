@@ -19,7 +19,7 @@ CMarioMap::CMarioMap(int xCell, int yCell)
 
 void CMarioMap::Render()
 {
-	LPANIMATION ani = CAnimations::GetInstance()->Get(1200);
+	LPANIMATION ani = CAnimations::GetInstance()->Get(ID_ANI_MARIO_MAP_SMALL);
 	ani->Render(x, y);
 }
 

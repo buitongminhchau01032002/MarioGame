@@ -6,6 +6,9 @@ using namespace std;
 #define MARIO_MAP_STATE_NONE 0
 #define MARIO_MAP_STATE_MOVING 1
 
+#define ID_ANI_MARIO_MAP_SMALL 90000
+#define ID_ANI_MARIO_MAP_BIG 91000
+#define ID_ANI_MARIO_MAP_CAT 92000
 
 class CGateConnection {
 	int xCell;
@@ -56,8 +59,8 @@ class CMarioMap : public CGameObject
 public: 
 	CMarioMap(int xCell, int yCell);
 	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
-		x = float(xTile * tileSize + tileSize / 2);
-		y = float(yTile * tileSize + tileSize / 2);
+		x = float(xTile * tileSize + tileSize / 2) + 1;
+		y = float(yTile * tileSize + tileSize / 2) - 1;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

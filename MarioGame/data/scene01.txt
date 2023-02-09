@@ -2,7 +2,6 @@
 [ASSETS]
 data\mario.txt
 data\brick.txt
-data\platform.txt
 data\goomba.txt
 data\question_box.txt
 data\coin.txt

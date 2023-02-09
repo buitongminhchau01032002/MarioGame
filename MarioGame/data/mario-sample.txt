@@ -21,3 +21,4 @@ height	240
 30	textures\tilemap.png
 -10	textures\ui.png
 -20	textures\worldmap.png
+-21	textures\worldmap2.png
