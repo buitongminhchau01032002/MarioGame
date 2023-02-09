@@ -12,7 +12,9 @@ using namespace std;
 #define ID_ANI_MARIO_MAP_BIG 91000
 #define ID_ANI_MARIO_MAP_CAT 92000
 
-class CGate {
+#define ID_SPRITE_GATE_COMPLETED 100000
+
+class CGate:CGameObject {
 	int xCell;
 	int yCell;
 	bool isCompleted;
@@ -24,6 +26,7 @@ public:
 		this->yCell = yCell;
 		this->isCompleted = isCompleted;
 		this->sceneId = sceneId;
+		GetObjectXY(xCell, yCell, x, y);
 	}
 	void GetObjectXY(int xTile, int yTile, float& x, float& y) {
 		x = float(xTile * tileSize + tileSize / 2);
@@ -33,6 +36,15 @@ public:
 	int GetYCell() { return yCell; }
 	bool IsCompleted() { return isCompleted; }
 	int GetSceneId() { return sceneId; }
+	void Render();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {};
+	void GetBoundingBox(float& l, float& t, float& r, float& b) {
+		l = 0;
+		t = 0;
+		r = 0;
+		b = 0;
+	};
+	int IsBlocking() { return 0; }
 };
 
 class CGateConnection {

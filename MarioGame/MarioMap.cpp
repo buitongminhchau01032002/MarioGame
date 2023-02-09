@@ -1,11 +1,19 @@
 #include "MarioMap.h"
 #include "Animations.h"
+#include "Sprites.h"
 #include "Map.h"
 #include "debug.h"
 #include "Game.h"
 #include "WorldMapScene.h"
 #include <vector>
 using namespace std;
+
+void CGate::Render() {
+	LPSPRITE sprite = CSprites::GetInstance()->Get(ID_SPRITE_GATE_COMPLETED);
+	if (isCompleted) {
+		sprite->Draw(x+1, y-1);
+	}
+}
 
 CMarioMap::CMarioMap(int xCell, int yCell) 
 	{

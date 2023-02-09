@@ -367,6 +367,9 @@ void CWorldMapScene::Render()
 	if (map != NULL) {
 		map->Render();
 	}
+	for (int i = 0; i < gates.size(); i++) {
+		gates[i]->Render();
+	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 	for (int i = 0; i < uis.size(); i++)
