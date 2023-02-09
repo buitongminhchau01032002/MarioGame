@@ -16,54 +16,6 @@ using namespace std;
 CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath):CScene(id, filePath)
 {
 	key_handler = new CWorldMapKeyHandler(this);
-	gateConnections.push_back(new CGateConnection(2, 4, false, false));
-	gateConnections.push_back(new CGateConnection(3, 4, false, false));
-	gateConnections.push_back(new CGateConnection(4, 4, false, true, 0, 0, 0, 1));
-	gateConnections.push_back(new CGateConnection(4, 3, false, false));
-	gates.push_back(new CGate(4, 2, false, 100)); //
-	gateConnections.push_back(new CGateConnection(5, 2, false, false));
-	gateConnections.push_back(new CGateConnection(6, 2, false, true));
-	gateConnections.push_back(new CGateConnection(7, 2, false, false));
-	gates.push_back(new CGate(8, 2, false, 100)); //
-	gateConnections.push_back(new CGateConnection(9, 2, false, false));
-	gates.push_back(new CGate(10, 2, false, 100)); //
-	gateConnections.push_back(new CGateConnection(11, 2, false, false));
-	gateConnections.push_back(new CGateConnection(12, 2, false, true));
-	gateConnections.push_back(new CGateConnection(12, 3, false, false));
-	gates.push_back(new CGate(12, 4, false, 100)); //
-	gateConnections.push_back(new CGateConnection(11, 4, false, false));
-	gates.push_back(new CGate(10, 4, false, 100)); //
-	gateConnections.push_back(new CGateConnection(9, 4, false, false));
-
-
-	gateConnections.push_back(new CGateConnection(8, 3, false, false));
-	gateConnections.push_back(new CGateConnection(8, 4, false, true));
-	gateConnections.push_back(new CGateConnection(8, 5, false, false));
-	gates.push_back(new CGate(8, 6, false, 100)); //
-	gateConnections.push_back(new CGateConnection(7, 6, false, false));
-	gates.push_back(new CGate(6, 6, false, 100)); //
-	gateConnections.push_back(new CGateConnection(5, 6, false, false));
-	gateConnections.push_back(new CGateConnection(4, 6, false, true));
-	gates.push_back(new CGate(4, 5, false, 100)); //
-
-	gateConnections.push_back(new CGateConnection(4, 7, false, false));
-	gateConnections.push_back(new CGateConnection(4, 8, false, true));
-	gateConnections.push_back(new CGateConnection(4, 9, false, false));
-	gates.push_back(new CGate(4, 10, false, 100)); //
-	gateConnections.push_back(new CGateConnection(5, 10, false, false));
-	gateConnections.push_back(new CGateConnection(6, 10, false, true));
-	gateConnections.push_back(new CGateConnection(7, 10, false, false));
-	gates.push_back(new CGate(8, 10, false, 100)); //
-	gateConnections.push_back(new CGateConnection(8, 9, false, false));
-	gateConnections.push_back(new CGateConnection(8, 8, false, true));
-	gateConnections.push_back(new CGateConnection(7, 8, false, false));
-	gates.push_back(new CGate(6, 8, false, 100)); //
-
-	gateConnections.push_back(new CGateConnection(9, 8, false, false));
-	gateConnections.push_back(new CGateConnection(10, 8, false, true));
-	gateConnections.push_back(new CGateConnection(11, 8, false, false));
-	gates.push_back(new CGate(12, 8, false, 100)); // 
-
 }
 
 
@@ -74,6 +26,9 @@ CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath):CScene(id, filePath)
 #define SCENE_SECTION_INFOR 3
 #define SCENE_SECTION_MAP 4
 #define SCENE_SECTION_CAMERA 5
+#define SCENE_SECTION_GATE_CONNECTIONS 6
+#define SCENE_SECTION_GATES 7
+#define SCENE_SECTION_PLAYER 10
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -154,6 +109,54 @@ void CWorldMapScene::_ParseSection_INFOR(string line)
 	if (tokens.size() < 1 || tokens[0] == "") return;
 	int tileSize = atof(tokens[0].c_str());
 	this->tileSize = tileSize;
+}
+
+void CWorldMapScene::_ParseSection_GATE_CONNECTIONS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 4 || tokens[0] == "") return;
+	int blockingLeft = 0;
+	int blockingTop = 0;
+	int blockingRight = 0;
+	int blockingBottom = 0;
+	int xCell = atof(tokens[0].c_str());
+	int yCell = atof(tokens[1].c_str());
+	int isBlocking = atof(tokens[2].c_str());
+	int isNode = atof(tokens[3].c_str());
+
+	if (tokens.size() == 8) {
+		blockingLeft = atof(tokens[4].c_str());
+		blockingTop = atof(tokens[5].c_str());
+		blockingRight = atof(tokens[6].c_str());
+		blockingBottom = atof(tokens[7].c_str());
+	}
+	gateConnections.push_back(new CGateConnection(xCell, yCell, isBlocking, isNode, blockingLeft, blockingTop, blockingRight, blockingBottom));
+}
+
+void CWorldMapScene::_ParseSection_GATES(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 4 || tokens[0] == "") return;
+	int xCell = atof(tokens[0].c_str());
+	int yCell = atof(tokens[1].c_str());
+	int isCompleted = atof(tokens[2].c_str());
+	int sceneId = atof(tokens[3].c_str());
+	gates.push_back(new CGate(xCell, yCell, isCompleted, sceneId));
+
+}
+
+void CWorldMapScene::_ParseSection_PLAYER(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2 || tokens[0] == "") return;
+	int xCell = atof(tokens[0].c_str());
+	int yCell = atof(tokens[1].c_str());
+	player = new CMarioMap(xCell, yCell);
+	objects.push_back(player);
+
 }
 
 /*
@@ -265,6 +268,9 @@ void CWorldMapScene::Load()
 		if (line == "[UIS]") { section = SCENE_SECTION_UIS; continue; };
 		if (line == "[INFOR]") { section = SCENE_SECTION_INFOR; continue; }
 		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; }
+		if (line == "[GATE_CONNECTIONS]") { section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
+		if (line == "[GATES]") { section = SCENE_SECTION_GATES; continue; }
+		if (line == "[PLAYER]") { section = SCENE_SECTION_PLAYER; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -277,6 +283,9 @@ void CWorldMapScene::Load()
 		case SCENE_SECTION_UIS: _ParseSection_UIS(line); break;
 		case SCENE_SECTION_INFOR: _ParseSection_INFOR(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+		case SCENE_SECTION_GATE_CONNECTIONS: _ParseSection_GATE_CONNECTIONS(line); break;
+		case SCENE_SECTION_GATES: _ParseSection_GATES(line); break;
+		case SCENE_SECTION_PLAYER: _ParseSection_PLAYER(line); break;
 		}
 	}
 
@@ -294,8 +303,7 @@ void CWorldMapScene::Load()
 			0, 0, w, h,
 			0, 0));
 
-	player = new CMarioMap(2, 4);
-	objects.push_back(player);
+	
 
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }

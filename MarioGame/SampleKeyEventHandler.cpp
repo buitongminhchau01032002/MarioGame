@@ -10,6 +10,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
+	if (mario->GetState() == MARIO_STATE_DIE) {
+		return;
+	}
 
 	switch (KeyCode)
 	{
@@ -58,6 +61,9 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (mario->GetState() == MARIO_STATE_DIE) {
+		return;
+	}
 	switch (KeyCode)
 	{
 	case DIK_S:
@@ -77,6 +83,9 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (mario->GetState() == MARIO_STATE_DIE) {
+		return;
+	}
 	float vx, vy;
 	mario->GetSpeed(vx, vy);
 

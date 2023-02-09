@@ -23,6 +23,9 @@ protected:
 	void _ParseSection_UIS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_CAMERA(string line);
+	void _ParseSection_GATE_CONNECTIONS(string line);
+	void _ParseSection_GATES(string line);
+	void _ParseSection_PLAYER(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
 
