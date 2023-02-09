@@ -452,13 +452,28 @@ void CWorldMapScene::PurgeDeletedObjects()
 
 void CWorldMapScene::SaveToFile() {
 	// Create and open a text file
-	ofstream MyFile(saveFile);
+	ofstream f(saveFile);
 
-	// Write to the file
-	MyFile << "Files can be tricky, but it is fun enough!";
-	MyFile << "Files can be tricky, but it is fun enough!";
-	MyFile << "Files can be tricky, but it is fun enough!";
+	// Write gate connection
+	f << "[GATE_CONNECTIONS]" << endl;
+	for (int i = 0; i < gateConnections.size(); i++) {
+		CGateConnection* gc = gateConnections[i];
+		f << gc->GetXCell() << "\t" << gc->GetYCell() << "\t" << gc->IsBlocking() << "\t" << gc->IsNode() << "\t" <<
+			gc->IsBlockingLeft() << "\t" << gc->IsBlockingTop() << "\t" << gc->IsBlockingRight() << "\t" << gc->IsBlockingBottom() << endl;
+	}
+
+	// Write gate
+	f << "[GATES]" << endl;
+	for (int i = 0; i < gates.size(); i++) {
+		CGate* gate = gates[i];
+		f << gate->GetXCell() << "\t" << gate->GetYCell() << "\t" << gate->IsCompleted() << "\t" << gate->GetSceneId() << endl;
+	}
+
+	// Write player
+	f << "[PLAYER]" << endl;
+	CMarioMap* mario = (CMarioMap*)player;
+	f << mario->GetXCell() << "\t" << mario->GetYCell() << endl;
 
 	// Close the file
-	MyFile.close();
+	f.close();
 }

@@ -52,6 +52,7 @@ data\map_world01.txt
 11	8	0	0
 
 [GATES]
+# xCell yCell completed sceneId
 4	2	0	100
 8	2	0	100
 10	2	0	100
