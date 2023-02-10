@@ -2,6 +2,8 @@
 #include "GameObject.h"
 
 #define KOOPA_GRAVITY 0.002f
+#define KOOPA_SPEED_SLEEP_Y 0.13f
+#define KOOPA_GRAVITY_SLEEP 0.0011f
 #define KOOPA_GRAVITY_FLY 0.0004f
 #define KOOPA_WALKING_SPEED 0.03f
 #define KOOPA_SLEEP_SPEED 0.2f
@@ -56,6 +58,7 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBox(LPCOLLISIONEVENT e);
+	void OnCollisionWithLightBrick(LPCOLLISIONEVENT e);
 
 public:
 	CKoopa(float x, float y, int type);

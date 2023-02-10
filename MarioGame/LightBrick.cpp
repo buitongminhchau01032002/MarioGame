@@ -28,7 +28,7 @@ void CLightBrickDebris::Render() {
 	ani->Render(x, y);
 }
 
-CLightBrick::CLightBrick(int xCell, int yCell, int group) {
+CLightBrick::CLightBrick(int xCell, int yCell, int group, bool sm) {
 	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 	int blockSize = s->GetTileSize();
 	this->xCell = xCell;
@@ -36,16 +36,20 @@ CLightBrick::CLightBrick(int xCell, int yCell, int group) {
 	x = float(xCell * blockSize + blockSize / 2);
 	y = float(yCell * blockSize + blockSize / 2 - 1);
 	this->group = group;
-	Break();
+	this->sm = sm;
 }
 
 void CLightBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 	int blockSize = s->GetTileSize();
+	int ajust = 0;
+	if (sm) {
+		ajust = 1;
+	}
 	l = float(xCell * blockSize);
 	t = float(yCell * blockSize);
-	r = float(xCell * blockSize + blockSize);
+	r = float(xCell * blockSize + blockSize - ajust);
 	b = float(yCell * blockSize + blockSize);
 }
 

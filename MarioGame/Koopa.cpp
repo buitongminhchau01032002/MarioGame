@@ -6,6 +6,7 @@
 #include "PlayScene.h"
 #include "Mario.h"
 #include "AttackBlock.h"
+#include "LightBrick.h"
 
 CKoopa::CKoopa(float x, float y, int type) :CGameObject(x, y)
 {
@@ -23,18 +24,24 @@ CKoopa::CKoopa(float x, float y, int type) :CGameObject(x, y)
 
 void CKoopa::MoveInSleep(int direction)
 {
-	state = KOOPA_STATE_SLEEP;
+	SetState(KOOPA_STATE_SLEEP);
 	vx = KOOPA_SLEEP_SPEED * direction;
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == KOOPA_STATE_SLEEP || state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED)
+	if (state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED) {
+		left = x - KOOPA_BBOX_WIDTH / 2;
+		top = y - KOOPA_BBOX_HEIGHT_SLEEP / 2;
+		right = left + KOOPA_BBOX_WIDTH;
+		bottom = top + KOOPA_BBOX_HEIGHT_SLEEP;
+	}
+	else if (state == KOOPA_STATE_SLEEP)
 	{
 		left = x - KOOPA_BBOX_WIDTH / 2 + 2;
-		top = y - KOOPA_BBOX_HEIGHT_SLEEP / 2;
-		right = left + KOOPA_BBOX_WIDTH - 2;
-		bottom = top + KOOPA_BBOX_HEIGHT_SLEEP;
+		top = y;
+		right = left + KOOPA_BBOX_WIDTH - 4;
+		bottom = y - KOOPA_BBOX_HEIGHT_SLEEP / 2 + KOOPA_BBOX_HEIGHT_SLEEP;
 	}
 	else
 	{
@@ -69,6 +76,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CQuestionBox*>(e->obj))
 		OnCollisionWithQuestionBox(e);
+	else if (dynamic_cast<CLightBrick*>(e->obj))
+		OnCollisionWithLightBrick(e);
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -105,6 +114,9 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	vy += ay * dt;
+	if (state != KOOPA_STATE_SLEEP) {
+		vy = KOOPA_SPEED_SLEEP_Y;
+	}
 
 	if (state == KOOPA_STATE_SLEEPING) {
 		vx = 0;
@@ -136,7 +148,6 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	
-
 	if (state == KOOPA_STATE_WALKING)
 		CCollision::GetInstance()->Process(this, dt, coObjects, 3);
 	else
@@ -228,6 +239,16 @@ void CKoopa::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
 	}
 }
 
+void CKoopa::OnCollisionWithLightBrick(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SLEEP && e->nx != 0) {
+		CLightBrick* brick = dynamic_cast<CLightBrick*>(e->obj);
+		if (brick) {
+			brick->Break();
+		}
+	}
+}
+
 void CKoopa::SetState(int state)
 {
 	if (state == KOOPA_STATE_SLEEPING) {
@@ -245,6 +266,8 @@ void CKoopa::SetState(int state)
 		ay = KOOPA_GRAVITY;
 	} if (state == KOOPA_STATE_FLY) {
 		ay = KOOPA_GRAVITY_FLY;
+	} if (state == KOOPA_STATE_SLEEP) {
+		vy = KOOPA_SPEED_SLEEP_Y;
 	}
 	CGameObject::SetState(state);
 }

@@ -232,7 +232,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int xCell = atof(tokens[1].c_str());
 		int yCell = atof(tokens[2].c_str());
 		int group = atoi(tokens[3].c_str());
-		obj = new CLightBrick(xCell, yCell, group);
+		bool sm = false;
+		if (tokens.size() == 5) {
+			sm = true;
+		}
+		obj = new CLightBrick(xCell, yCell, group, sm);
 		obj->GetPosition(x, y);
 	}
 

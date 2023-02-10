@@ -30,8 +30,9 @@ class CLightBrick: public CGameObject {
 protected:
 	int xCell, yCell;
 	int group;
+	bool sm;
 public:
-	CLightBrick(int xCell, int yCell, int group);
+	CLightBrick(int xCell, int yCell, int group, bool sm = false);
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {};
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
