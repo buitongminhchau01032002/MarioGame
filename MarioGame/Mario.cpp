@@ -417,6 +417,44 @@ int CMario::GetAniIdSmall()
 
 int CMario::GetAniIdBig()
 {
+	if (state == MARIO_STATE_CARRY) {
+		// IN AIR
+		// jumping
+		if (stateY == MARIO_STATE_Y_JUMPING) {
+			if (nx > 0) return ID_ANI_MARIO_CARRY_JUMP_RIGHT;
+			else return ID_ANI_MARIO_CARRY_JUMP_LEFT;
+		}
+		// falling
+		if (stateY == MARIO_STATE_Y_FALLING) {
+			if (nx > 0) return ID_ANI_MARIO_CARRY_JUMP_RIGHT;
+			else return ID_ANI_MARIO_CARRY_JUMP_LEFT;
+		}
+
+
+		// GROUNDING
+		// idle
+		if (stateX == MARIO_STATE_X_IDLE) {
+			if (nx > 0) return ID_ANI_MARIO_CARRY_IDLE_RIGHT;
+			else return ID_ANI_MARIO_CARRY_IDLE_LEFT;
+		}
+		// bracing
+		if (stateX == MARIO_STATE_X_BRACING) {
+			if (nx > 0) return ID_ANI_MARIO_CARRY_WALKING_RIGHT;
+			else return ID_ANI_MARIO_CARRY_WALKING_LEFT;
+		}
+		// can fly
+		if (stateX == MARIO_STATE_X_RUNNING && IsCanFly()) {
+			if (nx > 0) return ID_ANI_MARIO_CARRY_RUNNING_RIGHT;
+			else return ID_ANI_MARIO_CARRY_RUNNING_LEFT;
+		}
+		// walking and running
+		if (stateX == MARIO_STATE_X_WALKING || stateX == MARIO_STATE_X_WALK_STOPPING || stateX == MARIO_STATE_X_RUNNING) {
+			if (nx > 0) return ID_ANI_MARIO_CARRY_WALKING_RIGHT;
+			else return ID_ANI_MARIO_CARRY_WALKING_LEFT;
+		}
+
+	}
+
 	// STATE
 	if (state == MARIO_STATE_SITTING) {
 		if (nx > 0) return ID_ANI_MARIO_SIT_RIGHT;
