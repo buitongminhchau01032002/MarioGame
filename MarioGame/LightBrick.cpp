@@ -4,6 +4,17 @@
 #include "Animations.h"
 #include "debug.h"
 
+CLightBrickDebris::CLightBrickDebris(int x, int y, float vx, float vy) {
+	this->x = x;
+	this->y = y;
+	this->vx = vx;
+	this->vy = vy;
+}
+
+void CLightBrickDebris::Render() {
+
+}
+
 CLightBrick::CLightBrick(int xCell, int yCell, int group) {
 	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 	int blockSize = s->GetTileSize();
@@ -32,6 +43,11 @@ void CLightBrick::Render()
 }
 
 void CLightBrick::Break() {
-
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+	objects.push_back(new CLightBrickDebris(x, y, LIGHT_BRICK_DEBRIS_SPEED_X, 0));
+	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, 0));
+	objects.push_back(new CLightBrickDebris(x, y, LIGHT_BRICK_DEBRIS_SPEED_X, LIGHT_BRICK_DEBRIS_SPEED_Y));
+	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, LIGHT_BRICK_DEBRIS_SPEED_Y));
 	this->Delete();
 }
