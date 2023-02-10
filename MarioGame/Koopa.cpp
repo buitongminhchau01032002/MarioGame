@@ -5,12 +5,19 @@
 #include "QuestionBoxCoin.h"
 #include "PlayScene.h"
 #include "Mario.h"
+#include "AttackBlock.h"
 
-CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
+CKoopa::CKoopa(float x, float y, int type) :CGameObject(x, y)
 {
 	this->ay = KOOPA_GRAVITY;
+	this->type = type;
 	vx = -KOOPA_WALKING_SPEED;
-	SetState(KOOPA_STATE_WALKING);
+	if (type != KOOPA_TYPE_FLY) {
+		SetState(KOOPA_STATE_WALKING);
+	}
+	else {
+		SetState(KOOPA_STATE_FLY);
+	}
 	//SetState(KOOPA_STATE_CARRIED);
 }
 
@@ -46,11 +53,15 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0)
+	if (e->ny != 0 && state != KOOPA_STATE_FLY)
 	{
 		vy = 0;
 	}
-	else if (e->nx != 0 && e->obj->IsBlocking())
+	else if ((e->obj->IsBlocking() || e->obj->IsBlockingTop()) && e->ny < 0) {
+		// fly
+		vy = -KOOPA_FLY_SPEED;
+	}
+	if (e->nx != 0 && e->obj->IsBlocking())
 	{
 		vx = -vx;
 	}
@@ -104,6 +115,28 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	if (state != KOOPA_STATE_SLEEP) {
+		// Check overlap attack block, NOT collision
+		vector<LPGAMEOBJECT>& objects = s->GetObjects();
+		int index = -1;
+		for (int i = 0; i < objects.size(); i++) {
+			if (dynamic_cast<CAttackBlock*>(objects[i])) {
+				float attack_l, attack_t, attack_r, attack_b;
+				float koopa_l, koopa_t, koopa_r, koopa_b;
+				this->GetBoundingBox(koopa_l, koopa_t, koopa_r, koopa_b);
+				objects[i]->GetBoundingBox(attack_l, attack_t, attack_r, attack_b);
+				if (attack_l < koopa_r && attack_r > koopa_l && attack_b > koopa_t && attack_t < koopa_b) {
+					this->SetState(KOOPA_STATE_SLEEPING);
+					vy = -KOOPA_DEFLECT_SPEED;
+					CMario* mario = (CMario*)s->GetPlayer();
+					vx = mario->Getnx() * KOOPA_WALKING_SPEED*2;
+					break;
+				}
+			}
+		}
+	}
+	
+
 	if (state == KOOPA_STATE_WALKING)
 		CCollision::GetInstance()->Process(this, dt, coObjects, 3);
 	else
@@ -114,14 +147,58 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
-	int aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	if (vx > 0) {
-		aniId = ID_ANI_KOOPA_WALKING_RIGHT;
+	int aniId;
+	if (state == KOOPA_STATE_FLY) {
+		if (vx > 0)
+			aniId = ID_ANI_KOOPA_FLY_WALKING_RIGHT;
+		else
+			aniId = ID_ANI_KOOPA_FLY_WALKING_LEFT;
 	}
-	if (state == KOOPA_STATE_SLEEP)
-		aniId = ID_ANI_KOOPA_SLEEP;
-	if (state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED)
-		aniId = ID_ANI_KOOPA_SLEEPING;
+	else if (state == KOOPA_STATE_WALKING) {
+		if (type == KOOPA_TYPE_FLY || type == KOOPA_TYPE_GREEN) {
+			if (vx > 0)
+				aniId = ID_ANI_KOOPA_GREEN_WALKING_RIGHT;
+			else
+				aniId = ID_ANI_KOOPA_GREEN_WALKING_LEFT;
+		}
+		else {
+			if (vx > 0)
+				aniId = ID_ANI_KOOPA_RED_WALKING_RIGHT;
+			else
+				aniId = ID_ANI_KOOPA_RED_WALKING_LEFT;
+		}
+	}
+	else if (state == KOOPA_STATE_SLEEP) {
+		if (type == KOOPA_TYPE_FLY || type == KOOPA_TYPE_GREEN) {
+			aniId = ID_ANI_KOOPA_GREEN_SLEEP;
+		}
+		else {
+			aniId = ID_ANI_KOOPA_RED_SLEEP;
+		}
+	}
+	else if (state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED) {
+		if (type == KOOPA_TYPE_FLY || type == KOOPA_TYPE_GREEN) {
+			aniId = ID_ANI_KOOPA_GREEN_SLEEPING;
+		}
+		else {
+			aniId = ID_ANI_KOOPA_RED_SLEEPING;
+		}
+	}
+	else {
+		////// 
+		if (type == KOOPA_TYPE_FLY || type == KOOPA_TYPE_GREEN) {
+			if (vx > 0)
+				aniId = ID_ANI_KOOPA_GREEN_WALKING_RIGHT;
+			else
+				aniId = ID_ANI_KOOPA_GREEN_WALKING_LEFT;
+		}
+		else {
+			if (vx > 0)
+				aniId = ID_ANI_KOOPA_RED_WALKING_RIGHT;
+			else
+				aniId = ID_ANI_KOOPA_RED_WALKING_LEFT;
+		}
+	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -155,14 +232,19 @@ void CKoopa::SetState(int state)
 {
 	if (state == KOOPA_STATE_SLEEPING) {
 		sleepStart = GetTickCount64();
+		ay = KOOPA_GRAVITY;
 	}
 	else if (state == KOOPA_STATE_WALKING) {
 		if (this->state != KOOPA_STATE_WALKING) {
 			y -= (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_SLEEP);
 		}
 		vx = -KOOPA_WALKING_SPEED;
+		ay = KOOPA_GRAVITY;
 	} else if (state == KOOPA_STATE_CARRIED) {
 		sleepStart = GetTickCount64();
+		ay = KOOPA_GRAVITY;
+	} if (state == KOOPA_STATE_FLY) {
+		ay = KOOPA_GRAVITY_FLY;
 	}
 	CGameObject::SetState(state);
 }

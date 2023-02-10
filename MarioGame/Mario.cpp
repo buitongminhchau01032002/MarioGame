@@ -283,11 +283,16 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = (CKoopa*)(e->obj);
-	if (koopa->GetState() == KOOPA_STATE_WALKING) {
+	if (koopa->GetState() == KOOPA_STATE_WALKING || koopa->GetState() == KOOPA_STATE_FLY) {
 		// jump on top >> sleeping koopa and deflect a bit 
 		if (e->ny < 0)
 		{
-			koopa->SetState(KOOPA_STATE_SLEEPING);
+			if (koopa->GetState() == KOOPA_STATE_WALKING) {
+				koopa->SetState(KOOPA_STATE_SLEEPING);
+			}
+			else {
+				koopa->SetState(KOOPA_STATE_WALKING);
+			}
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			CGame* g = CGame::GetInstance();
 			g->IncreaseCoinValue(100);
@@ -300,7 +305,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			}
 		}
 	} else if (koopa->GetState() == KOOPA_STATE_SLEEPING) {
-		if (isAKeyPress && e->nx != 0) {
+		if (isAKeyPress && e->nx != 0 && state != MARIO_STATE_CARRY) {
 			// carry
 			SetState(MARIO_STATE_CARRY);
 			koopa->SetState(KOOPA_STATE_CARRIED);
