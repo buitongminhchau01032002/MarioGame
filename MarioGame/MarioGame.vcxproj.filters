@@ -159,6 +159,9 @@
     <ClInclude Include="MarioMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LightBrick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -291,6 +294,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MarioMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightBrick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

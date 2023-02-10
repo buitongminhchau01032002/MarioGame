@@ -23,6 +23,7 @@
 #include "GoombaPro.h"
 #include "Chomper.h"
 #include "BottomBar.h"
+#include "LightBrick.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -224,6 +225,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
+	break;
+
+	case OBJECT_TYPE_LIGHT_BRICK:
+	{
+		int xCell = atof(tokens[1].c_str());
+		int yCell = atof(tokens[2].c_str());
+		int group = atoi(tokens[3].c_str());
+		obj = new CLightBrick(xCell, yCell, group);
+		obj->GetPosition(x, y);
+	}
+
 	break;
 
 	case OBJECT_TYPE_HIDDEN_BLOCK:
