@@ -34,7 +34,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	}
 
 	case DIK_A:
-		if (mario->GetLevel() == MARIO_LEVEL_CAT && mario->GetStateY() == MARIO_STATE_Y_GROUND && mario->GetState() != MARIO_STATE_ATTACK) {
+		if (mario->GetLevel() == MARIO_LEVEL_CAT && mario->GetStateY() == MARIO_STATE_Y_GROUND && mario->GetState() != MARIO_STATE_ATTACK && mario->GetState() != MARIO_STATE_CARRY) {
 			mario->SetState(MARIO_STATE_ATTACK);
 		}
 		break;
@@ -76,6 +76,11 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 			mario->SetState(MARIO_STATE_NONE);
 		}
 		break;
+	case DIK_A:
+		if (mario->GetState() == MARIO_STATE_CARRY) {
+			mario->SetState(MARIO_STATE_NONE);
+		}
+		break;
 	}
 }
 
@@ -89,7 +94,10 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	float vx, vy;
 	mario->GetSpeed(vx, vy);
 
-	if (game->IsKeyDown(DIK_DOWN) && mario->GetLevel() != MARIO_LEVEL_SMALL && mario->GetStateY() == MARIO_STATE_Y_GROUND) {
+	mario->SetAKeyPress(false);
+	if (game->IsKeyDown(DIK_A)) mario->SetAKeyPress(true);
+
+	if (game->IsKeyDown(DIK_DOWN) && mario->GetLevel() != MARIO_LEVEL_SMALL && mario->GetStateY() == MARIO_STATE_Y_GROUND && mario->GetState() != MARIO_STATE_CARRY) {
 		mario->SetState(MARIO_STATE_SITTING);
 		if (vx == 0) {
 			mario->SetStateX(MARIO_STATE_X_IDLE);

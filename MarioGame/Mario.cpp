@@ -30,7 +30,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//DebugOutTitle(L"state: %d, stateX: %d, stateY: %d", state, stateX, stateY);
 
 	// HANDLE running duration
-	if (stateX == MARIO_STATE_X_RUNNING) {
+	if (stateX == MARIO_STATE_X_RUNNING && stateY == MARIO_STATE_Y_GROUND) {
 		runningDuration += dt;
 		if (runningDuration > MARIO_RUNNING_DURATION_MAX) runningDuration = MARIO_RUNNING_DURATION_MAX;
 	}
@@ -300,15 +300,23 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			}
 		}
 	} else if (koopa->GetState() == KOOPA_STATE_SLEEPING) {
-		float koopaX;
-		float koopaY;
-		koopa->GetPosition(koopaX, koopaY);
-		if (this->x < koopaX) {
-			koopa->MoveInSleep(1);
+		if (isAKeyPress && e->nx != 0) {
+			// carry
+			SetState(MARIO_STATE_CARRY);
+			koopa->SetState(KOOPA_STATE_CARRIED);
 		}
 		else {
-			koopa->MoveInSleep(-1);
+			float koopaX;
+			float koopaY;
+			koopa->GetPosition(koopaX, koopaY);
+			if (this->x < koopaX) {
+				koopa->MoveInSleep(1);
+			}
+			else {
+				koopa->MoveInSleep(-1);
+			}
 		}
+		
 	}
 	else if (koopa->GetState() == KOOPA_STATE_SLEEP) {
 		if (e->nx != 0)
@@ -327,6 +335,44 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 //
 int CMario::GetAniIdSmall()
 {
+	if (state == MARIO_STATE_CARRY) {
+		// IN AIR
+		// jumping
+		if (stateY == MARIO_STATE_Y_JUMPING) {
+			if (nx > 0) return ID_ANI_MARIO_SMALL_CARRY_JUMP_RIGHT;
+			else return ID_ANI_MARIO_SMALL_CARRY_JUMP_LEFT;
+		}
+		// falling
+		if (stateY == MARIO_STATE_Y_FALLING) {
+			if (nx > 0) return ID_ANI_MARIO_SMALL_CARRY_JUMP_RIGHT;
+			else return ID_ANI_MARIO_SMALL_CARRY_JUMP_LEFT;
+		}
+
+
+		// GROUNDING
+		// idle
+		if (stateX == MARIO_STATE_X_IDLE) {
+			if (nx > 0) return ID_ANI_MARIO_SMALL_CARRY_IDLE_RIGHT;
+			else return ID_ANI_MARIO_SMALL_CARRY_IDLE_LEFT;
+		}
+		// bracing
+		if (stateX == MARIO_STATE_X_BRACING) {
+			if (nx > 0) return ID_ANI_MARIO_SMALL_CARRY_IDLE_RIGHT;
+			else return ID_ANI_MARIO_SMALL_CARRY_IDLE_LEFT;
+		}
+		// can fly
+		if (stateX == MARIO_STATE_X_RUNNING && IsCanFly()) {
+			if (nx > 0) return ID_ANI_MARIO_SMALL_CARRY_RUNNING_RIGHT;
+			else return ID_ANI_MARIO_SMALL_CARRY_RUNNING_LEFT;
+		}
+		// walking and running
+		if (stateX == MARIO_STATE_X_WALKING || stateX == MARIO_STATE_X_WALK_STOPPING || stateX == MARIO_STATE_X_RUNNING) {
+			if (nx > 0) return ID_ANI_MARIO_SMALL_CARRY_WALKING_RIGHT;
+			else return ID_ANI_MARIO_SMALL_CARRY_WALKING_LEFT;
+		}
+
+	}
+	
 	// IN AIR
 	// jumping
 	if (stateY == MARIO_STATE_Y_JUMPING) {

@@ -10,8 +10,8 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
 	this->ay = KOOPA_GRAVITY;
 	vx = -KOOPA_WALKING_SPEED;
-	//SetState(KOOPA_STATE_WALKING);
-	SetState(KOOPA_STATE_CARRIED);
+	SetState(KOOPA_STATE_WALKING);
+	//SetState(KOOPA_STATE_CARRIED);
 }
 
 void CKoopa::MoveInSleep(int direction)
@@ -67,6 +67,10 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == KOOPA_STATE_CARRIED) {
 		CMario* mario = (CMario*)s->GetPlayer();
+		if (mario->GetState() != MARIO_STATE_CARRY) {
+			MoveInSleep(mario->Getnx());
+			return;
+		}
 		float xMario, yMario;
 		mario->GetPosition(xMario, yMario);
 		int nxMario = mario->Getnx();
