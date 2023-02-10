@@ -9,10 +9,23 @@ CLightBrickDebris::CLightBrickDebris(int x, int y, float vx, float vy) {
 	this->y = y;
 	this->vx = vx;
 	this->vy = vy;
+	removeStart = GetTickCount64();
+}
+
+void CLightBrickDebris::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	vy += LIGHT_BRICK_DEBRIS_GAVITY * dt;
+	x += vx * dt;
+	y += vy * dt;
+	DebugOutTitle(L"x: %f, y: %f", x, y);
+	if (GetTickCount64() - removeStart > LIGHT_BRICK_DEBRIS_DURATION)
+	{
+		this->Delete();
+	}
 }
 
 void CLightBrickDebris::Render() {
-
+	LPANIMATION ani = CAnimations::GetInstance()->Get(200001);
+	ani->Render(x, y);
 }
 
 CLightBrick::CLightBrick(int xCell, int yCell, int group) {
@@ -23,6 +36,7 @@ CLightBrick::CLightBrick(int xCell, int yCell, int group) {
 	x = float(xCell * blockSize + blockSize / 2);
 	y = float(yCell * blockSize + blockSize / 2 - 1);
 	this->group = group;
+	Break();
 }
 
 void CLightBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -45,9 +59,9 @@ void CLightBrick::Render()
 void CLightBrick::Break() {
 	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 	vector<LPGAMEOBJECT>& objects = s->GetObjects();
-	objects.push_back(new CLightBrickDebris(x, y, LIGHT_BRICK_DEBRIS_SPEED_X, 0));
-	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, 0));
-	objects.push_back(new CLightBrickDebris(x, y, LIGHT_BRICK_DEBRIS_SPEED_X, LIGHT_BRICK_DEBRIS_SPEED_Y));
-	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, LIGHT_BRICK_DEBRIS_SPEED_Y));
+	objects.push_back(new CLightBrickDebris(x, y, LIGHT_BRICK_DEBRIS_SPEED_X, 0.0f));
+	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, 0.0f));
+	objects.push_back(new CLightBrickDebris(x, y, LIGHT_BRICK_DEBRIS_SPEED_X, -LIGHT_BRICK_DEBRIS_SPEED_Y));
+	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, -LIGHT_BRICK_DEBRIS_SPEED_Y));
 	this->Delete();
 }
