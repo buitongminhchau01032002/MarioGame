@@ -6,7 +6,7 @@
 #define KOOPA_SLEEP_SPEED 0.2f
 
 
-#define KOOPA_SLEEP_DURATION 10000
+#define KOOPA_SLEEP_DURATION 15000
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 27
@@ -15,6 +15,7 @@
 #define KOOPA_STATE_WALKING 100
 #define KOOPA_STATE_SLEEPING 200
 #define KOOPA_STATE_SLEEP 300
+#define KOOPA_STATE_CARRIED 400
 
 #define ID_ANI_KOOPA_WALKING_LEFT 30001
 #define ID_ANI_KOOPA_WALKING_RIGHT 30000
@@ -32,7 +33,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; };
+	virtual int IsCollidable() { return state != KOOPA_STATE_CARRIED; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
