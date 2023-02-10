@@ -67,6 +67,11 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == KOOPA_STATE_SLEEPING) {
 		vx = 0;
+		if (GetTickCount64() - sleepStart > KOOPA_SLEEP_DURATION)
+		{
+			sleepStart = 0;
+			SetState(KOOPA_STATE_WALKING);
+		}
 	}
 
 	if (state == KOOPA_STATE_WALKING)
@@ -89,7 +94,7 @@ void CKoopa::Render()
 		aniId = ID_ANI_KOOPA_SLEEPING;
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 /////////////
@@ -114,4 +119,18 @@ void CKoopa::OnCollisionWithQuestionBox(LPCOLLISIONEVENT e)
 			questionBox->Unbox();
 		}
 	}
+}
+
+void CKoopa::SetState(int state)
+{
+	if (state == KOOPA_STATE_SLEEPING) {
+		sleepStart = GetTickCount64();
+	}
+	if (state == KOOPA_STATE_WALKING) {
+		if (this->state != KOOPA_STATE_WALKING) {
+			y -= (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_SLEEP);
+		}
+		vx = -KOOPA_WALKING_SPEED;
+	}
+	CGameObject::SetState(state);
 }

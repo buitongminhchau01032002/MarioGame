@@ -3,8 +3,10 @@
 
 #define KOOPA_GRAVITY 0.01f
 #define KOOPA_WALKING_SPEED 0.03f
-#define KOOPA_SLEEP_SPEED 0.25f
+#define KOOPA_SLEEP_SPEED 0.2f
 
+
+#define KOOPA_SLEEP_DURATION 10000
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 27
@@ -24,6 +26,7 @@ class CKoopa :
 {
 protected:
 	float ay;
+	ULONGLONG sleepStart = 0;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -40,5 +43,6 @@ protected:
 public:
 	CKoopa(float x, float y);
 	void MoveInSleep(int direction);
+	void SetState(int state);
 };
 
