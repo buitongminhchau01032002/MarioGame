@@ -10,6 +10,7 @@ data\koopa.txt
 data\chomper.txt
 data\bottom_bar.txt
 data\light_brick.txt
+data\win_box.txt
 
 [MAP]
 data\map01.txt
@@ -91,6 +92,10 @@ data\map01.txt
 4	1816	104
 4	1848	136
 
+# WINBOX
+#-7	170	360
+-7	2704	335
+
 # LIGHT BRICK
 #20	10	22	100
 #20	9	22	100
@@ -133,6 +138,7 @@ data\map01.txt
 -3	132	23	132	23	1	1	1	1
 # Limit
 -2	0	0	0	25	1	1	1	1
+-2	176	0	176	25	1	1	1	1
 # Ground
 -1	0	26	38	26	1	1	1	1
 -1	39	25	67	26	1	1	1	1

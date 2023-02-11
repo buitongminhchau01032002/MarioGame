@@ -25,10 +25,22 @@
 #include "DieBlock.h"
 #include "Leaf.h"
 #include "ChomperSmall.h"
+#include "WinBox.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOutTitle(L"state: %d, stateX: %d, stateY: %d", state, stateX, stateY);
+	if (state == MARIO_STATE_WINNING) {
+		untouchable = 1;
+		nx = 1;
+		SetStateX(MARIO_STATE_X_WALKING);
+		SetStateY(MARIO_STATE_Y_FALLING);
+		vy += ay * dt;
+		vx += ax * dt;
+		CCollision::GetInstance()->Process(this, dt, coObjects, 1);
+		return;
+	}
+
 
 	// HANDLE running duration
 	if (stateX == MARIO_STATE_X_RUNNING && stateY == MARIO_STATE_Y_GROUND) {
@@ -150,6 +162,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = 0;
 		SetStateX(MARIO_STATE_X_IDLE);
+		runningDuration = 0;
 	}
 
 	if (dynamic_cast<CGoombaPro*>(e->obj))
@@ -179,6 +192,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (dynamic_cast<CDieBlock*>(e->obj)) {
 		SetState(MARIO_STATE_DIE);
+	}
+	else if (dynamic_cast<CWinBox*>(e->obj)) {
+		CWinBox* box = dynamic_cast<CWinBox*>(e->obj);
+		int item = box->Unbox();
+		SetState(MARIO_STATE_WINNING);
 	}
 	
 }

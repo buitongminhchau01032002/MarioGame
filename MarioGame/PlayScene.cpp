@@ -25,6 +25,7 @@
 #include "ChomperSmall.h"
 #include "BottomBar.h"
 #include "LightBrick.h"
+#include "WinBox.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -204,6 +205,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_CHOMPER_SMALL: {
 		obj = new CChomperSmall(x, y);
+		break;
+	}
+
+	case OBJECT_TYPE_WIN_BOX: {
+		obj = new CWinBox(x, y);
 		break;
 	}
 

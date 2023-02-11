@@ -57,7 +57,7 @@ void CLightBrick::Render()
 {
 	LPANIMATION ani = CAnimations::GetInstance()->Get(ID_ANI_LIGHT_BRICK);
 	ani->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CLightBrick::Break() {
