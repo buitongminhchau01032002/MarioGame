@@ -22,6 +22,7 @@
 #include "Koopa.h"
 #include "GoombaPro.h"
 #include "Chomper.h"
+#include "ChomperSmall.h"
 #include "BottomBar.h"
 #include "LightBrick.h"
 
@@ -199,6 +200,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CHOMPER: {
 		int type = atof(tokens[3].c_str());
 		obj = new CChomper(x, y, type); 
+		break;
+	}
+	case OBJECT_TYPE_CHOMPER_SMALL: {
+		obj = new CChomperSmall(x, y);
 		break;
 	}
 

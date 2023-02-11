@@ -162,6 +162,9 @@
     <ClInclude Include="LightBrick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChomperSmall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -297,6 +300,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LightBrick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChomperSmall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
