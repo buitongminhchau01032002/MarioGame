@@ -50,6 +50,8 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
+	LPCWSTR saveFile;
+
 
 public:
 	CStartScene(int id, LPCWSTR filePath);

@@ -78,7 +78,17 @@ void CStartScene::_ParseSection_INFOR(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 2 || tokens[0] == "") return;
+	if (tokens.size() < 1 || tokens[0] == "") return;
+	LPCWSTR saveFile = ToLPCWSTR(tokens[0]);
+	this->saveFile = saveFile;
+
+	// Create and open a text file
+	ofstream f(saveFile);
+
+	f << "";
+
+	// Close the file
+	f.close();
 }
 
 

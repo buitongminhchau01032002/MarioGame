@@ -63,6 +63,7 @@ class CGame
 	int coin = 0;
 	int coinValue = 0;
 	int heart = 4;
+	int level = 1;
 
 public:
 	// Init DirectX, Sprite Handler
@@ -133,6 +134,8 @@ public:
 	int GetHeart() { return heart; }
 	void IncreaseHeart(int h) { heart += h; if (heart < 0) heart = 0; }
 	void SetHeart(int h) { heart = h; }
+	int GetLevel() { return level; }
+	void SetLevel(int lv) { level = lv; }
 	~CGame();
 };
 typedef CGame* LPGAME;

@@ -751,9 +751,11 @@ void CMario::SetState(int state)
 		vx = 0.0f;
 		ax = 0.0f;
 		dieStart = GetTickCount64();
+		CGame::GetInstance()->SetLevel(MARIO_LEVEL_SMALL);
 	}
 	if (state == MARIO_STATE_WINNING) {
 		winStart = GetTickCount64();
+		CGame::GetInstance()->SetLevel(level);
 	}
 	CGameObject::SetState(state);
 }

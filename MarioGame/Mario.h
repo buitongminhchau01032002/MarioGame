@@ -234,27 +234,7 @@ class CMario : public CGameObject
 	void SaveToFile();
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
-	{
-		maxVx = 0.0f;
-		maxVy = MARIO_SPEED_Y_MAX;
-		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
-		state = MARIO_STATE_NONE;
-		stateX = MARIO_STATE_X_IDLE;
-		stateY = MARIO_STATE_Y_GROUND;
-
-		level = MARIO_LEVEL_BIG;
-		untouchable = 0;
-		untouchable_start = -1;
-		coin = 0;
-		flyingDuration = 0;
-		runningDuration = -1;
-		attackStart = 0;
-		slowFallingStart = GetTickCount64();
-		timeStart = GetTickCount64();
-		time = 0;
-	}
+	CMario(float x, float y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
