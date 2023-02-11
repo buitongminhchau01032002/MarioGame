@@ -196,7 +196,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int type = atof(tokens[3].c_str());
 		obj = new CKoopa(x, y, type); break;
 	} 
-	case OBJECT_TYPE_CHOMPER: obj = new CChomper(x, y); break;
+	case OBJECT_TYPE_CHOMPER: {
+		int type = atof(tokens[3].c_str());
+		obj = new CChomper(x, y, type); 
+		break;
+	}
 
 
 	case OBJECT_TYPE_PLATFORM:
@@ -355,7 +359,9 @@ void CPlayScene::_ParseSection_UIS(string line)
 		DebugOut(L"[ERROR] Invalid object type (ui): %d\n", object_type);
 		return;
 	}
-	uis.push_back(obj);
+	if (obj) {
+		uis.push_back(obj);
+	}
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)

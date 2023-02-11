@@ -106,8 +106,8 @@ void CWorldMapScene::_ParseSection_INFOR(string line)
 		string line(str);
 
 		if (line[0] == '#') continue;	// skip comment lines	
-		if (line == "[GATE_CONNECTIONS]") { section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
-		if (line == "[GATES]") { section = SCENE_SECTION_GATES; continue; }
+		if (line == "[GATE_CONNECTIONS]") { gateConnections.clear(); section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
+		if (line == "[GATES]") { gates.clear(); section = SCENE_SECTION_GATES; continue; }
 		if (line == "[PLAYER]") { section = SCENE_SECTION_PLAYER; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -118,7 +118,7 @@ void CWorldMapScene::_ParseSection_INFOR(string line)
 		{
 		case SCENE_SECTION_GATE_CONNECTIONS: _ParseSection_GATE_CONNECTIONS(line); isInit = false; break;
 		case SCENE_SECTION_GATES: _ParseSection_GATES(line); isInit = false; break;
-		case SCENE_SECTION_PLAYER: _ParseSection_PLAYER(line); isInit = false; break;
+		case SCENE_SECTION_PLAYER:  _ParseSection_PLAYER(line); isInit = false; break;
 		}
 	}
 

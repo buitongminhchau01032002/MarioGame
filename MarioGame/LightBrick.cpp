@@ -16,7 +16,7 @@ void CLightBrickDebris::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	vy += LIGHT_BRICK_DEBRIS_GAVITY * dt;
 	x += vx * dt;
 	y += vy * dt;
-	DebugOutTitle(L"x: %f, y: %f", x, y);
+	//DebugOutTitle(L"x: %f, y: %f", x, y);
 	if (GetTickCount64() - removeStart > LIGHT_BRICK_DEBRIS_DURATION)
 	{
 		this->Delete();

@@ -3,25 +3,26 @@
 #include "ChomperBullet.h"
 
 
-CChomper::CChomper(float x, float y) :CGameObject(x, y)
+CChomper::CChomper(float x, float y, int type) :CGameObject(x, y)
 {
 	originY = y;
 	state = CHOMPER_STATE_HIDDEN;
 	pushTimerStart = GetTickCount64();
 	shootingTimerStart = 0;
+	this->type = type;
 }
 float CChomper::GetGunY()
 {
-	return y + CHOMPER_GUN_X_OFFSET;
+	return y + (type == CHOMPER_TYPE_RED ? CHOMPER_GUN_Y_OFFSET : CHOMPER_GUN_Y_OFFSET_GREEN);
 }
 
 void CChomper::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	
 	left = x - CHOMPER_BBOX_WIDTH / 2;
-	top = y - CHOMPER_BBOX_HEIGHT / 2;
+	top = y - (type == CHOMPER_TYPE_RED ? CHOMPER_BBOX_HEIGHT : CHOMPER_BBOX_HEIGHT_GREEN) / 2;
 	right = left + CHOMPER_BBOX_WIDTH;
-	bottom = top + CHOMPER_BBOX_HEIGHT;
+	bottom = top + (type == CHOMPER_TYPE_RED ? CHOMPER_BBOX_HEIGHT : CHOMPER_BBOX_HEIGHT_GREEN);
 	
 }
 
@@ -42,8 +43,9 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if (state == CHOMPER_STATE_SHOW) {
 		y -= CHOMPER_SHOW_SPEED * dt;
-		if (y < originY - CHOMPER_PUSH_HEIGHT) {
-			y = originY - CHOMPER_PUSH_HEIGHT;
+		int pushHeight = type == CHOMPER_TYPE_RED ? CHOMPER_PUSH_HEIGHT : CHOMPER_PUSH_HEIGHT_GREEN;
+		if (y < originY - pushHeight) {
+			y = originY - pushHeight;
 			state = CHOMPER_STATE_SHOOTING;
 			shootingTimerStart = GetTickCount64();
 		}
@@ -79,33 +81,69 @@ void CChomper::Render()
 	float playerX, playerY;
 	player->GetPosition(playerX, playerY);
 	int aniId;
-	if (playerY < GetGunY()) {
-		if (playerX < x) {
-			aniId = ID_ANI_CHOMPER_LEFT_TOP;
-			if (state == CHOMPER_STATE_SHOOTING) {
-				aniId = ID_ANI_CHOMPER_LEFT_TOP_SHOOTING;
+
+	if (type == CHOMPER_TYPE_RED) {
+		if (playerY < GetGunY()) {
+			if (playerX < x) {
+				aniId = ID_ANI_CHOMPER_LEFT_TOP;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_LEFT_TOP_SHOOTING;
+				}
+			}
+			else {
+				aniId = ID_ANI_CHOMPER_RIGHT_TOP;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_RIGHT_TOP_SHOOTING;
+				}
 			}
 		}
 		else {
-			aniId = ID_ANI_CHOMPER_RIGHT_TOP;
-			if (state == CHOMPER_STATE_SHOOTING) {
-				aniId = ID_ANI_CHOMPER_RIGHT_TOP_SHOOTING;
+			if (playerX < x) {
+				aniId = ID_ANI_CHOMPER_LEFT_BOTTOM;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_LEFT_BOTTOM_SHOOTING;
+				}
 			}
-		}
-	} else {
-		if (playerX < x) {
-			aniId = ID_ANI_CHOMPER_LEFT_BOTTOM;
-			if (state == CHOMPER_STATE_SHOOTING) {
-				aniId = ID_ANI_CHOMPER_LEFT_BOTTOM_SHOOTING;
-			}
-		}
-		else {
-			aniId = ID_ANI_CHOMPER_RIGHT_BOTTOM;
-			if (state == CHOMPER_STATE_SHOOTING) {
-				aniId = ID_ANI_CHOMPER_RIGHT_BOTTOM_SHOOTING;
+			else {
+				aniId = ID_ANI_CHOMPER_RIGHT_BOTTOM;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_RIGHT_BOTTOM_SHOOTING;
+				}
 			}
 		}
 	}
+	else {
+		if (playerY < GetGunY()) {
+			if (playerX < x) {
+				aniId = ID_ANI_CHOMPER_GREEN_LEFT_TOP;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_GREEN_LEFT_TOP_SHOOTING;
+				}
+			}
+			else {
+				aniId = ID_ANI_CHOMPER_GREEN_RIGHT_TOP;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_GREEN_RIGHT_TOP_SHOOTING;
+				}
+			}
+		}
+		else {
+			if (playerX < x) {
+				aniId = ID_ANI_CHOMPER_GREEN_LEFT_BOTTOM;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_GREEN_LEFT_BOTTOM_SHOOTING;
+				}
+			}
+			else {
+				aniId = ID_ANI_CHOMPER_GREEN_RIGHT_BOTTOM;
+				if (state == CHOMPER_STATE_SHOOTING) {
+					aniId = ID_ANI_CHOMPER_GREEN_RIGHT_BOTTOM_SHOOTING;
+				}
+			}
+		}
+	}
+
+	
 
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
