@@ -17,6 +17,7 @@
 #define SCENE_SECTION_GATE_CONNECTIONS 6
 #define SCENE_SECTION_GATES 7
 #define SCENE_SECTION_PLAYER 10
+#define SCENE_SECTION_PREV_PLAYER 11
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -45,12 +46,14 @@ protected:
 	void _ParseSection_GATE_CONNECTIONS(string line);
 	void _ParseSection_GATES(string line);
 	void _ParseSection_PLAYER(string line);
+	void _ParseSection_PREV_PLAYER(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
 
 	int tileSize = 16; // default value (not hard code)
 	LPMAP map;
 	LPGAMEOBJECT player;
+	LPGAMEOBJECT prevPlayer;
 	vector<CGateConnection*> gateConnections;
 	vector<CGate*> gates;
 	LPCWSTR saveFile;

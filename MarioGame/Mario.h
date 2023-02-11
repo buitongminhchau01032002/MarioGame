@@ -30,6 +30,7 @@
 #define MARIO_ATTACK_EFFECT_DURATION 200
 #define MARIO_TIME 300
 #define MARIO_DIE_DURATION 2500
+#define MARIO_WIN_DURATION 2500
 
 // STATE
 #define MARIO_STATE_DIE -10
@@ -214,6 +215,7 @@ class CMario : public CGameObject
 
 	ULONGLONG attackStart;
 	ULONGLONG dieStart;
+	ULONGLONG winStart;
 	bool isAKeyPress = false;
 	
 

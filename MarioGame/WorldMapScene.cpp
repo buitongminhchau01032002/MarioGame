@@ -109,6 +109,7 @@ void CWorldMapScene::_ParseSection_INFOR(string line)
 		if (line == "[GATE_CONNECTIONS]") { gateConnections.clear(); section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
 		if (line == "[GATES]") { gates.clear(); section = SCENE_SECTION_GATES; continue; }
 		if (line == "[PLAYER]") { section = SCENE_SECTION_PLAYER; continue; }
+		if (line == "[PREV_PLAYER]") { section = SCENE_SECTION_PREV_PLAYER; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -119,6 +120,7 @@ void CWorldMapScene::_ParseSection_INFOR(string line)
 		case SCENE_SECTION_GATE_CONNECTIONS: _ParseSection_GATE_CONNECTIONS(line); isInit = false; break;
 		case SCENE_SECTION_GATES: _ParseSection_GATES(line); isInit = false; break;
 		case SCENE_SECTION_PLAYER:  _ParseSection_PLAYER(line); isInit = false; break;
+		case SCENE_SECTION_PREV_PLAYER:  _ParseSection_PREV_PLAYER(line); isInit = false; break;
 		}
 	}
 
@@ -170,6 +172,17 @@ void CWorldMapScene::_ParseSection_PLAYER(string line)
 	int yCell = atof(tokens[1].c_str());
 	player = new CMarioMap(xCell, yCell);
 	objects.push_back(player);
+
+}
+
+void CWorldMapScene::_ParseSection_PREV_PLAYER(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2 || tokens[0] == "") return;
+	int xCell = atof(tokens[0].c_str());
+	int yCell = atof(tokens[1].c_str());
+	prevPlayer = new CMarioMap(xCell, yCell);
 
 }
 
@@ -285,6 +298,7 @@ void CWorldMapScene::Load()
 		if (line == "[GATE_CONNECTIONS]") { section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
 		if (line == "[GATES]") { section = SCENE_SECTION_GATES; continue; }
 		if (line == "[PLAYER]") { section = SCENE_SECTION_PLAYER; continue; }
+		if (line == "[PREV_PLAYER]") { section = SCENE_SECTION_PREV_PLAYER; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -300,6 +314,7 @@ void CWorldMapScene::Load()
 		case SCENE_SECTION_GATE_CONNECTIONS: if (isInit) _ParseSection_GATE_CONNECTIONS(line); break;
 		case SCENE_SECTION_GATES: if (isInit) _ParseSection_GATES(line); break;
 		case SCENE_SECTION_PLAYER: if (isInit) _ParseSection_PLAYER(line); break;
+		case SCENE_SECTION_PREV_PLAYER: if (isInit) _ParseSection_PREV_PLAYER(line); break;
 		}
 	}
 
@@ -307,6 +322,10 @@ void CWorldMapScene::Load()
 
 	if (map != NULL) {
 		map->Load();
+	}
+	if (!prevPlayer) {
+		CMarioMap* mario = (CMarioMap*)player;
+		prevPlayer = new CMarioMap(mario->GetXCell(), mario->GetYCell());
 	}
 
 	int w = CGame::GetInstance()->GetBackBufferWidth();
@@ -317,6 +336,11 @@ void CWorldMapScene::Load()
 			0, 0, w, h,
 			0, 0));
 
+	CMarioMap* mario = (CMarioMap*)player;
+	CMarioMap* prevMario = (CMarioMap*)prevPlayer;
+	if (mario->GetXCell() != prevMario->GetXCell() || mario->GetYCell() != prevMario->GetYCell()) {
+		mario->GoToCell(prevMario->GetXCell(), prevMario->GetYCell());
+	}
 	
 
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
@@ -458,6 +482,11 @@ void CWorldMapScene::SaveToFile() {
 	f << "[PLAYER]" << endl;
 	CMarioMap* mario = (CMarioMap*)player;
 	f << mario->GetXCell() << "\t" << mario->GetYCell() << endl;
+
+	// Write prev player
+	f << "[PREV_PLAYER]" << endl;
+	CMarioMap* prevmario = (CMarioMap*)prevPlayer;
+	f << prevmario->GetXCell() << "\t" << prevmario->GetYCell() << endl;
 
 	// Close the file
 	f.close();

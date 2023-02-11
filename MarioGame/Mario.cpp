@@ -31,6 +31,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOutTitle(L"state: %d, stateX: %d, stateY: %d", state, stateX, stateY);
 	if (state == MARIO_STATE_WINNING) {
+		if (GetTickCount64() - winStart > MARIO_WIN_DURATION)
+		{
+			SaveToFile();
+			CGame::GetInstance()->InitiateSwitchScene(0);
+		}
 		untouchable = 1;
 		nx = 1;
 		SetStateX(MARIO_STATE_X_WALKING);
@@ -128,9 +133,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SaveToFile();
 			CGame::GetInstance()->InitiateSwitchScene(0);
 		}
-	}
-
-	if (state == MARIO_STATE_DIE) {
 		CGame::GetInstance()->GetCamera()->SetFollowing(NULL);
 	}
 
@@ -750,6 +752,9 @@ void CMario::SetState(int state)
 		ax = 0.0f;
 		dieStart = GetTickCount64();
 	}
+	if (state == MARIO_STATE_WINNING) {
+		winStart = GetTickCount64();
+	}
 	CGameObject::SetState(state);
 }
 
@@ -819,6 +824,7 @@ void CMario::SaveToFile() {
 	LPCWSTR saveFile = s->GetSaveFile();
 
 	LPGAMEOBJECT marioMap = new CMarioMap(0, 0);
+	LPGAMEOBJECT prevMarioMap = new CMarioMap(0, 0);
 	vector<CGateConnection*> gateConnections;
 	vector<CGate*> gates;
 
@@ -837,6 +843,7 @@ void CMario::SaveToFile() {
 		if (line == "[GATE_CONNECTIONS]") { section = SCENE_SECTION_GATE_CONNECTIONS; continue; }
 		if (line == "[GATES]") { section = SCENE_SECTION_GATES; continue; }
 		if (line == "[PLAYER]") { section = SCENE_SECTION_PLAYER; continue; }
+		if (line == "[PREV_PLAYER]") { section = SCENE_SECTION_PREV_PLAYER; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -887,16 +894,28 @@ void CMario::SaveToFile() {
 			marioMap = new CMarioMap(xCell, yCell);
 			break;
 		}
+		case SCENE_SECTION_PREV_PLAYER: {
+			vector<string> tokens = split(line);
+
+			if (tokens.size() < 2 || tokens[0] == "") break;
+			int xCell = atof(tokens[0].c_str());
+			int yCell = atof(tokens[1].c_str());
+			delete prevMarioMap;
+			prevMarioMap = new CMarioMap(xCell, yCell);
+			break;
+		}
 		}
 	}
 
 	inputf.close();
 
 	// Complete gate
-	for (int i = 0; i < gates.size(); i++) {
-		if (gates[i]->GetSceneId() == s->GetId()) {
-			gates[i]->SetCompleted(true);
-			break;
+	if (state != MARIO_STATE_DIE) {
+		for (int i = 0; i < gates.size(); i++) {
+			if (gates[i]->GetSceneId() == s->GetId()) {
+				gates[i]->SetCompleted(true);
+				break;
+			}
 		}
 	}
 
@@ -923,6 +942,15 @@ void CMario::SaveToFile() {
 	// Write marioMap
 	f << "[PLAYER]" << endl;
 	f << ((CMarioMap*)marioMap)->GetXCell() << "\t" << ((CMarioMap*)marioMap)->GetYCell() << endl;
+
+	// Write prev player
+	f << "[PREV_PLAYER]" << endl;
+	if (state == MARIO_STATE_DIE) {
+		f << ((CMarioMap*)prevMarioMap)->GetXCell() << "\t" << ((CMarioMap*)prevMarioMap)->GetYCell() << endl;
+	}
+	else {
+		f << ((CMarioMap*)marioMap)->GetXCell() << "\t" << ((CMarioMap*)marioMap)->GetYCell() << endl;
+	}
 
 	// Close the file
 	f.close();

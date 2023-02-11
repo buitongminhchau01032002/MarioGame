@@ -8,6 +8,17 @@ height	240
 [SCENES]
 000	0	data\map_scene01.txt
 100	1	data\scene01.txt
+101	1	data\scene01.txt
+102	1	data\scene01.txt
+103	1	data\scene01.txt
+104	1	data\scene01.txt
+105	1	data\scene01.txt
+106	1	data\scene01.txt
+107	1	data\scene01.txt
+108	1	data\scene01.txt
+109	1	data\scene01.txt
+110	1	data\scene01.txt
+111	1	data\scene01.txt
 
 # id	file 
 [TEXTURES]
