@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Animations.h"
 #include "PlayScene.h"
+#include "StartScene.h"
 #include "WorldMapScene.h"
 
 CGame * CGame::__instance = NULL;
@@ -472,6 +473,11 @@ void CGame::_ParseSection_SCENES(string line)
 	else if (type == 1) 
 	{
 		LPSCENE scene = new CPlayScene(id, path);
+		scenes[id] = scene;
+	}
+	else if (type == 2)
+	{
+		LPSCENE scene = new CStartScene(id, path);
 		scenes[id] = scene;
 	}
 }

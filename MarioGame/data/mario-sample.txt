@@ -1,12 +1,14 @@
 [SETTINGS]
-start	000
+start	1000
 width	320
 height	240
 
 #id	type	file
-# type: 0: worldmap, 1: play scene 
+# type: 0: worldmap, 1: play scene , 2: start
 [SCENES]
 000	0	data\map_scene01.txt
+1000	2	data\start_scene.txt
+
 100	1	data\scene01.txt
 101	1	data\scene01.txt
 102	1	data\scene01.txt
@@ -37,3 +39,5 @@ height	240
 -10	textures\ui.png
 -20	textures\worldmap.png
 -21	textures\worldmap2.png
+
+-100	textures\start.png

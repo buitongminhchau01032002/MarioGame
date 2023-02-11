@@ -168,6 +168,12 @@
     <ClInclude Include="WinBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StartScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartSceneKeyHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -309,6 +315,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WinBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartSceneKeyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

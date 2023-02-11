@@ -1,0 +1,14 @@
+# list of object assets to load in this scene
+[ASSETS]
+data\bottom_bar.txt
+data\mario_map.txt
+data\start_bg.txt
+
+[INFOR]
+#tile_size
+16
+
+[OBJECTS]
+-99	130	126
+
+
