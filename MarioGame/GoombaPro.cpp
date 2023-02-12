@@ -20,7 +20,7 @@ void CGoombaPro::Render()
 		aniId = ID_ANI_GOOMBA_PRO_DIE;
 	}
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y-4);
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 }
 

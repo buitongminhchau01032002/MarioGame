@@ -12,7 +12,7 @@
 #define GOOMBA_STATE_FLYING 300
 
 #define GOOMBA_PRO_TIME_TO_FLY 2100
-#define GOOMBA_PRO_FLY_SPEED 0.4f
+#define GOOMBA_PRO_FLY_SPEED 0.32f
 
 class CGoombaPro :
     public CGoomba
