@@ -107,9 +107,6 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	vy += ay * dt;
-	if (state != KOOPA_STATE_SLEEP) {
-		vy = KOOPA_SPEED_SLEEP_Y;
-	}
 
 	if (state == KOOPA_STATE_SLEEPING) {
 		vx = 0;
@@ -205,7 +202,7 @@ void CKoopa::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 /////////////
@@ -260,7 +257,7 @@ void CKoopa::SetState(int state)
 	} if (state == KOOPA_STATE_FLY) {
 		ay = KOOPA_GRAVITY_FLY;
 	} if (state == KOOPA_STATE_SLEEP) {
-		vy = KOOPA_SPEED_SLEEP_Y;
+		ay = KOOPA_GRAVITY_SLEEP;
 	}
 	CGameObject::SetState(state);
 }
