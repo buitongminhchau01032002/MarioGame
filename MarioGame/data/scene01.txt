@@ -30,11 +30,11 @@ data\map01.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	48	400
-#0	1900	200
+#0	48	400
+0	1900	200
 
 # GOOMBA
-20001	256	400
+2	256	400
 2	536	405
 
 2	872	376

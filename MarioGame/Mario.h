@@ -18,7 +18,7 @@
 #define MARIO_SPEED_TO_FALL 0.05f // speed min to anim fall
 #define MARIO_SPEED_Y_MAX 0.38f
 #define MARIO_SPEED_Y_SLOW_MAX 0.036f
-#define MARIO_JUMP_DEFLECT_SPEED  0.3f
+#define MARIO_JUMP_DEFLECT_SPEED  0.31f
 
 #define MARIO_GRAVITY			0.0009f
 #define MARIO_GRAVITY_FLYING	0.0005f

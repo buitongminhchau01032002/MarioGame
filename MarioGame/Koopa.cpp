@@ -30,18 +30,11 @@ void CKoopa::MoveInSleep(int direction)
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED) {
-		left = x - KOOPA_BBOX_WIDTH / 2;
-		top = y - KOOPA_BBOX_HEIGHT_SLEEP / 2;
-		right = left + KOOPA_BBOX_WIDTH;
+	if (state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED || state == KOOPA_STATE_SLEEP) {
+		left = x - KOOPA_BBOX_WIDTH_SLEEP / 2;
+		top = y - KOOPA_BBOX_HEIGHT_SLEEP / 2 + 4;
+		right = left + KOOPA_BBOX_WIDTH_SLEEP;
 		bottom = top + KOOPA_BBOX_HEIGHT_SLEEP;
-	}
-	else if (state == KOOPA_STATE_SLEEP)
-	{
-		left = x - KOOPA_BBOX_WIDTH / 2 + 2;
-		top = y;
-		right = left + KOOPA_BBOX_WIDTH - 4;
-		bottom = y - KOOPA_BBOX_HEIGHT_SLEEP / 2 + KOOPA_BBOX_HEIGHT_SLEEP;
 	}
 	else
 	{
@@ -212,7 +205,7 @@ void CKoopa::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 /////////////
