@@ -3,7 +3,7 @@
 void CAttackBlock::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
     left = x - ATTACK_BLOCK_WIDTH / 2;
-    top = y - ATTACK_BLOCK_HEIGHT;
+    top = y - ATTACK_BLOCK_HEIGHT / 2;
     right = left + ATTACK_BLOCK_WIDTH;
     bottom = top + ATTACK_BLOCK_HEIGHT;
 }
@@ -15,5 +15,5 @@ void CAttackBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CAttackBlock::Render()
 {
-    //RenderBoundingBox();
+    RenderBoundingBox();
 }
