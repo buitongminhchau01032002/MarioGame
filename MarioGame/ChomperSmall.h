@@ -11,6 +11,7 @@
 
 #define CHOMPER_SMALL_STATE_HIDDEN 0
 #define CHOMPER_SMALL_STATE_SHOW 1
+#define CHOMPER_SMALL_STATE_DIE 3
 
 #define ID_ANI_CHOMPER_SMALL 87000
 
@@ -32,5 +33,6 @@ class CChomperSmall :
 
 public:
 	CChomperSmall(float x, float y);
+	void GetShowBox(float& left, float& top, float& right, float& bottom);
 };
 

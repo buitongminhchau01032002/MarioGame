@@ -191,7 +191,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (untouchable == 0 && chomper->GetState() != CHOMPER_STATE_DIE) DecreaseLevel();
 	}
 	else if (dynamic_cast<CChomperSmall*>(e->obj)) {
-		if (untouchable == 0) DecreaseLevel();
+		CChomperSmall* chomper = dynamic_cast<CChomperSmall*>(e->obj);
+		if (untouchable == 0 && chomper->GetState() != CHOMPER_SMALL_STATE_DIE) DecreaseLevel();
 	}
 	else if (dynamic_cast<CDieBlock*>(e->obj)) {
 		SetState(MARIO_STATE_DIE);

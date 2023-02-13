@@ -4,7 +4,7 @@
 #define ATTACK_BLOCK_WIDTH 12
 #define ATTACK_BLOCK_HEIGHT 8
 #define ATTACK_BLOCK_OFFSET_Y 6
-#define	ATTACK_BLOCK_DURATION 300
+#define	ATTACK_BLOCK_DURATION 150
 
 #define ID_SPRITE_ATTACK_EFFECT -999998
 #define ATTACK_EFFECT_DURATION 80
@@ -41,7 +41,8 @@ private:
 	ULONGLONG timer;
 	void OnOverlapWithGoomba(LPGAMEOBJECT obj);
 	void OnOverlapWithKoopa(LPGAMEOBJECT obj);
-	void OnOverlapWithChoomper(LPGAMEOBJECT obj);
+	void OnOverlapWithChomper(LPGAMEOBJECT obj);
+	void OnOverlapWithChomperSmall(LPGAMEOBJECT obj);
 	bool IsOverLap(float l, float t, float r, float b);
 	void AddEffect();
 	int nx;

@@ -84,6 +84,11 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (state == KOOPA_STATE_SLEEP && chomper->GetState() != CHOMPER_STATE_DIE) {
 			chomper->SetState(CHOMPER_STATE_DIE);
 		}
+	} else if (dynamic_cast<CChomperSmall*>(e->obj)) {
+		CChomperSmall* chomper = dynamic_cast<CChomperSmall*>(e->obj);
+		if (state == KOOPA_STATE_SLEEP && chomper->GetState() != CHOMPER_SMALL_STATE_DIE) {
+			chomper->SetState(CHOMPER_SMALL_STATE_DIE);
+		}
 	}
 }
 

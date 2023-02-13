@@ -2,6 +2,7 @@
 #include "Koopa.h"
 #include "PlayScene.h"
 #include "Chomper.h"
+#include "ChomperSmall.h"
 
 void CAttackEffect::Render() {
 	LPSPRITE sprite = CSprites::GetInstance()->Get(ID_SPRITE_ATTACK_EFFECT);
@@ -43,7 +44,8 @@ void CAttackBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (dynamic_cast<CGoomba*>(objects[i])) OnOverlapWithGoomba(objects[i]);
 		else if (dynamic_cast<CKoopa*>(objects[i])) OnOverlapWithKoopa(objects[i]);
-		else if (dynamic_cast<CChomper*>(objects[i])) OnOverlapWithChoomper(objects[i]);
+		else if (dynamic_cast<CChomper*>(objects[i])) OnOverlapWithChomper(objects[i]);
+		else if (dynamic_cast<CChomperSmall*>(objects[i])) OnOverlapWithChomperSmall(objects[i]);
 	}
 }
 void CAttackBlock::Render()
@@ -76,7 +78,7 @@ void CAttackBlock::OnOverlapWithKoopa(LPGAMEOBJECT obj) {
 		koopa->SetSpeed(nx*KOOPA_WALKING_SPEED, -KOOPA_DEFLECT_SPEED);
 	}
 }
-void CAttackBlock::OnOverlapWithChoomper(LPGAMEOBJECT obj) {
+void CAttackBlock::OnOverlapWithChomper(LPGAMEOBJECT obj) {
 	CChomper* chomper = dynamic_cast<CChomper*>(obj);
 	float chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b;
 	chomper->GetShowBox(chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b);
@@ -84,6 +86,18 @@ void CAttackBlock::OnOverlapWithChoomper(LPGAMEOBJECT obj) {
 		if (chomper->GetState() != CHOMPER_STATE_DIE) {
 			this->AddEffect();
 			chomper->SetState(CHOMPER_STATE_DIE);
+		}
+	}
+}
+
+void CAttackBlock::OnOverlapWithChomperSmall(LPGAMEOBJECT obj) {
+	CChomperSmall* chomper = dynamic_cast<CChomperSmall*>(obj);
+	float chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b;
+	chomper->GetShowBox(chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b);
+	if (IsOverLap(chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b)) {
+		if (chomper->GetState() != CHOMPER_SMALL_STATE_DIE) {
+			this->AddEffect();
+			chomper->SetState(CHOMPER_SMALL_STATE_DIE);
 		}
 	}
 }
