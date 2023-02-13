@@ -55,7 +55,13 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (e->ny != 0 && state != KOOPA_STATE_FLY)
 	{
-		vy = 0;
+		if (e->ny < 0 && (e->obj->IsBlocking() || e->obj->IsBlockingTop())) {
+			vy = 0;
+			if (state == KOOPA_STATE_SLEEPING) vx = 0;
+		}
+		else if (e->ny > 0 && (e->obj->IsBlocking() || e->obj->IsBlockingBottom())) {
+			vy = 0;
+		}
 	}
 	else if ((e->obj->IsBlocking() || e->obj->IsBlockingTop()) && e->ny < 0) {
 		// fly
@@ -109,32 +115,10 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 
 	if (state == KOOPA_STATE_SLEEPING) {
-		vx = 0;
 		if (GetTickCount64() - sleepStart > KOOPA_SLEEP_DURATION)
 		{
 			sleepStart = 0;
 			SetState(KOOPA_STATE_WALKING);
-		}
-	}
-
-	if (state != KOOPA_STATE_SLEEP) {
-		// Check overlap attack block, NOT collision
-		vector<LPGAMEOBJECT>& objects = s->GetObjects();
-		int index = -1;
-		for (int i = 0; i < objects.size(); i++) {
-			if (dynamic_cast<CAttackBlock*>(objects[i])) {
-				float attack_l, attack_t, attack_r, attack_b;
-				float koopa_l, koopa_t, koopa_r, koopa_b;
-				this->GetBoundingBox(koopa_l, koopa_t, koopa_r, koopa_b);
-				objects[i]->GetBoundingBox(attack_l, attack_t, attack_r, attack_b);
-				if (attack_l < koopa_r && attack_r > koopa_l && attack_b > koopa_t && attack_t < koopa_b) {
-					this->SetState(KOOPA_STATE_SLEEPING);
-					vy = -KOOPA_DEFLECT_SPEED;
-					CMario* mario = (CMario*)s->GetPlayer();
-					vx = mario->Getnx() * KOOPA_WALKING_SPEED*2;
-					break;
-				}
-			}
 		}
 	}
 	
@@ -249,6 +233,7 @@ void CKoopa::SetState(int state)
 	if (state == KOOPA_STATE_SLEEPING) {
 		sleepStart = GetTickCount64();
 		ay = KOOPA_GRAVITY;
+		vx = 0;
 	}
 	else if (state == KOOPA_STATE_WALKING) {
 		if (this->state != KOOPA_STATE_WALKING) {

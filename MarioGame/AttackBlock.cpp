@@ -51,7 +51,11 @@ void CAttackBlock::OnOverlapWithGoomba(LPGAMEOBJECT obj) {
 	}
 }
 void CAttackBlock::OnOverlapWithKoopa(LPGAMEOBJECT obj) {
-
+	CKoopa* koopa = dynamic_cast<CKoopa*>(obj);
+	if (koopa->GetState() != KOOPA_STATE_SLEEP) {
+		koopa->SetState(KOOPA_STATE_SLEEPING);
+		koopa->SetSpeed(nx*KOOPA_WALKING_SPEED, -KOOPA_DEFLECT_SPEED);
+	}
 }
 void CAttackBlock::OnOverlapWithChoomper(LPGAMEOBJECT obj) {
 
