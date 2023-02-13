@@ -55,28 +55,11 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if ( (state==GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT) )
+	if ( (state==GOOMBA_STATE_DIE || state==GOOMBA_STATE_DIE_STRONG) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT) )
 	{
 		isDeleted = true;
 		return;
 	}
-
-	// Check overlap attack block, NOT collision
-	vector<LPGAMEOBJECT>& objects = s->GetObjects();
-	int index = -1;
-	for (int i = 0; i < objects.size(); i++) {
-		if (dynamic_cast<CAttackBlock*>(objects[i])) {
-			float attack_l, attack_t, attack_r, attack_b;
-			float goomba_l, goomba_t, goomba_r, goomba_b;
-			this->GetBoundingBox(goomba_l, goomba_t, goomba_r, goomba_b);
-			objects[i]->GetBoundingBox(attack_l, attack_t, attack_r, attack_b);
-			if (attack_l < goomba_r && attack_r > goomba_l && attack_b > goomba_t && attack_t < goomba_b) {
-				this->SetState(GOOMBA_STATE_DIE);
-				break;
-			}
-		}
-	}
-
 	
 	CCollision::GetInstance()->Process(this, dt, coObjects, 2);
 }
@@ -91,7 +74,7 @@ void CGoomba::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CGoomba::SetState(int state)
@@ -104,7 +87,10 @@ void CGoomba::SetState(int state)
 			y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE)/2;
 			vx = 0;
 			vy = 0;
-			ay = 0; 
+			ay = 0;
+			break;
+		case GOOMBA_STATE_DIE_STRONG:
+			die_start = GetTickCount64();
 			break;
 		case GOOMBA_STATE_WALKING: 
 			vx = -GOOMBA_WALKING_SPEED;
