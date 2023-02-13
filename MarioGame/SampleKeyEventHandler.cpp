@@ -34,7 +34,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	}
 
 	case DIK_A:
-		if (mario->GetLevel() == MARIO_LEVEL_CAT && mario->GetStateY() == MARIO_STATE_Y_GROUND && mario->GetState() != MARIO_STATE_ATTACK && mario->GetState() != MARIO_STATE_CARRY) {
+		if (mario->GetLevel() == MARIO_LEVEL_CAT && mario->GetState() != MARIO_STATE_ATTACK && mario->GetState() != MARIO_STATE_CARRY) {
 			mario->SetState(MARIO_STATE_ATTACK);
 		}
 		break;

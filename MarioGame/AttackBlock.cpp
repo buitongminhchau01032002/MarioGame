@@ -26,7 +26,7 @@ void CAttackBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (dynamic_cast<CGoomba*>(objects[i])) OnOverlapWithGoomba(objects[i]);
 		else if (dynamic_cast<CKoopa*>(objects[i])) OnOverlapWithKoopa(objects[i]);
-		else if (dynamic_cast<CChomper*>(objects[i])) OnOverlapWithKoopa(objects[i]);
+		else if (dynamic_cast<CChomper*>(objects[i])) OnOverlapWithChoomper(objects[i]);
 	}
 }
 void CAttackBlock::Render()
