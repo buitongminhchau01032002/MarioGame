@@ -6,6 +6,33 @@
 #define ATTACK_BLOCK_OFFSET_Y 6
 #define	ATTACK_BLOCK_DURATION 300
 
+#define ID_SPRITE_ATTACK_EFFECT -999998
+#define ATTACK_EFFECT_DURATION 80
+
+class CAttackEffect : public CGameObject {
+	ULONGLONG timer;
+public:
+	CAttackEffect(float x, float y) :CGameObject(x, y) {
+		timer = GetTickCount64();
+	};
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {
+		left = 0;
+		top = 0;
+		right = 0;
+		bottom = 0;
+	}
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+		if (GetTickCount64() - timer > ATTACK_EFFECT_DURATION) {
+			this->Delete();
+			return;
+		}
+	}
+	virtual void Render();
+
+	virtual int IsCollidable() { return 0; };
+	virtual int IsBlocking() { return 0; };
+};
+
 class CAttackBlock :
     public CGameObject
 
@@ -16,6 +43,7 @@ private:
 	void OnOverlapWithKoopa(LPGAMEOBJECT obj);
 	void OnOverlapWithChoomper(LPGAMEOBJECT obj);
 	bool IsOverLap(float l, float t, float r, float b);
+	void AddEffect();
 	int nx;
 public:
 	CAttackBlock(float x, float y, int nx) :CGameObject(x, y) { timer = GetTickCount64(); this->nx = nx; };

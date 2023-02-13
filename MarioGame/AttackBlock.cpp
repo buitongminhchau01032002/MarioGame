@@ -3,6 +3,11 @@
 #include "PlayScene.h"
 #include "Chomper.h"
 
+void CAttackEffect::Render() {
+	LPSPRITE sprite = CSprites::GetInstance()->Get(ID_SPRITE_ATTACK_EFFECT);
+	sprite->Draw(x, y);
+}
+
 void CAttackBlock::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
     left = x - ATTACK_BLOCK_WIDTH / 2;
@@ -10,6 +15,18 @@ void CAttackBlock::GetBoundingBox(float& left, float& top, float& right, float& 
     right = left + ATTACK_BLOCK_WIDTH;
     bottom = top + ATTACK_BLOCK_HEIGHT;
 }
+
+void CAttackBlock::AddEffect() {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+	if (nx > 0) {
+		objects.push_back(new CAttackEffect(x + ATTACK_BLOCK_WIDTH, y + ATTACK_BLOCK_OFFSET_Y));
+	}
+	else if (nx < 0) {
+		objects.push_back(new CAttackEffect(x - ATTACK_BLOCK_WIDTH, y + ATTACK_BLOCK_OFFSET_Y));
+	}
+}
+
 void CAttackBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
     if (GetTickCount64() - timer > ATTACK_BLOCK_DURATION) {
@@ -46,6 +63,7 @@ bool CAttackBlock::IsOverLap(float l, float t, float r, float b) {
 void CAttackBlock::OnOverlapWithGoomba(LPGAMEOBJECT obj) {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(obj);
 	if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_DIE_STRONG) {
+		this->AddEffect();
 		goomba->SetState(GOOMBA_STATE_DIE_STRONG);
 		goomba->SetSpeed(nx * GOOMBA_WALKING_SPEED, -GOOMBA_DEFLECT_SPEED_Y);
 	}
@@ -53,10 +71,11 @@ void CAttackBlock::OnOverlapWithGoomba(LPGAMEOBJECT obj) {
 void CAttackBlock::OnOverlapWithKoopa(LPGAMEOBJECT obj) {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(obj);
 	if (koopa->GetState() != KOOPA_STATE_SLEEP) {
+		this->AddEffect();
 		koopa->SetState(KOOPA_STATE_SLEEPING);
 		koopa->SetSpeed(nx*KOOPA_WALKING_SPEED, -KOOPA_DEFLECT_SPEED);
 	}
 }
 void CAttackBlock::OnOverlapWithChoomper(LPGAMEOBJECT obj) {
-
+	this->AddEffect();
 }
