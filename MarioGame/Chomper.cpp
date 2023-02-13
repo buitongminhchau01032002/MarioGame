@@ -11,6 +11,16 @@ CChomper::CChomper(float x, float y, int type) :CGameObject(x, y)
 	shootingTimerStart = 0;
 	this->type = type;
 }
+void CChomper::GetShowBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x - CHOMPER_BBOX_WIDTH / 2;
+	top = y - (type == CHOMPER_TYPE_RED ? CHOMPER_BBOX_HEIGHT : CHOMPER_BBOX_HEIGHT_GREEN) / 2;
+	right = left + CHOMPER_BBOX_WIDTH;
+	//float bottom_box = top + (type == CHOMPER_TYPE_RED ? CHOMPER_BBOX_HEIGHT : CHOMPER_BBOX_HEIGHT_GREEN);
+
+	bottom = originY - 8 - 24;
+
+}
 float CChomper::GetGunY()
 {
 	return y + (type == CHOMPER_TYPE_RED ? CHOMPER_GUN_Y_OFFSET : CHOMPER_GUN_Y_OFFSET_GREEN);
@@ -30,7 +40,9 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 	if (!s->IsInScreenBounding(x, y)) return;
-	
+	if (state == CHOMPER_STATE_DIE) {
+		return;
+	}
 
 	if (state == CHOMPER_STATE_HIDDEN) {
 		y += CHOMPER_SHOW_SPEED * dt;
@@ -75,6 +87,10 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CChomper::Render()
 {
+	if (state == CHOMPER_STATE_DIE) {
+		CAnimations::GetInstance()->Get(ID_ANI_CHOMPER_PIPE)->Render(x - 1, originY - 8);
+		return;
+	}
 	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 	LPGAMEOBJECT player = s->GetPlayer();
 

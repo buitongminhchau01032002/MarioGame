@@ -77,5 +77,13 @@ void CAttackBlock::OnOverlapWithKoopa(LPGAMEOBJECT obj) {
 	}
 }
 void CAttackBlock::OnOverlapWithChoomper(LPGAMEOBJECT obj) {
-	this->AddEffect();
+	CChomper* chomper = dynamic_cast<CChomper*>(obj);
+	float chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b;
+	chomper->GetShowBox(chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b);
+	if (IsOverLap(chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b)) {
+		if (chomper->GetState() != CHOMPER_STATE_DIE) {
+			this->AddEffect();
+			chomper->SetState(CHOMPER_STATE_DIE);
+		}
+	}
 }

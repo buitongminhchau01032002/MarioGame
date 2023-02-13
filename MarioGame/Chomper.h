@@ -17,6 +17,7 @@
 #define CHOMPER_STATE_HIDDEN 0
 #define CHOMPER_STATE_SHOW 1
 #define CHOMPER_STATE_SHOOTING 2
+#define CHOMPER_STATE_DIE 3
 
 #define CHOMPER_TYPE_RED 1
 #define CHOMPER_TYPE_GREEN 2
@@ -58,5 +59,6 @@ class CChomper :
 
 public:
 	CChomper(float x, float y, int type);
+	void GetShowBox(float& left, float& top, float& right, float& bottom);
 };
 

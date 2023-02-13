@@ -187,7 +187,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (untouchable == 0) DecreaseLevel();
 	}
 	else if (dynamic_cast<CChomper*>(e->obj)) {
-		if (untouchable == 0) DecreaseLevel();
+		CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
+		if (untouchable == 0 && chomper->GetState() != CHOMPER_STATE_DIE) DecreaseLevel();
 	}
 	else if (dynamic_cast<CChomperSmall*>(e->obj)) {
 		if (untouchable == 0) DecreaseLevel();

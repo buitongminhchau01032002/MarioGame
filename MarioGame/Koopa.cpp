@@ -7,6 +7,8 @@
 #include "Mario.h"
 #include "AttackBlock.h"
 #include "LightBrick.h"
+#include "Chomper.h"
+#include "ChomperSmall.h"
 
 CKoopa::CKoopa(float x, float y, int type) :CGameObject(x, y)
 {
@@ -77,6 +79,12 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithQuestionBox(e);
 	else if (dynamic_cast<CLightBrick*>(e->obj))
 		OnCollisionWithLightBrick(e);
+	else if (dynamic_cast<CChomper*>(e->obj)) {
+		CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
+		if (state == KOOPA_STATE_SLEEP && chomper->GetState() != CHOMPER_STATE_DIE) {
+			chomper->SetState(CHOMPER_STATE_DIE);
+		}
+	}
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
