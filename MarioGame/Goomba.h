@@ -3,6 +3,7 @@
 
 #define GOOMBA_GRAVITY 0.0012f
 #define GOOMBA_WALKING_SPEED 0.032f
+#define GOOMBA_DEFLECT_SPEED_Y 0.4f
 
 
 #define GOOMBA_BBOX_WIDTH 16
@@ -30,7 +31,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; };
+	int IsCollidable() { return state != GOOMBA_STATE_DIE_STRONG; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 

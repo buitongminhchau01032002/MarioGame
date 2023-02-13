@@ -45,7 +45,10 @@ bool CAttackBlock::IsOverLap(float l, float t, float r, float b) {
 
 void CAttackBlock::OnOverlapWithGoomba(LPGAMEOBJECT obj) {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(obj);
-	goomba->SetState(GOOMBA_STATE_DIE_STRONG);
+	if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_DIE_STRONG) {
+		goomba->SetState(GOOMBA_STATE_DIE_STRONG);
+		goomba->SetSpeed(nx * GOOMBA_WALKING_SPEED, -GOOMBA_DEFLECT_SPEED_Y);
+	}
 }
 void CAttackBlock::OnOverlapWithKoopa(LPGAMEOBJECT obj) {
 

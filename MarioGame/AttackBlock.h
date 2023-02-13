@@ -16,8 +16,9 @@ private:
 	void OnOverlapWithKoopa(LPGAMEOBJECT obj);
 	void OnOverlapWithChoomper(LPGAMEOBJECT obj);
 	bool IsOverLap(float l, float t, float r, float b);
+	int nx;
 public:
-	CAttackBlock(float x, float y) :CGameObject(x, y) { timer = GetTickCount64(); };
+	CAttackBlock(float x, float y, int nx) :CGameObject(x, y) { timer = GetTickCount64(); this->nx = nx; };
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

@@ -745,7 +745,7 @@ void CMario::SetState(int state)
 		attackStart = GetTickCount64();
 		LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
 		vector<LPGAMEOBJECT>& objects = s->GetObjects();
-		objects.push_back(new CAttackBlock(x + nx * (MARIO_BIG_BBOX_WIDTH), y));
+		objects.push_back(new CAttackBlock(x + nx * (MARIO_BIG_BBOX_WIDTH), y, nx));
 	}
 	if (state == MARIO_STATE_DIE) {
 		CGame* g = CGame::GetInstance();
