@@ -211,7 +211,12 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	if (state == KOOPA_STATE_SLEEP) {
 		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-		goomba->SetState(GOOMBA_STATE_DIE);
+		goomba->SetState(GOOMBA_STATE_DIE_STRONG);
+		if (vx > 0) {
+			goomba->SetSpeed(GOOMBA_WALKING_SPEED, -GOOMBA_DEFLECT_SPEED_Y);
+		} else {
+			goomba->SetSpeed(-GOOMBA_WALKING_SPEED, -GOOMBA_DEFLECT_SPEED_Y);
+		}
 	}
 }
 

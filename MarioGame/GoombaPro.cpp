@@ -24,6 +24,10 @@ void CGoombaPro::Render()
 	{
 		aniId = ID_ANI_GOOMBA_PRO_DIE;
 	}
+	if (state == GOOMBA_STATE_DIE_STRONG)
+	{
+		aniId = ID_ANI_GOOMBA_PRO_DIE_STRONG;
+	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
@@ -44,7 +48,7 @@ void CGoombaPro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CGoombaPro::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	CGoomba::OnCollisionWith(e);
-	if (e->ny == -1)
+	if (e->ny == -1 && state != GOOMBA_STATE_DIE_STRONG && state != GOOMBA_STATE_DIE)
 	{
 		vy = 0;
 		state = GOOMBA_STATE_WALKING;
