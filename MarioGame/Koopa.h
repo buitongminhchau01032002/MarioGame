@@ -30,11 +30,15 @@
 #define ID_ANI_KOOPA_RED_WALKING_RIGHT 30000
 #define ID_ANI_KOOPA_RED_SLEEPING 30002
 #define ID_ANI_KOOPA_RED_SLEEP 30003
+#define ID_ANI_KOOPA_RED_SLEEPING_UP 30004
+#define ID_ANI_KOOPA_RED_SLEEP_UP 30005
 
 #define ID_ANI_KOOPA_GREEN_WALKING_LEFT 31001
 #define ID_ANI_KOOPA_GREEN_WALKING_RIGHT 31000
 #define ID_ANI_KOOPA_GREEN_SLEEPING 31002
 #define ID_ANI_KOOPA_GREEN_SLEEP 31003
+#define ID_ANI_KOOPA_GREEN_SLEEPING_UP 31004
+#define ID_ANI_KOOPA_GREEN_SLEEP_UP 31005
 
 #define ID_ANI_KOOPA_FLY_WALKING_LEFT 32001
 #define ID_ANI_KOOPA_FLY_WALKING_RIGHT 32000
@@ -46,6 +50,7 @@ protected:
 	float ay;
 	ULONGLONG sleepStart = 0;
 	int type;
+	int ny;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -64,5 +69,7 @@ public:
 	CKoopa(float x, float y, int type);
 	void MoveInSleep(int direction);
 	void SetState(int state);
+	void SetNy(int ny) { this->ny = ny; }
+	int GetNy() { return ny; }
 };
 

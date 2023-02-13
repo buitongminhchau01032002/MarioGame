@@ -15,6 +15,7 @@ CKoopa::CKoopa(float x, float y, int type) :CGameObject(x, y)
 	this->ay = KOOPA_GRAVITY;
 	this->type = type;
 	vx = -KOOPA_WALKING_SPEED;
+	ny = 1;
 	if (type != KOOPA_TYPE_FLY) {
 		SetState(KOOPA_STATE_WALKING);
 	}
@@ -88,6 +89,14 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		CChomperSmall* chomper = dynamic_cast<CChomperSmall*>(e->obj);
 		if (state == KOOPA_STATE_SLEEP && chomper->GetState() != CHOMPER_SMALL_STATE_DIE) {
 			chomper->SetState(CHOMPER_SMALL_STATE_DIE);
+		}
+	}
+	else if (dynamic_cast<CKoopa*>(e->obj)) {
+		CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+		if (state == KOOPA_STATE_SLEEP && koopa->GetState() != KOOPA_STATE_SLEEP) {
+			koopa->SetState(KOOPA_STATE_SLEEPING);
+			koopa->SetSpeed(nx * KOOPA_WALKING_SPEED, -KOOPA_DEFLECT_SPEED);
+			koopa->SetNy(-1);
 		}
 	}
 }
@@ -169,17 +178,29 @@ void CKoopa::Render()
 	else if (state == KOOPA_STATE_SLEEP) {
 		if (type == KOOPA_TYPE_FLY || type == KOOPA_TYPE_GREEN) {
 			aniId = ID_ANI_KOOPA_GREEN_SLEEP;
+			if (ny < 0) {
+				aniId = ID_ANI_KOOPA_GREEN_SLEEP_UP;
+			}
 		}
 		else {
 			aniId = ID_ANI_KOOPA_RED_SLEEP;
+			if (ny < 0) {
+				aniId = ID_ANI_KOOPA_RED_SLEEP_UP;
+			}
 		}
 	}
 	else if (state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED) {
 		if (type == KOOPA_TYPE_FLY || type == KOOPA_TYPE_GREEN) {
 			aniId = ID_ANI_KOOPA_GREEN_SLEEPING;
+			if (ny < 0) {
+				aniId = ID_ANI_KOOPA_GREEN_SLEEPING_UP;
+			}
 		}
 		else {
 			aniId = ID_ANI_KOOPA_RED_SLEEPING;
+			if (ny < 0) {
+				aniId = ID_ANI_KOOPA_RED_SLEEPING_UP;
+			}
 		}
 	}
 	else {
@@ -254,11 +275,13 @@ void CKoopa::SetState(int state)
 		}
 		vx = -KOOPA_WALKING_SPEED;
 		ay = KOOPA_GRAVITY;
+		ny = 1;
 	} else if (state == KOOPA_STATE_CARRIED) {
 		sleepStart = GetTickCount64();
 		ay = KOOPA_GRAVITY;
 	} if (state == KOOPA_STATE_FLY) {
 		ay = KOOPA_GRAVITY_FLY;
+		ny = 1;
 	} if (state == KOOPA_STATE_SLEEP) {
 		ay = KOOPA_GRAVITY_SLEEP;
 	}

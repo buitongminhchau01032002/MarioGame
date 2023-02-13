@@ -76,6 +76,7 @@ void CAttackBlock::OnOverlapWithKoopa(LPGAMEOBJECT obj) {
 		this->AddEffect();
 		koopa->SetState(KOOPA_STATE_SLEEPING);
 		koopa->SetSpeed(nx*KOOPA_WALKING_SPEED, -KOOPA_DEFLECT_SPEED);
+		koopa->SetNy(-1);
 	}
 }
 void CAttackBlock::OnOverlapWithChomper(LPGAMEOBJECT obj) {
