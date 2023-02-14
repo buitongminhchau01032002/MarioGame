@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "Game.h"
 #include "Camera.h"
+#include "WorldMapGrass.h"
 using namespace std;
 
 
@@ -202,13 +203,21 @@ void CWorldMapScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case OBJECT_TYPE_WORLDMAP_GRASS: {
+		int xCell = atoi(tokens[1].c_str());
+		int yCell = atoi(tokens[2].c_str());
+		obj = new CWorldMapGrass(xCell, yCell);
+		break;
+	}
 
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
 		return;
 	}
 
-	objects.push_back(obj);
+	if (obj) {
+		objects.push_back(obj);
+	}
 }
 
 

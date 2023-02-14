@@ -188,6 +188,7 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WinBox.h" />
+    <ClInclude Include="WorldMapGrass.h" />
     <ClInclude Include="WorldMapKeyEventHandler.h" />
     <ClInclude Include="WorldMapScene.h" />
   </ItemGroup>
@@ -243,6 +244,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinBox.cpp" />
+    <ClCompile Include="WorldMapGrass.cpp" />
     <ClCompile Include="WorldMapKeyEventHandler.cpp" />
     <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>

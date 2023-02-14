@@ -54,7 +54,7 @@ void CAttackBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CAttackBlock::Render()
 {
-    RenderBoundingBox();
+    //RenderBoundingBox();
 }
 
 bool CAttackBlock::IsOverLap(float l, float t, float r, float b) {
