@@ -26,6 +26,7 @@
 #include "Leaf.h"
 #include "ChomperSmall.h"
 #include "WinBox.h"
+#include "P.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -193,6 +194,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CChomperSmall*>(e->obj)) {
 		CChomperSmall* chomper = dynamic_cast<CChomperSmall*>(e->obj);
 		if (untouchable == 0 && chomper->GetState() != CHOMPER_SMALL_STATE_DIE) DecreaseLevel();
+	} else if (dynamic_cast<CP*>(e->obj)) {
+		CP* p = dynamic_cast<CP*>(e->obj);
+		// jump on top P
+		if (e->ny < 0 && p->GetState() == P_STATE_SHOW)
+		{
+			p->Press();
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
 	}
 	else if (dynamic_cast<CDieBlock*>(e->obj)) {
 		SetState(MARIO_STATE_DIE);

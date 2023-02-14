@@ -148,6 +148,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinFlyUp.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="QuestionBoxP.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="DieBlock.h" />
     <ClInclude Include="Game.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="MyPortal.h" />
     <ClInclude Include="NumberFont.h" />
+    <ClInclude Include="P.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
@@ -200,6 +202,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CoinFlyUp.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="QuestionBoxP.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="DieBlock.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -220,6 +223,7 @@
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="MyPortal.cpp" />
     <ClCompile Include="NumberFont.cpp" />
+    <ClCompile Include="P.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
