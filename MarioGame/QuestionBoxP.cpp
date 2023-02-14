@@ -23,7 +23,7 @@ void CQuestionBoxP::Unbox()
 		}
 
 		if (index != -1) {
-			objects.insert(objects.begin() + index, new CP(x, y));
+			objects.insert(objects.begin() + index, new CP(x, y, group));
 		}
 
 		//objects.push_back(new CCoinFlyUp(x, y));

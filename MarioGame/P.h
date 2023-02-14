@@ -21,11 +21,13 @@ class CP :
 private:
     ULONGLONG startDelay;
     float originY;
+    int group;
 public:
-    CP(float x, float y) :CGameObject(x, y) {
+    CP(float x, float y, int group) :CGameObject(x, y) {
         state = P_STATE_DELAYING;
         startDelay = GetTickCount64();
         originY = y;
+        this->group = group;
     }
     void Render();
     void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

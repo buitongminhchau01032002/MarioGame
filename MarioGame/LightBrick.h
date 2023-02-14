@@ -38,5 +38,7 @@ public:
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsBlocking() { return true; }
 	void Break();
+	int GetGroup() { return group; }
+	void ToCoin();
 };
 

@@ -1,3 +1,4 @@
+#include "Coin.h"
 #include "LightBrick.h"
 #include "Game.h"
 #include "PlayScene.h"
@@ -67,5 +68,12 @@ void CLightBrick::Break() {
 	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, 0.0f));
 	objects.push_back(new CLightBrickDebris(x, y, LIGHT_BRICK_DEBRIS_SPEED_X, -LIGHT_BRICK_DEBRIS_SPEED_Y));
 	objects.push_back(new CLightBrickDebris(x, y, -LIGHT_BRICK_DEBRIS_SPEED_X, -LIGHT_BRICK_DEBRIS_SPEED_Y));
+	this->Delete();
+}
+
+void CLightBrick::ToCoin() {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+	objects.push_back(new CCoin(x, y));
 	this->Delete();
 }

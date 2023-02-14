@@ -1,6 +1,7 @@
 #include "P.h"
 #include "debug.h"
 #include "PlayScene.h"
+#include "LightBrick.h"
 
 void CP::Render()
 {
@@ -39,4 +40,13 @@ void CP::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CP::Press() {
 	state = P_STATE_DOWN;
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+
+	for (int i = 0; i < objects.size(); i++) {
+		CLightBrick* brick = dynamic_cast<CLightBrick*>(objects[i]);
+		if (brick && brick->GetGroup() == group) {
+			brick->ToCoin();
+		}
+	}
 }
