@@ -43,6 +43,8 @@ private:
 	void OnOverlapWithKoopa(LPGAMEOBJECT obj);
 	void OnOverlapWithChomper(LPGAMEOBJECT obj);
 	void OnOverlapWithChomperSmall(LPGAMEOBJECT obj);
+	void OnOverlapWithLightBrick(LPGAMEOBJECT obj);
+	void OnOverlapWithQuestionBox(LPGAMEOBJECT obj);
 	bool IsOverLap(float l, float t, float r, float b);
 	void AddEffect();
 	int nx;

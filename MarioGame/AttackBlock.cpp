@@ -3,6 +3,8 @@
 #include "PlayScene.h"
 #include "Chomper.h"
 #include "ChomperSmall.h"
+#include "LightBrick.h"
+#include "QuestionBox.h"
 
 void CAttackEffect::Render() {
 	LPSPRITE sprite = CSprites::GetInstance()->Get(ID_SPRITE_ATTACK_EFFECT);
@@ -46,6 +48,8 @@ void CAttackBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (dynamic_cast<CKoopa*>(objects[i])) OnOverlapWithKoopa(objects[i]);
 		else if (dynamic_cast<CChomper*>(objects[i])) OnOverlapWithChomper(objects[i]);
 		else if (dynamic_cast<CChomperSmall*>(objects[i])) OnOverlapWithChomperSmall(objects[i]);
+		else if (dynamic_cast<CLightBrick*>(objects[i])) OnOverlapWithLightBrick(objects[i]);
+		else if (dynamic_cast<CQuestionBox*>(objects[i])) OnOverlapWithQuestionBox(objects[i]);
 	}
 }
 void CAttackBlock::Render()
@@ -101,4 +105,14 @@ void CAttackBlock::OnOverlapWithChomperSmall(LPGAMEOBJECT obj) {
 			chomper->SetState(CHOMPER_SMALL_STATE_DIE);
 		}
 	}
+}
+
+void CAttackBlock::OnOverlapWithLightBrick(LPGAMEOBJECT obj) {
+	CLightBrick* lightbrick = dynamic_cast<CLightBrick*>(obj);
+	lightbrick->Break();
+}
+
+void CAttackBlock::OnOverlapWithQuestionBox(LPGAMEOBJECT obj) {
+	CQuestionBox* questionBox = dynamic_cast<CQuestionBox*>(obj);
+	questionBox->Unbox();
 }
