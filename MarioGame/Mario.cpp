@@ -27,6 +27,7 @@
 #include "ChomperSmall.h"
 #include "WinBox.h"
 #include "P.h"
+#include "MushroomGreen.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -180,6 +181,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithQuestionBox(e);
 	else if (dynamic_cast<CMushroom*>(e->obj))
 		OnCollisionWithMushroom(e);
+	else if (dynamic_cast<CMushroomGreen*>(e->obj)) {
+		CMushroomGreen* mushroom = (CMushroomGreen*)(e->obj);
+		mushroom->Delete();
+		CGame::GetInstance()->IncreaseHeart(1);
+	}
 	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithMushroom(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))

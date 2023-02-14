@@ -148,6 +148,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinFlyUp.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="MushroomGreen.h" />
     <ClInclude Include="QuestionBoxMushroomGreen.h" />
     <ClInclude Include="QuestionBoxP.h" />
     <ClInclude Include="debug.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CoinFlyUp.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="MushroomGreen.cpp" />
     <ClCompile Include="QuestionBoxMushroomGreen.cpp" />
     <ClCompile Include="QuestionBoxP.cpp" />
     <ClCompile Include="debug.cpp" />

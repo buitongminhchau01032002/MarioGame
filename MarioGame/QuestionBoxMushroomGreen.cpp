@@ -1,8 +1,6 @@
 #include "QuestionBoxMushroomGreen.h"
 #include "PlayScene.h"
-#include "P.h"
-#include "Leaf.h"
-#include "Mario.h"
+#include "MushroomGreen.h"
 #include "LightBrick.h"
 
 void CQuestionBoxMushroomGreen::Unbox()
@@ -23,7 +21,7 @@ void CQuestionBoxMushroomGreen::Unbox()
 		}
 
 		if (index != -1) {
-			objects.insert(objects.begin() + index, new CP(x, y, 1));
+			objects.insert(objects.begin() + index, new CMushroomGreen(x, y));
 		}
 
 		//objects.push_back(new CCoinFlyUp(x, y));
