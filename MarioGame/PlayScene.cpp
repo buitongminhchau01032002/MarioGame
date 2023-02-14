@@ -18,6 +18,7 @@
 #include "QuestionBox.h"
 #include "QuestionBoxCoin.h"
 #include "QuestionBoxMushroom.h"
+#include "QuestionBoxMushroomGreen.h"
 #include "QuestionBoxP.h"
 #include "CoinFlyUp.h"
 #include "Koopa.h"
@@ -195,6 +196,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTION_BOX: obj = new CQuestionBox(x, y); break;
 	case OBJECT_TYPE_QUESTION_BOX_COIN: obj = new CQuestionBoxCoin(x, y); break;
 	case OBJECT_TYPE_QUESTION_BOX_MUSHROOM: obj = new CQuestionBoxMushroom(x, y); break;
+	case OBJECT_TYPE_QUESTION_BOX_MUSHROOM_GREEN: obj = new CQuestionBoxMushroomGreen(x, y); break;
 	case OBJECT_TYPE_QUESTION_BOX_P: 
 	{
 		int group = atoi(tokens[3].c_str());

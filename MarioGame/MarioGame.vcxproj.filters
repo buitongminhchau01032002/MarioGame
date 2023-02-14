@@ -180,6 +180,9 @@
     <ClInclude Include="P.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuestionBoxMushroomGreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -333,6 +336,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="P.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestionBoxMushroomGreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
