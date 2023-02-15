@@ -8,11 +8,13 @@ class CTunnelOut : public CGameObject {
 	int ny;
 	int cameraId;
 	int id;
+	int spriteId;
 public:
-	CTunnelOut(float x, float y, int id, int ny, int cameraId) :CGameObject(x, y) {
+	CTunnelOut(float x, float y, int id, int ny, int cameraId, int spriteId) :CGameObject(x, y) {
 		this->ny = ny;
 		this->cameraId = cameraId;
 		this->id = id;
+		this->spriteId = spriteId;
 	};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {
 		left = x - TUNNEL_OUT_WIDTH / 2;

@@ -12,6 +12,7 @@ data\bottom_bar.txt
 data\light_brick.txt
 data\win_box.txt
 data\attack_effect.txt
+data\tunnel.txt
 
 
 [INFOR]
@@ -149,14 +150,14 @@ data\map01.txt
 
 # TUNNEL
 #tunnel in
-#        x       y     id       ny      tunnelOutId
--990	256	384	1	1	2
--990	368	464	3	-1	4
+#        x       y     id       ny      outId	spriteId
+-990	2272	128	1	1	2	-990
+-990	368	464	3	-1	4	-993
 
 #tunnel out
-#	x	y	id	ny	cameraId
--991	144	464	2	1	200
--991	2336	400	4	-1	100
+#	x	y	id	ny	camId	spriteId
+-991	144	464	2	1	200	-993
+-991	2336	400	4	-1	100	-990
 
 # HIDDEN BLOCK
 #	lCell	tCell	rCell	bCell	lBlock	tBlock	rBlock	bBlock

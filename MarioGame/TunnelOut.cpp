@@ -16,11 +16,13 @@ void CTunnelOut::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// Check go to tunnel out
 		if ((ny > 0 && mario_t > tunnel_b) || (ny < 0 && mario_b < tunnel_t)) {
 			mario->SetState(MARIO_STATE_NONE);
+			mario->SetTunnelId(-1);
 		}
 	}
 }
 
 void CTunnelOut::Render()
 {
+	CSprites::GetInstance()->Get(spriteId)->Draw(x+1, y);
 	RenderBoundingBox();
 }

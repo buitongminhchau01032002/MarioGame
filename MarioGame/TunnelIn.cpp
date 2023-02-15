@@ -5,6 +5,7 @@
 
 void CTunnelIn::Render()
 {
+	CSprites::GetInstance()->Get(spriteId)->Draw(x+1, y);
 	RenderBoundingBox();
 }
 

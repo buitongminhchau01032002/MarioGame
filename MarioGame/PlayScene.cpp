@@ -218,7 +218,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int id = atoi(tokens[3].c_str());
 		int ny = atoi(tokens[4].c_str());
 		int tunnelOutId = atoi(tokens[5].c_str());
-		obj = new CTunnelIn(x, y, id, ny, tunnelOutId);
+		int spriteId = atoi(tokens[6].c_str());
+		obj = new CTunnelIn(x, y, id, ny, tunnelOutId, spriteId);
 		break;
 	}
 
@@ -227,7 +228,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int id = atoi(tokens[3].c_str());
 		int ny = atoi(tokens[4].c_str());
 		int cameraId = atoi(tokens[5].c_str());
-		obj = new CTunnelOut(x, y, id, ny, cameraId);
+		int spriteId = atoi(tokens[6].c_str());
+		obj = new CTunnelOut(x, y, id, ny, cameraId, spriteId);
 		break;
 	}
 
