@@ -719,6 +719,11 @@ void CMario::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
+	if (untouchable && GetTickCount64() % 120 < 50) {
+		animations->Get(19191)->Render(x, y);
+		return;
+	}
+
 	if (state == MARIO_STATE_DIE)
 		aniId = ID_ANI_MARIO_DIE;
 	else if (level == MARIO_LEVEL_BIG)

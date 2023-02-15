@@ -1,5 +1,8 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+## NONE
+19191	1000	50	10016	66	1
+
 #####BIG ###############
 #IDLE
 11121	1	181	32	210	1
@@ -200,6 +203,9 @@
 #####################################
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+#NONE
+19191	19191	1000
+# IDLE
 400	11121	100
 401	11111	100
 
