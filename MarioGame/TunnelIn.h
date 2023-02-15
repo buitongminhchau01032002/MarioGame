@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define TUNNEL_IN_WIDTH 24
+#define TUNNEL_IN_WIDTH 28
 #define TUNNEL_IN_HEIGHT 32
 
 class CTunnelIn : public CGameObject {

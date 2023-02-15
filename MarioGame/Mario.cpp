@@ -389,6 +389,10 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 //
 int CMario::GetAniIdSmall()
 {
+	if (state == MARIO_STATE_IN_TUNEL) {
+		return ID_ANI_MARIO_SMALL_TUNNEL;
+	}
+
 	if (state == MARIO_STATE_CARRY) {
 		// IN AIR
 		// jumping
@@ -471,6 +475,10 @@ int CMario::GetAniIdSmall()
 
 int CMario::GetAniIdBig()
 {
+	if (state == MARIO_STATE_IN_TUNEL) {
+		return ID_ANI_MARIO_TUNNEL;
+	}
+
 	if (state == MARIO_STATE_CARRY) {
 		// IN AIR
 		// jumping
@@ -558,6 +566,10 @@ int CMario::GetAniIdBig()
 
 int CMario::GetAniIdCat()
 {
+	if (state == MARIO_STATE_IN_TUNEL) {
+		return ID_ANI_MARIO_CAT_TUNNEL;
+	}
+
 	if (state == MARIO_STATE_CARRY) {
 		// IN AIR
 		// jumping

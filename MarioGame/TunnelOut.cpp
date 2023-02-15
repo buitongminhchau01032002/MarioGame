@@ -24,5 +24,5 @@ void CTunnelOut::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CTunnelOut::Render()
 {
 	CSprites::GetInstance()->Get(spriteId)->Draw(x+1, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
