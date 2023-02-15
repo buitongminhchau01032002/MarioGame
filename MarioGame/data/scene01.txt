@@ -147,6 +147,17 @@ data\map01.txt
 20	131	25	100
 20	132	25	100
 
+# TUNNEL
+#tunnel in
+#        x       y     id       ny      tunnelOutId
+-990	256	384	1	1	2
+-990	368	464	3	-1	4
+
+#tunnel out
+#	x	y	id	ny	cameraId
+-991	144	464	2	1	200
+-991	2336	400	4	-1	100
+
 # HIDDEN BLOCK
 #	lCell	tCell	rCell	bCell	lBlock	tBlock	rBlock	bBlock
 # Goomba

@@ -31,7 +31,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	//DebugOutTitle(L"state: %d, stateX: %d, stateY: %d", state, stateX, stateY);
+	DebugOutTitle(L"state: %d, stateX: %d, stateY: %d, vy: %f", state, stateX, stateY, vy);
 	if (state == MARIO_STATE_WINNING) {
 		if (GetTickCount64() - winStart > MARIO_WIN_DURATION)
 		{
@@ -45,6 +45,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vy += ay * dt;
 		vx += ax * dt;
 		CCollision::GetInstance()->Process(this, dt, coObjects, 1);
+		return;
+	}
+
+	if (state == MARIO_STATE_IN_TUNEL) {
+		y += tunnelNy* MARIO_TUNNEL_SPEED * dt;
 		return;
 	}
 

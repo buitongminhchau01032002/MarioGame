@@ -186,6 +186,8 @@
     <ClInclude Include="StartSceneKeyHandler.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="TunnelIn.h" />
+    <ClInclude Include="TunnelOut.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WinBox.h" />
     <ClInclude Include="WorldMapGrass.h" />
@@ -242,6 +244,8 @@
     <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="StartSceneKeyHandler.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="TunnelIn.cpp" />
+    <ClCompile Include="TunnelOut.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinBox.cpp" />
     <ClCompile Include="WorldMapGrass.cpp" />

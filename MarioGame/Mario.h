@@ -8,6 +8,7 @@
 
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
+#define MARIO_TUNNEL_SPEED		0.08f
 
 #define MARIO_ACCEL_WALK_X	0.00018f
 #define MARIO_ACCEL_BRACE 0.0005f
@@ -39,6 +40,7 @@
 #define MARIO_STATE_ATTACK 200
 #define MARIO_STATE_CARRY 300
 #define MARIO_STATE_WINNING 500
+#define MARIO_STATE_IN_TUNEL 600
 
 // STATE X
 #define MARIO_STATE_X_IDLE 0
@@ -217,6 +219,9 @@ class CMario : public CGameObject
 	ULONGLONG dieStart;
 	ULONGLONG winStart;
 	bool isAKeyPress = false;
+
+	int tunnelId = -1;
+	int tunnelNy = 0;
 	
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -282,4 +287,12 @@ public:
 		return MARIO_TIME - time/1000 > 0 ? MARIO_TIME - time / 1000:0;
 	}
 	void SetAKeyPress(bool p) { isAKeyPress = p; }
+
+	void GoToTunnel(int ny, int id) {
+		SetState(MARIO_STATE_IN_TUNEL);
+		tunnelId = id;
+		tunnelNy = ny;
+	}
+	int GetTunnelId() { return tunnelId; }
+	void SetTunnelId(int id) { tunnelId = id; }
 };

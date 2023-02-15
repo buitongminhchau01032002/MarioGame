@@ -28,6 +28,8 @@
 #include "BottomBar.h"
 #include "LightBrick.h"
 #include "WinBox.h"
+#include "TunnelIn.h"
+#include "TunnelOut.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -208,6 +210,24 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int group = atoi(tokens[3].c_str());
 		obj = new CQuestionBoxP(x, y, group);
+		break;
+	}
+
+	case OBJECT_TYPE_TUNNEL_IN:
+	{
+		int id = atoi(tokens[3].c_str());
+		int ny = atoi(tokens[4].c_str());
+		int tunnelOutId = atoi(tokens[5].c_str());
+		obj = new CTunnelIn(x, y, id, ny, tunnelOutId);
+		break;
+	}
+
+	case OBJECT_TYPE_TUNNEL_OUT:
+	{
+		int id = atoi(tokens[3].c_str());
+		int ny = atoi(tokens[4].c_str());
+		int cameraId = atoi(tokens[5].c_str());
+		obj = new CTunnelOut(x, y, id, ny, cameraId);
 		break;
 	}
 
@@ -633,6 +653,10 @@ void CPlayScene::SwitchCamera(int cameraId) {
 	try
 	{
 		CGame::GetInstance()->SetCamera(cameras[cameraId]);
+		LPCAMERA camera = CGame::GetInstance()->GetCamera();
+		if (camera != NULL) {
+			camera->SetFollowing(this->player);
+		}
 	}
 	catch (const std::exception& e)
 	{

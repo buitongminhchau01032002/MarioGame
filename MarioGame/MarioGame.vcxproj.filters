@@ -189,6 +189,12 @@
     <ClInclude Include="WorldMapGrass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TunnelIn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TunnelOut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -351,6 +357,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorldMapGrass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TunnelIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TunnelOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
