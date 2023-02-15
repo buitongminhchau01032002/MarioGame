@@ -7,7 +7,10 @@
 #include "Brick.h"
 #include "Mario.h"
 #include "Goomba.h"
+#include <unordered_map>
 //#include "Koopas.h"
+
+using namespace std;
 
 
 class CPlayScene: public CScene
@@ -35,6 +38,10 @@ protected:
 	int marginScreen = 32; //
 	LPMAP map;
 	LPCWSTR saveFile;
+	int camIdStart;
+
+
+	unordered_map<int, LPCAMERA> cameras;
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
@@ -67,6 +74,7 @@ public:
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 	LPCWSTR GetSaveFile() { return saveFile; }
+	void SwitchCamera(int cameraId);
 };
 
 typedef CPlayScene* LPPLAYSCENE;

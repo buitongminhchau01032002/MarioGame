@@ -131,7 +131,8 @@ void CPlayScene::_ParseSection_INFOR(string line)
 	this->marginScreen = marginScreen;
 	LPCWSTR saveFile = ToLPCWSTR(tokens[2]);
 	this->saveFile = saveFile;
-
+	int camId = atof(tokens[3].c_str());
+	this->camIdStart = camId;
 }
 
 void CPlayScene::_ParseSection_CAMERA(string line)
@@ -151,13 +152,19 @@ void CPlayScene::_ParseSection_CAMERA(string line)
 	float limitBottom = (float)atof(tokens[9].c_str());
 	float centerOffsetX = (float)atof(tokens[10].c_str());
 	float centerOffsetY = (float)atof(tokens[11].c_str());
+	int id = atof(tokens[12].c_str());
 	int w = CGame::GetInstance()->GetBackBufferWidth();
 	int h = CGame::GetInstance()->GetBackBufferHeight();
-	CGame::GetInstance()->SetCamera( 
-		new CCamera(xCam, yCam, w, h, this->player, 
-			offsetLeft, offsetTop, offsetRight, offsetBottom, 
-			limitLeft, limitTop, limitRight, limitBottom,
-			centerOffsetX, centerOffsetY));
+
+	cameras[id] = new CCamera(xCam, yCam, w, h, this->player,
+		offsetLeft, offsetTop, offsetRight, offsetBottom,
+		limitLeft, limitTop, limitRight, limitBottom,
+		centerOffsetX, centerOffsetY);
+
+	if (id == camIdStart) {
+		CGame::GetInstance()->SetCamera(cameras[id]);
+	}
+	
 }
 
 /*
@@ -619,4 +626,16 @@ void CPlayScene::PurgeDeletedObjects()
 	uis.erase(
 		std::remove_if(uis.begin(), uis.end(), CPlayScene::IsGameObjectDeleted),
 		uis.end());
+}
+
+
+void CPlayScene::SwitchCamera(int cameraId) {
+	try
+	{
+		CGame::GetInstance()->SetCamera(cameras[cameraId]);
+	}
+	catch (const std::exception& e)
+	{
+		;
+	}
 }

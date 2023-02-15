@@ -4,7 +4,7 @@
 CCamera::CCamera(float x, float y, int w, int h, LPGAMEOBJECT following,
 	float followingOffsetLeft, float followingOffsetTop, float followingOffsetRight, float followingOffsetBottom,
 	float limitLeft, float limitTop, float limitRight, float limitBottom,
-	float centerOffsetX, float centerOffsetY) {
+	float centerOffsetX, float centerOffsetY, int id) {
 	this->following = following;
 	this->x = x;
 	this->y = y;
@@ -20,6 +20,7 @@ CCamera::CCamera(float x, float y, int w, int h, LPGAMEOBJECT following,
 	this->limitBottom = limitBottom;
 	this->centerOffsetX = centerOffsetX;
 	this->centerOffsetY = centerOffsetY;
+	this->id = id;
 }
 
 void CCamera::SetLimit(float limitLeft, float limitTop, float limitRight, float limitBottom)

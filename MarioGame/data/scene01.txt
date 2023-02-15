@@ -13,17 +13,19 @@ data\light_brick.txt
 data\win_box.txt
 data\attack_effect.txt
 
+
+[INFOR]
+#tile_size marginScreen saveFile       idCam
+16	80	data\save_map01.txt	100
+
 [MAP]
 data\map01.txt
 
-[CAMERA]
-#x      y       offsetLeft...                   limmitLeft... centerOffsetX centerOffsetY
-#0	0	20	60	20	10	0	0	2816	480	0	40
-16	448	20	40	20	40	16	448	496	720	0	0	
 
-[INFOR]
-#tile_size	marginScreen	saveFile
-16	80	data\save_map01.txt
+[CAMERA]
+#x      y       offsetLeft...                   limmitLeft...                   centerOffsetX  
+0	0	20	60	20	10	0	0	2816	480	0	40	100
+16	448	20	40	20	40	16	448	496	720	0	0	200
 
 #
 [OBJECTS]
@@ -32,11 +34,10 @@ data\map01.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-#0	48	400
+0	48	400
 #0	1900	200
-
 #hidden
-0	144	496
+#0	144	496
 
 # GOOMBA
 2	256	400
