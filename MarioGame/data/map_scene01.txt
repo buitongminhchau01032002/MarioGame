@@ -7,9 +7,6 @@ data\worldmap_grass.txt
 [MAP]
 data\map_world01.txt
 
-[INFOR]
-#tile_size	filesave
-16	data\save_map01.txt
 
 [OBJECTS]
 #Grass
@@ -66,6 +63,10 @@ data\map_world01.txt
 -97	14	9
 -97	14	10
 
+
+[INFOR]
+#tile_size	filesave
+16	data\save_map01.txt
 
 [PLAYER]
 2	4

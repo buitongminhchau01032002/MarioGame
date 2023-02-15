@@ -147,6 +147,7 @@
     <ClInclude Include="ChomperSmall.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinFlyUp.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="MushroomGreen.h" />
     <ClInclude Include="QuestionBoxMushroomGreen.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="ChomperSmall.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CoinFlyUp.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="MushroomGreen.cpp" />
     <ClCompile Include="QuestionBoxMushroomGreen.cpp" />

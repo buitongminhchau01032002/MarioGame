@@ -13,6 +13,7 @@ data\light_brick.txt
 data\win_box.txt
 data\attack_effect.txt
 data\tunnel.txt
+data\label.txt
 
 
 [INFOR]

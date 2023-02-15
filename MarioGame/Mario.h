@@ -307,4 +307,5 @@ public:
 	}
 	int GetTunnelId() { return tunnelId; }
 	void SetTunnelId(int id) { tunnelId = id; }
+	void AddLabel(int value);
 };

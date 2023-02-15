@@ -28,6 +28,33 @@
 #include "WinBox.h"
 #include "P.h"
 #include "MushroomGreen.h"
+#include "Label.h"
+
+CMario::CMario(float x, float y) : CGameObject(x, y)
+{
+	maxVx = 0.0f;
+	maxVy = MARIO_SPEED_Y_MAX;
+	ax = 0.0f;
+	ay = MARIO_GRAVITY;
+	state = MARIO_STATE_NONE;
+	stateX = MARIO_STATE_X_IDLE;
+	stateY = MARIO_STATE_Y_GROUND;
+
+	level = CGame::GetInstance()->GetLevel();
+	untouchable = 0;
+	untouchable_start = -1;
+	runningDuration = -1;
+	attackStart = 0;
+	slowFallingStart = GetTickCount64();
+	timeStart = GetTickCount64();
+	time = 0;
+}
+
+void CMario::AddLabel(int value) {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+	objects.push_back(new CLabel(x, y, value));
+}
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -190,6 +217,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		CMushroomGreen* mushroom = (CMushroomGreen*)(e->obj);
 		mushroom->Delete();
 		CGame::GetInstance()->IncreaseHeart(1);
+		AddLabel(LABEL_1UP);
 	}
 	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithMushroom(e);
@@ -238,6 +266,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			CGame* g = CGame::GetInstance();
 			g->IncreaseCoinValue(100);
+			AddLabel(LABEL_100);
 		}
 	}
 	else // hit by Goomba
@@ -263,6 +292,7 @@ void CMario::OnCollisionWithGoombaPro(LPCOLLISIONEVENT e)
 		{
 			CGame* g = CGame::GetInstance();
 			g->IncreaseCoinValue(100);
+			AddLabel(LABEL_100);
 			if (goomba->GetLevel() == GOOMBA_PRO_LEVEL_NORMAL) {
 
 			goomba->SetState(GOOMBA_STATE_DIE);
@@ -315,6 +345,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	IncreaseLevel();
 	CGame* g = CGame::GetInstance();
 	g->IncreaseCoinValue(1000);
+	AddLabel(LABEL_1000);
 }
 
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
@@ -324,6 +355,7 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 	IncreaseLevel();
 	CGame* g = CGame::GetInstance();
 	g->IncreaseCoinValue(1000);
+	AddLabel(LABEL_1000);
 }
 
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
@@ -345,6 +377,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			CGame* g = CGame::GetInstance();
 			g->IncreaseCoinValue(100);
+			AddLabel(LABEL_100);
 		}
 		else // hit by koopa
 		{
