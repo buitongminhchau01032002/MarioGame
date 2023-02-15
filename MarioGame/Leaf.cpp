@@ -8,6 +8,8 @@ void CLeaf::Render()
 
 void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (GetTickCount64() - duration > LEAF_DURATION) this->Delete();
+
 	vy += LEAF_GRAVITY * dt;
 	if (vy > LEAF_SPEED_FALL_MAX) {
 		vy = LEAF_SPEED_FALL_MAX;

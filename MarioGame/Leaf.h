@@ -10,15 +10,19 @@
 #define LEAF_SPEED_X 0.18f
 #define LEAF_LIMIT_X 30
 
+#define LEAF_DURATION 10000
+
 class CLeaf :
     public CGameObject
 {
     float originX;
+    ULONGLONG duration;
 public:
     CLeaf(float x, float y) :CGameObject(x, y) {   
         originX = x;
         vx = LEAF_SPEED_X;
         vy = -LEAF_SPEED_Y;
+        duration = GetTickCount64();
     }
     void Render();
     void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
