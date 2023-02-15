@@ -61,8 +61,8 @@ bool CTunnelIn::IsCanGoTo() {
 	float tunnel_l, tunnel_t, tunnel_r, tunnel_b;
 	this->GetBoundingBox(tunnel_l, tunnel_t, tunnel_r, tunnel_b);
 	if (tunnel_l < mario_l && tunnel_r > mario_r && (
-		(ny > 0 && mario_b < tunnel_b && mario_b > tunnel_t) ||
-		(ny < 0 && mario_t > tunnel_t && mario_t < tunnel_b))) {
+		(ny > 0 && mario_b < tunnel_b && mario_b > tunnel_t && mario->IsDownKeyPress()) ||
+		(ny < 0 && mario_t > tunnel_t && mario_t < tunnel_b && mario->IsUpKeyPress()))) {
 		return true;
 	}
 	return false;

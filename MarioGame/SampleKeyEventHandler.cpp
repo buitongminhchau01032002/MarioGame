@@ -103,7 +103,13 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	mario->SetAKeyPress(false);
 	if (game->IsKeyDown(DIK_A)) mario->SetAKeyPress(true);
 
-	if (game->IsKeyDown(DIK_DOWN) && mario->GetLevel() != MARIO_LEVEL_SMALL && mario->GetStateY() == MARIO_STATE_Y_GROUND && mario->GetState() != MARIO_STATE_CARRY) {
+	mario->SetDownKeyPress(false);
+	if (game->IsKeyDown(DIK_DOWN)) mario->SetDownKeyPress(true);
+
+	mario->SetUpKeyPress(false);
+	if (game->IsKeyDown(DIK_UP)) mario->SetUpKeyPress(true);
+
+	if (game->IsKeyDown(DIK_DOWN) && mario->GetState() != MARIO_STATE_IN_TUNEL && mario->GetLevel() != MARIO_LEVEL_SMALL && mario->GetStateY() == MARIO_STATE_Y_GROUND && mario->GetState() != MARIO_STATE_CARRY) {
 		mario->SetState(MARIO_STATE_SITTING);
 		if (vx == 0) {
 			mario->SetStateX(MARIO_STATE_X_IDLE);

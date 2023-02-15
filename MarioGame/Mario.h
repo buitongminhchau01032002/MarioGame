@@ -224,6 +224,8 @@ class CMario : public CGameObject
 	ULONGLONG dieStart;
 	ULONGLONG winStart;
 	bool isAKeyPress = false;
+	bool isDownKeyPress = false;
+	bool isUpKeyPress = false;
 
 	int tunnelId = -1;
 	int tunnelNy = 0;
@@ -292,6 +294,11 @@ public:
 		return MARIO_TIME - time/1000 > 0 ? MARIO_TIME - time / 1000:0;
 	}
 	void SetAKeyPress(bool p) { isAKeyPress = p; }
+	void SetDownKeyPress(bool p) { isDownKeyPress = p; }
+	void SetUpKeyPress(bool p) { isUpKeyPress = p; }
+
+	bool IsUpKeyPress() { return isUpKeyPress; }
+	bool IsDownKeyPress() { return isDownKeyPress;  }
 
 	void GoToTunnel(int ny, int id) {
 		SetState(MARIO_STATE_IN_TUNEL);
