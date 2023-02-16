@@ -33,6 +33,7 @@ height	240
 12	textures\enemies3.png
 13	textures\enemies4.png
 15	textures\enemies5.png
+16	textures\enemies6.png
 
 20	textures\misc.png
 30	textures\tilemap.png

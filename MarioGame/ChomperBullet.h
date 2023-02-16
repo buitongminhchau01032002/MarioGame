@@ -7,10 +7,12 @@
 
 
 #define ID_ANI_CHOMPER_BULLET 88000
+#define CHOMPER_BULLET_DURATION 10000
 
 class CChomperBullet :
     public CGameObject
 {
+	ULONGLONG duration;
 public:
     CChomperBullet(float x, float y, float dx, float dy);
 
