@@ -58,7 +58,7 @@ void CMario::AddLabel(int value) {
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"state: %d, stateX: %d, stateY: %d, vy: %f", state, stateX, stateY, vy);
+	//DebugOutTitle(L"state: %d, stateX: %d, stateY: %d, vy: %f", state, stateX, stateY, vy);
 	if (state == MARIO_STATE_WINNING) {
 		if (GetTickCount64() - winStart > MARIO_WIN_DURATION)
 		{
