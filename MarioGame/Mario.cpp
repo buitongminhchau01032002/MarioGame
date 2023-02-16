@@ -65,7 +65,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SaveToFile();
 			CGame::GetInstance()->InitiateSwitchScene(0);
 		}
-		untouchable = 1;
 		nx = 1;
 		SetStateX(MARIO_STATE_X_WALKING);
 		SetStateY(MARIO_STATE_Y_FALLING);

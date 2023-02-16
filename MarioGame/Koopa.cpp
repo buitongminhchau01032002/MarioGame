@@ -191,15 +191,31 @@ void CKoopa::Render()
 	}
 	else if (state == KOOPA_STATE_SLEEPING || state == KOOPA_STATE_CARRIED) {
 		if (type == KOOPA_TYPE_FLY || type == KOOPA_TYPE_GREEN) {
-			aniId = ID_ANI_KOOPA_GREEN_SLEEPING;
-			if (ny < 0) {
-				aniId = ID_ANI_KOOPA_GREEN_SLEEPING_UP;
+			if (GetTickCount64() - sleepStart > KOOPA_SLEEP_DURATION - KOOPA_WAKE_DURATION) {
+				aniId = ID_ANI_KOOPA_GREEN_WAKE;
+				if (ny < 0) {
+					aniId = ID_ANI_KOOPA_GREEN_WAKE_UP;
+				}
+			}
+			else {
+				aniId = ID_ANI_KOOPA_GREEN_SLEEPING;
+				if (ny < 0) {
+					aniId = ID_ANI_KOOPA_GREEN_SLEEPING_UP;
+				}
 			}
 		}
 		else {
-			aniId = ID_ANI_KOOPA_RED_SLEEPING;
-			if (ny < 0) {
-				aniId = ID_ANI_KOOPA_RED_SLEEPING_UP;
+			if (GetTickCount64() - sleepStart > KOOPA_SLEEP_DURATION - KOOPA_WAKE_DURATION) {
+				aniId = ID_ANI_KOOPA_RED_WAKE;
+				if (ny < 0) {
+					aniId = ID_ANI_KOOPA_RED_WAKE_UP;
+				}
+			}
+			else {
+				aniId = ID_ANI_KOOPA_RED_SLEEPING;
+				if (ny < 0) {
+					aniId = ID_ANI_KOOPA_RED_SLEEPING_UP;
+				}
 			}
 		}
 	}
