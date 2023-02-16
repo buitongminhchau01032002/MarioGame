@@ -14,6 +14,8 @@
 #define CHOMPER_SHOOTING_DURATION 800
 #define CHOMPER_SHORT_DISTANCE	100
 
+#define CHOMPER_DIE_DURATION 400
+
 #define CHOMPER_STATE_HIDDEN 0
 #define CHOMPER_STATE_SHOW 1
 #define CHOMPER_STATE_SHOOTING 2
@@ -41,6 +43,7 @@
 #define ID_ANI_CHOMPER_GREEN_RIGHT_BOTTOM_SHOOTING 83011
 
 #define ID_ANI_CHOMPER_PIPE 84000
+#define ID_ANI_CHOMPER_DIE 89000
 
 class CChomper :
     public CGameObject
@@ -56,9 +59,11 @@ class CChomper :
 	float GetGunY();
 	ULONGLONG pushTimerStart;
 	ULONGLONG shootingTimerStart;
+	ULONGLONG dieStart;
 
 public:
 	CChomper(float x, float y, int type);
 	void GetShowBox(float& left, float& top, float& right, float& bottom);
+	void SetState(int state);
 };
 

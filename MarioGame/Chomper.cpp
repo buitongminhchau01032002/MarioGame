@@ -88,6 +88,9 @@ void CChomper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CChomper::Render()
 {
 	if (state == CHOMPER_STATE_DIE) {
+		if (GetTickCount64() - dieStart < CHOMPER_DIE_DURATION) {
+			CAnimations::GetInstance()->Get(ID_ANI_CHOMPER_DIE)->Render(x, y);
+		}
 		CAnimations::GetInstance()->Get(ID_ANI_CHOMPER_PIPE)->Render(x - 1, originY - 8);
 		return;
 	}
@@ -165,4 +168,12 @@ void CChomper::Render()
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	CAnimations::GetInstance()->Get(ID_ANI_CHOMPER_PIPE)->Render(x-1, originY-8);
 	//RenderBoundingBox();
+}
+
+void CChomper::SetState(int state)
+{
+	if (state == CHOMPER_STATE_DIE) {
+		dieStart = GetTickCount64();
+	}
+	CGameObject::SetState(state);
 }
