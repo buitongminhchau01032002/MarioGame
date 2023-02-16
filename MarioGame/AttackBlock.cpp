@@ -5,6 +5,14 @@
 #include "ChomperSmall.h"
 #include "LightBrick.h"
 #include "QuestionBox.h"
+#include "Label.h"
+
+
+void CAttackBlock::AddLabel(int value) {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+	objects.push_back(new CLabel(x, y, value));
+}
 
 void CAttackEffect::Render() {
 	LPSPRITE sprite = CSprites::GetInstance()->Get(ID_SPRITE_ATTACK_EFFECT);
@@ -72,15 +80,20 @@ void CAttackBlock::OnOverlapWithGoomba(LPGAMEOBJECT obj) {
 		this->AddEffect();
 		goomba->SetState(GOOMBA_STATE_DIE_STRONG);
 		goomba->SetSpeed(nx * GOOMBA_WALKING_SPEED, -GOOMBA_DEFLECT_SPEED_Y);
+		AddLabel(LABEL_100);
 	}
 }
 void CAttackBlock::OnOverlapWithKoopa(LPGAMEOBJECT obj) {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(obj);
 	if (koopa->GetState() != KOOPA_STATE_SLEEP) {
+		if (koopa->GetState() != KOOPA_STATE_SLEEPING) {
+			AddLabel(LABEL_100);
+		}
 		this->AddEffect();
 		koopa->SetState(KOOPA_STATE_SLEEPING);
 		koopa->SetSpeed(nx*KOOPA_WALKING_SPEED, -KOOPA_DEFLECT_SPEED);
 		koopa->SetNy(-1);
+		
 	}
 }
 void CAttackBlock::OnOverlapWithChomper(LPGAMEOBJECT obj) {
@@ -90,6 +103,7 @@ void CAttackBlock::OnOverlapWithChomper(LPGAMEOBJECT obj) {
 	if (IsOverLap(chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b)) {
 		if (chomper->GetState() != CHOMPER_STATE_DIE) {
 			this->AddEffect();
+			AddLabel(LABEL_100);
 			chomper->SetState(CHOMPER_STATE_DIE);
 		}
 	}
@@ -102,6 +116,7 @@ void CAttackBlock::OnOverlapWithChomperSmall(LPGAMEOBJECT obj) {
 	if (IsOverLap(chomper_show_l, chomper_show_t, chomper_show_r, chomper_show_b)) {
 		if (chomper->GetState() != CHOMPER_SMALL_STATE_DIE) {
 			this->AddEffect();
+			AddLabel(LABEL_100);
 			chomper->SetState(CHOMPER_SMALL_STATE_DIE);
 		}
 	}

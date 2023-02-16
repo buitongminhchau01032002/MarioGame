@@ -364,19 +364,23 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		// jump on top >> sleeping koopa and deflect a bit 
 		if (e->ny < 0)
 		{
+			CGame* g = CGame::GetInstance();
+			
 			if (koopa->GetState() == KOOPA_STATE_WALKING) {
 				koopa->SetState(KOOPA_STATE_SLEEPING);
+				g->IncreaseCoinValue(100);
+				AddLabel(LABEL_100);
 			}
 			else if (koopa->GetState() == KOOPA_STATE_FLY) {
 				koopa->SetState(KOOPA_STATE_WALKING);
+				g->IncreaseCoinValue(100);
+				AddLabel(LABEL_100);
 			}
 			else if (koopa->GetState() == KOOPA_STATE_SLEEP) {
 				koopa->SetState(KOOPA_STATE_SLEEPING);
 			}
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			CGame* g = CGame::GetInstance();
-			g->IncreaseCoinValue(100);
-			AddLabel(LABEL_100);
+			
 		}
 		else // hit by koopa
 		{

@@ -8,7 +8,14 @@
 #include "AttackBlock.h"
 #include "LightBrick.h"
 #include "Chomper.h"
+#include "Label.h"
 #include "ChomperSmall.h"
+
+void CKoopa::AddLabel(int value) {
+	LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+	vector<LPGAMEOBJECT>& objects = s->GetObjects();
+	objects.push_back(new CLabel(x, y, value));
+}
 
 CKoopa::CKoopa(float x, float y, int type) :CGameObject(x, y)
 {
@@ -83,11 +90,13 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CChomper*>(e->obj)) {
 		CChomper* chomper = dynamic_cast<CChomper*>(e->obj);
 		if (state == KOOPA_STATE_SLEEP && chomper->GetState() != CHOMPER_STATE_DIE) {
+			AddLabel(LABEL_100);
 			chomper->SetState(CHOMPER_STATE_DIE);
 		}
 	} else if (dynamic_cast<CChomperSmall*>(e->obj)) {
 		CChomperSmall* chomper = dynamic_cast<CChomperSmall*>(e->obj);
 		if (state == KOOPA_STATE_SLEEP && chomper->GetState() != CHOMPER_SMALL_STATE_DIE) {
+			AddLabel(LABEL_100);
 			chomper->SetState(CHOMPER_SMALL_STATE_DIE);
 		}
 	}
@@ -246,6 +255,7 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	if (state == KOOPA_STATE_SLEEP) {
 		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 		goomba->SetState(GOOMBA_STATE_DIE_STRONG);
+		AddLabel(LABEL_100);
 		if (vx > 0) {
 			goomba->SetSpeed(GOOMBA_WALKING_SPEED, -GOOMBA_DEFLECT_SPEED_Y);
 		} else {

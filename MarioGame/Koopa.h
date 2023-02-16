@@ -76,5 +76,7 @@ public:
 	void SetState(int state);
 	void SetNy(int ny) { this->ny = ny; }
 	int GetNy() { return ny; }
+	void AddLabel(int value);
+
 };
 
