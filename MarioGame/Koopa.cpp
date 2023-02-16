@@ -289,6 +289,11 @@ void CKoopa::SetState(int state)
 		if (this->state != KOOPA_STATE_WALKING) {
 			y -= (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_SLEEP);
 		}
+		if (this->state == KOOPA_STATE_CARRIED) {
+			LPPLAYSCENE s = (LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene());
+			CMario* mario = (CMario*)s->GetPlayer();
+			mario->DecreaseLevel();
+		}
 		vx = -KOOPA_WALKING_SPEED;
 		ay = KOOPA_GRAVITY;
 		ny = 1;

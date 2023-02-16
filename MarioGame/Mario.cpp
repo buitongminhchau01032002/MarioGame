@@ -783,6 +783,7 @@ void CMario::IncreaseLevel() {
 }
 
 void CMario::DecreaseLevel() {
+	if (untouchable != 0) return;
 	if (stateY == MARIO_STATE_Y_FLYING || stateY == MARIO_STATE_Y_SLOWFALLING) {
 		SetStateY(MARIO_STATE_Y_FALLING);
 	}
