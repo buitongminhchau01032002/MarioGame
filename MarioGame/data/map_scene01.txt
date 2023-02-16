@@ -63,6 +63,9 @@ data\map_world01.txt
 -97	14	9
 -97	14	10
 
+# flag
+-96	13	7
+
 
 [INFOR]
 #tile_size	filesave

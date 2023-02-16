@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define KOOPA_GRAVITY 0.002f
-#define KOOPA_GRAVITY_SLEEP 0.002f
+#define KOOPA_GRAVITY_SLEEP 0.0023f
 #define KOOPA_GRAVITY_FLY 0.0004f
 #define KOOPA_WALKING_SPEED 0.03f
 #define KOOPA_SLEEP_SPEED 0.2f

@@ -191,6 +191,7 @@
     <ClInclude Include="TunnelOut.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WinBox.h" />
+    <ClInclude Include="WorldMapFlag.h" />
     <ClInclude Include="WorldMapGrass.h" />
     <ClInclude Include="WorldMapKeyEventHandler.h" />
     <ClInclude Include="WorldMapScene.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="TunnelOut.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinBox.cpp" />
+    <ClCompile Include="WorldMapFlag.cpp" />
     <ClCompile Include="WorldMapGrass.cpp" />
     <ClCompile Include="WorldMapKeyEventHandler.cpp" />
     <ClCompile Include="WorldMapScene.cpp" />

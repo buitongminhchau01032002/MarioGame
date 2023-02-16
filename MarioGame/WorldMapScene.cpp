@@ -11,6 +11,7 @@
 #include "Game.h"
 #include "Camera.h"
 #include "WorldMapGrass.h"
+#include "WorldMapFlag.h"
 using namespace std;
 
 
@@ -207,6 +208,13 @@ void CWorldMapScene::_ParseSection_OBJECTS(string line)
 		int xCell = atoi(tokens[1].c_str());
 		int yCell = atoi(tokens[2].c_str());
 		obj = new CWorldMapGrass(xCell, yCell);
+		break;
+	}
+
+	case OBJECT_TYPE_WORLDMAP_FLAG: {
+		int xCell = atoi(tokens[1].c_str());
+		int yCell = atoi(tokens[2].c_str());
+		obj = new CWorldMapFlag(xCell, yCell);
 		break;
 	}
 
